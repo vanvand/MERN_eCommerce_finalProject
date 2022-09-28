@@ -1,36 +1,41 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from "react-redux"
 import { Col, Row } from 'react-bootstrap'
 import Product from "../components/Product"
-import axios from "axios"
+import Loader from '../components/Loader'
+import Message from '../components/Message'
+import { listProducts } from "../actions/productActions"
+
 
 
 const HomeScreen = () => {
-  // useState Hook to use state in functional components
-  // "products" = what we want to call the piece of state 
-  // "setProducts" = what we want to call the functions to manipulate/change the state
-  // in useState parantheses = what we want to set as a default for products > empty array in this case
-  const [ products, setProducts ] = useState([])
+  // useState Hook is not used anymore
+  const dispatch = useDispatch()
 
-  // use useEffect Hook to make a request to our backend > will run as soon as component loads
+  const productList = useSelector(state => state.productList)
+  const { loading, error, products } = productList
+
   useEffect( () => {
-    // axios is returning a promise > use async/await
-    const fetchProducts = async () => {
-      // destructure data from response
-      const { data } = await axios.get("/api/products")
-
-      setProducts(data)
-    }
-    fetchProducts()
-
-    // alternative then/catch syntax
-    // axios.get("/api/products").then( 
-
-  }, []) // in brackets you can enter dependencies > when dependency change you want to fire off useEffect
+    dispatch(listProducts())
+  }, [dispatch])
 
   return (
     <>
         <h1>Latest Products</h1>
-        <Row>
+
+        {
+        // if loading true display Loading message in HomeScreen component
+        loading ? 
+        <Loader />
+        
+        // if error true display error message in HomeScreen component
+        : error ? 
+        <Message variant="danger">
+          {error}
+        </Message>
+
+        // if loading false and no error show products
+        : <Row>
             {products.map( (product) => (
                 <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
                     {/* pass products as props to Product component */}
@@ -38,6 +43,7 @@ const HomeScreen = () => {
                 </Col>
             ))}
         </Row>
+        }
     </>
   )
 }
