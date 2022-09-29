@@ -1,4 +1,3 @@
-// syntax change because we added "type": "module" in package.json (root)
 import express from "express"
 import dotenv from "dotenv"
 import colors from "colors"
@@ -6,6 +5,7 @@ import { notFound, errorHandler } from "./middleware/errorMiddleware.js"
 import connectDB from "./config/db.js"
 
 import productRoutes from "./routes/productRoutes.js"
+import userRoutes from "./routes/userRoutes.js"
 
 dotenv.config()
 
@@ -13,11 +13,12 @@ connectDB()
 
 const app = express()
 
-app.get("/", (req, res) => {
-    res.send("API is running")
-})
+// needed to make json data in request body accessible (used in userController to access email and password)
+app.use(express.json())
 
+// ADD ROUTES
 app.use("/api/products", productRoutes)
+app.use("/api/users", userRoutes)
 
 // CUSTOM ERROR HANDLING
 app.use(notFound)
