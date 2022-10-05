@@ -188,8 +188,57 @@
 ---
 7) FRONT END USER AUTHENTICATION % PROFILE
 
+7.1) User Login Reducer & Action
+    create userConstants file
+    create userReducer file
+    bring user state into store.js via adding userLogin: userLoginReducer to reducer variable
+    create userAction.js
+    in store.js add userInfoFromStorage and add to initialState
+
+7.2) User Login Screen & Functionality
+    create LoginScreen.js file
+    add LoginScreen to App.js
+    
+    ** in localStorage (Inspect Tool > Application) you find userInfo with token
+
+7.3) Show User in Navbar & Logout
+    when user is signed in > show username and dropdown with profile and logout
+    added in components/Header.js
+
+    Logout Handler: create logout action in userActions.js and bring in into Header.js
+
+7.4) User Register Reducer, Action & Screen
+    create USER_REGISTER.. constants
+    create userRegisterReducer
+    add in store.js to reducer
+    create action
+    create RegisterScreen
+
+7.5) Update Profile Endpoint
+    in backend/controllers/userController create updateUserProfile
+    add in userRoutes
+    create new request in postman collection and test
+
+7.6) Profile Screen & Get User Details
+    create USER_DETAILS constants
+    create userDetailsReducer
+    bring it in store.js
+    create getUserDetails Action
+    create ProfileScreen.js
+    bring it in app.js
+
+7.7) Update User Profile
+    create USER_UPDATE_PROFILE constants
+    create userUpdateProfileReducer
+    bring it in store.js
+    create updateUserProfile action in userAction
+    brin it in ProfileScreen submitHandler and add success message
+
+
+7.8) Navbar Name Bug
+
 ---
-8) CHECKOUT PROCESS
+1) CHECKOUT PROCESS
 
 ---
 9)  ADMIN SCREENS

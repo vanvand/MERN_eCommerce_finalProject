@@ -25,7 +25,10 @@ export const listProducts = () => async (dispatch) => {
             type: PRODUCT_LIST_FAIL,
             // error.response is generic
             // error.response.data.message from custom error
-            payload: error.response && error.response.data.message ? error.response.data.message : error.message
+            payload: 
+                error.response && error.response.data.message 
+                ? error.response.data.message 
+                : error.message
         })
     }
 }
