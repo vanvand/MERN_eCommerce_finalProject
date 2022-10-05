@@ -225,23 +225,76 @@
     bring it in store.js
     create getUserDetails Action
     create ProfileScreen.js
-    bring it in app.js
+    bring it in App.js
 
 7.7) Update User Profile
     create USER_UPDATE_PROFILE constants
     create userUpdateProfileReducer
     bring it in store.js
     create updateUserProfile action in userAction
-    brin it in ProfileScreen submitHandler and add success message
-
-
-7.8) Navbar Name Bug
+    bring it in ProfileScreen submitHandler and add success message
 
 ---
-1) CHECKOUT PROCESS
+8) CHECKOUT PROCESS
+
+8.1) SHIPPING SCREEN & SAVE ADDRESS
+   create ShippingScreen.js
+   add in App.js
+   create saveShippingAddress Action
+   create CART_SAVE_SHIPPING_ADDRESS constant
+   add case to cartReducer
+   
+   To make shippingAddress from localStorage available:
+   - in store.js add loading shippingAddressFromStorage > add to initialState > add shippingAddress to cartReducer in initial State as well
+   -  in ShippingScreen use useSelector hook to get state and set respective shippingAddress field as initial state
+
+8.2) CHECKOUT STEPS COMPONENT
+    create CheckoutSteps.js Component and define links for every checkout step
+    add component to ShippingScreen.js and only add step1 and step2 > not added steps will be disabled > not available in the current step yet
+
+8.3) PAYMENT SCREEN & SAVE PAYMENT METHOD
+    create PaymentScreen.js
+    create CART_SAVE_PAYMENT_METHOD constants
+    create savePaymentMethod action
+    add constant in cartReducer.js 
+    add route to App.js
+
+8.4) PLACE ORDER SCREEN
+    create PlaceOrderScreen.js
+    add route to App.js
+
+8.5) ORDER CONTROLLER & ROUTE
+    in backend/controllers create orderController.js
+    create orderRouter.js
+    add route in server.js
+
+8.6) CREATE ORDER
+    in frontend create orderConstants.js
+    create orderCreateReducer in orderReducer.js
+    bring it in store.js
+    create orderAction.js
+
+
+PART II
+
+8.7) GET ORDER BY ID ENDPOINT
+
+8.8) ORDER DETAILS REDUCER & ACTION
+
+8.9) ORDER SCREEN
+
+8.10) UPDATE TO PAID ENDPOINT
+
+8.11) ORDER PAY REDUCER & ACTION
+
+8.12) ADDING PAYPAL PAYMENTS
+
+8.13) SHOW ORDERS ON PROFILE
+
+8.14) USER DETAILS & ORDERS RESET
 
 ---
-9)  ADMIN SCREENS
+1)  ADMIN SCREENS
 
 ---
 10)  PRODUCT REVIEWS, SEARCH & MORE
