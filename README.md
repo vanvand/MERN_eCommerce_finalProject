@@ -278,6 +278,8 @@
 PART II
 
 8.7) GET ORDER BY ID ENDPOINT
+    in backend/controllers/orderController create getOrderById function
+    
 
 8.8) ORDER DETAILS REDUCER & ACTION
 
