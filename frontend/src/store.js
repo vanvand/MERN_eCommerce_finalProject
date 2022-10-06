@@ -4,7 +4,7 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import { productListReducer, productDetailReducer } from "./reducers/productReducers"
 import { cartReducer } from "./reducers/cartReducers"
 import { userLoginReducer, userRegisterReducer, userDetailsReducer, userUpdateProfileReducer } from "./reducers/userReducers"
-import { orderCreateReducer } from "./reducers/orderReducer"
+import { orderCreateReducer, orderDetailsReducer } from "./reducers/orderReducer"
 
 // create constants and reducer > as soon as added here state is visible in browser inspect tool/redux
 const reducer = combineReducers({
@@ -15,7 +15,8 @@ const reducer = combineReducers({
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
   userUpdateProfile: userUpdateProfileReducer,
-  orderCreate: orderCreateReducer
+  orderCreate: orderCreateReducer,
+  orderDetails: orderDetailsReducer
 })
 
 // when store is initialized we check here if sth. is in localStorage already > if yes add that to the state

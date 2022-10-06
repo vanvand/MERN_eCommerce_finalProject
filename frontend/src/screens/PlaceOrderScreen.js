@@ -49,14 +49,13 @@ const PlaceOrderScreen = () => {
     const orderCreate = useSelector(state => state.orderCreate)
     const { order, success, error } = orderCreate 
 
-    useEffect( () => {
-        if(success) {
-            navigate(`/orders/${order._id}`)
-        }
-        // add next comment to exclude order._id without any warning
-        // eslint-disable-next-line
-    }, [navigate, success])
-
+    // useEffect( () => {
+    //     if(success) {
+    //         navigate(`/orders/${order._id}`)
+    //     }
+    //     // add next comment to exclude order._id without any warning
+    //     // eslint-disable-next-line
+    // }, [navigate, success])
 
     const placeOrderHandler = () => {
         dispatch(createOrder({
@@ -68,8 +67,12 @@ const PlaceOrderScreen = () => {
             taxPrice: cart.taxPrice,
             totalPrice: cart.totalPrice
         }))
+        if(success) {
+            navigate(`/orders/${order._id}`)
+        }
     }
 
+  
   return (
  <>
       <CheckoutSteps step1 step2 step3 step4 />
