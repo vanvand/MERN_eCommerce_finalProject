@@ -22,6 +22,11 @@ app.use("/api/products", productRoutes)
 app.use("/api/users", userRoutes)
 app.use("/api/orders", orderRoutes)
 
+// when we hit the paypal route we will fetch the client id stored in .env file
+app.get("/api/config/paypal", (req, res) => 
+    res.send(process.env.PAYPAL_CLIENT_ID)
+)
+
 // CUSTOM ERROR HANDLING
 app.use(notFound)
 app.use(errorHandler)

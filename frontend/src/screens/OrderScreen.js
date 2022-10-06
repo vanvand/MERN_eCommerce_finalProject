@@ -1,23 +1,61 @@
-import React, { useEffect } from "react"
+import React, { useState, useEffect } from "react"
+import axios from "axios"
+import { PayPalButton } from "react-paypal-button-v2"
 import { Link, useParams } from "react-router-dom"
 import { Row, Col, ListGroup, Image, Card } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
 import Message from "../components/Message"
 import Loader from "../components/Loader"
-import { getOrderDetails } from "../actions/orderActions"
+import { getOrderDetails, payOrder } from "../actions/orderActions"
+import { ORDER_PAY_RESET } from "../constants/orderConstants"
 
 const OrderScreen = () => {
     const params = useParams()
     const orderId = params.id
+
+    const [ sdkReady, setSdkReady ] = useState(false)
 
     const dispatch = useDispatch()
 
     const orderDetails = useSelector(state => state.orderDetails)
     const { order, loading, error } = orderDetails 
 
+    // get loading and success state from orderPayReducer function > ORDER_PAY_SUCCESS
+    const orderPay = useSelector(state => state.orderPay)
+    const { loading: loadingPay, success: successPay } = orderPay 
+
     useEffect( () => {
-       dispatch(getOrderDetails(orderId))
-    }, [dispatch, orderId])
+      // dynamically add paypal script
+        const addPayPalScript = async () => {
+          // get PayPal clientId
+          const { data: clientId } = await axios.get("/api/config/paypal")
+          const script = document.createElement("script")
+          script.type = "text/javascript"
+          // url from here https://developer.paypal.com/sdk/js/configuration/
+          script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`
+          script.async = true
+          script.onload = () => {
+            setSdkReady(true)
+          }
+          document.body.appendChild(script)
+        }
+
+        // if no order and order ID not matching the ID in the URL, then dispatch getOrderDetails(orderId from url params) to fetch the most recent order
+        // add successPay to make sure that we get order details only after user paid
+        if( !order || order._id !== orderId || successPay ) {
+          dispatch({ type: ORDER_PAY_RESET }) // to not refresh page as soon as you paid
+          dispatch(getOrderDetails(orderId))
+        }
+        // if order is not payed and paypal script is not there (!window.paypal) > then load payPal script
+  
+        else if (!order.isPaid) {
+          if(!window.paypal) {
+            addPayPalScript()
+          } else {
+            setSdkReady(true)
+          }
+        }
+    }, [order, orderId, successPay, dispatch])
 
     if(!loading) {
         // Calculate itemPrice
@@ -30,6 +68,11 @@ const OrderScreen = () => {
             acc + item.price * item.qty, 0
         ))
     }
+
+  const successPaymentHandler = (paymentResult) => {
+    console.log(paymentResult)
+    dispatch(payOrder(orderId, paymentResult))
+  }
 
   return loading 
     ? <Loader/> 
@@ -44,16 +87,22 @@ const OrderScreen = () => {
               <h2>Shipping</h2>
 
               {/* we added user name and email via populate in orderControler getOrderById function */}
-              <div>
+            <div>
                 <strong>Name: </strong> {order.user.name}
             </div>
-              <div>
+            <div>
                 <strong>E-Mail: </strong><a href={`mailto: ${order.user.email}`}>{order.user.email}</a>
             </div>
-              <div>
+            <p>
                 <strong>Address: </strong>
                 {order.shippingAddress.address}, {order.shippingAddress.postalCode} {order.shippingAddress.city}, {order.shippingAddress.country}
-              </div>
+            </p>
+
+            {order.isDelivered
+                ? <Message variant="success">Delivered on {order.deliveredAt}</Message> 
+                : <Message variant="danger">Not Delivered</Message>
+            }
+
             </ListGroup.Item>
 
             <ListGroup.Item>
@@ -61,6 +110,12 @@ const OrderScreen = () => {
               <p>
                 <strong>Method: </strong> {order.paymentMethod}
               </p>
+
+              {order.isPaid
+                ? <Message variant="success">Paid on {order.paidAt}</Message> 
+                : <Message variant="danger">Not Paid</Message>
+                }
+
             </ListGroup.Item>
 
             <ListGroup.Item>
@@ -129,6 +184,23 @@ const OrderScreen = () => {
                 </Row>
               </ListGroup.Item>
 
+              {/* when order is not paided 
+              > check if it is loading >> if yes show Loader component
+              > when sdk is not ready show Loader as well
+              
+              */}
+              {!order.isPaid&& (
+                <ListGroup.Item>
+                  {loadingPay && <Loader/>}
+                  {!sdkReady ? <Loader/>
+                  :(
+                    <PayPalButton 
+                      amount={order.totalPrice}
+                      onSuccess={successPaymentHandler}
+                    />
+                  ) }
+                </ListGroup.Item>
+              )}
 
               
             </ListGroup>

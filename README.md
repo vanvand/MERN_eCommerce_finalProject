@@ -279,17 +279,44 @@ PART II
 
 8.7) GET ORDER BY ID ENDPOINT
     in backend/controllers/orderController create getOrderById function
-    
+    add to orderRoutes.js
 
 8.8) ORDER DETAILS REDUCER & ACTION
-
+    in frontend add ORDER_DETAILS constants
+    create orderDetailsReducer
+    in store.js add orderDetailsReducer to reducer object
+    create getOrderDetails action
+    
 8.9) ORDER SCREEN
+    create OrderScreen
+    add to app.js
 
 8.10) UPDATE TO PAID ENDPOINT
+    in backend/controllers/orderController add updateOrderToPaid function
+    add to orderRoutes.js
 
 8.11) ORDER PAY REDUCER & ACTION
+    in frontend create ORDER_PAY constants
+    create orderPayReducer
+    add to store.js reducer object
+    create payOrder action
 
 8.12) ADDING PAYPAL PAYMENTS
+    go  to developer.paypal.com > log in
+    two default accounts are created > Business and Personal
+    create new app "MERN_eCommerce_BradTraversy" and get client_id
+    put sandbox client id in .env file
+    add route to server.js
+    in OrderScreen addPayPalScript in useEffect and define sdkReady state
+    include loading and success state in orderPay
+    adjust dispatch 
+
+    install $ npm install react-paypal-button-v2
+    > because of some issue I installed it like:
+    npm i react-paypal-button-v2 --legacy-peer-deps
+
+    add check and successPaymentHandler on the bottom
+
 
 8.13) SHOW ORDERS ON PROFILE
 
