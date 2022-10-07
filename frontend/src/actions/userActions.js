@@ -16,7 +16,8 @@ import {
     USER_UPDATE_PROFILE_FAIL,
     USER_UPDATE_PROFILE_RESET
   } from "../constants/userConstants"
-  import { ORDER_LIST_MY_RESET } from "../constants/orderConstants"
+  import { ORDER_LIST_MY_RESET, ORDER_DETAILS_RESET } from "../constants/orderConstants"
+import { CART_ITEMS_RESET } from "../constants/cartConstants"
 
 
 export const login = (email, password) => async (dispatch) => {
@@ -60,10 +61,17 @@ export const login = (email, password) => async (dispatch) => {
 
 export const logout = () => (dispatch) => {
     localStorage.removeItem("userInfo")
+    localStorage.removeItem("cartItems")
+    localStorage.removeItem("paymentMethod")
+    localStorage.removeItem("shippingAddress")
+
+    //!!!! check this - not working as intended
     dispatch({type: USER_LOGOUT})
     // when we logout state of user details and order list is reset > so that different user who log in does not see other details/order items
     dispatch({type: USER_DETAILS_RESET})
     dispatch({type: ORDER_LIST_MY_RESET})
+    dispatch({type: ORDER_DETAILS_RESET})
+    dispatch({type: CART_ITEMS_RESET})
 }
 
 

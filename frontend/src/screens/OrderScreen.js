@@ -57,18 +57,6 @@ const OrderScreen = () => {
         }
     }, [order, orderId, successPay, dispatch])
 
-    if(!loading) {
-        // Calculate itemPrice
-        const addDecimals = (num) => {
-            return (Math.round(num * 100) / 100).toFixed(2)
-        }
-
-        order.itemsPrice = addDecimals(
-            order.orderItems.reduce((acc, item) => 
-            acc + item.price * item.qty, 0
-        ))
-    }
-
   const successPaymentHandler = (paymentResult) => {
     console.log(paymentResult)
     dispatch(payOrder(orderId, paymentResult))
