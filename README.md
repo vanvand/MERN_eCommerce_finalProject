@@ -344,18 +344,65 @@ PART II
 9)  ADMIN SCREENS
 
 9.1) ADMIN MIDDLEWARE & GET USERS ENDPOINT
+    >> create endpoint to get all admin users
+    in backend/controllers/userController create getUsers
+    add admin check in authMiddleware.js
+    add get user in userRoutes as protected and isAdmin
+
+    create new request in postman collection and test with admin true and false user
 
 9.2) ADMIN USER LIST
+    create USER_LIST constants
+    create userListReducer reducer
+    bring in store.js reducer object
+    create listUsers action
+    create UserListScreen.js
+    add admin/userlist route in App.js
+
+    create Admin menu in Header.js component
+
 
 9.3) ADMIN SCREEN ACCESS SECURITY
+    first security issue
+    >> make sure that url is not accessible for non admin users
+    in UserListScreen get userLogin state and adjust useEffect with if/else statement
+
+    second security issue
+    >> when admin is on user list > then logs out >> he remains on user list
+    !! I could not confirm this case with my code
+        create USER_LIST_RESET in userConstants
+        add case to userListReducer
+        in userAction dispatch USER_LIST_RESET constant within logout function
 
 9.4) ADMIN USER DELETE
+    in backend/controllers/userController create deleteUser function
+    bring it in userRoutes
+
+    add new request to postman collection and test
+
+    in frontend add USER_DELETE constants
+    create userDeleteReducer in userReducers
+    bring userDeleteReducer in reducer object in store.js
+    create deleteUser action
+    bring in deleteUser action in UserListScreen and get that part of state with userDelete
+    > add successDelete to userEffect dependencies (to track changes) and dispatch deleteUser within deleteHandler from delete button
 
 9.5) GET USER BY ID & UPDATE USER ENDPOINT
+    in backend/controllers/userController create getUserById and updateUser function
+    bring them in userRoutes
+
+    create two new requests in postman collection and test
 
 9.6) USER EDIT SCREEN & GET USER DETAILS
+    create UserEditScreen
+    bring in App.js
 
 9.7) UPDATE USER FUNCTIONALITY
+    >> make edit user work
+    create USER_UPDATE constants
+    create userUpdateReducer
+    bring in store.js reducer object
+    create updateUser action
 
 
 PART II
@@ -382,7 +429,7 @@ PART II
 
 
 ---
-10)   PRODUCT REVIEWS, SEARCH & MORE
+1)    PRODUCT REVIEWS, SEARCH & MORE
 
 10.1) MORGAN & CREATE REVIEW ENDPOINT
 
@@ -397,7 +444,7 @@ PART II
 10.6) CUSTOM PAGE TITLES & META
 
 ---
-11)   APP DEPLOYMENT WITH HEROKU
+1)    APP DEPLOYMENT WITH HEROKU
 
 
 ---
