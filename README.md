@@ -319,17 +319,85 @@ PART II
 
 
 8.13) SHOW ORDERS ON PROFILE
+    in backend/controllers/orderControllers create getMyOrders
+    bring in orderRoutes
+    create postman request
+    create ORDER_LIST_MY constants
+    create orderListMyReducer
+    bring in store.js in reducer object
+    create listMyOrders action
+    in ProfileScreen get the state via orderListMy, call listMyOrder action in useEffect
+
+    WORKFLOW IMPLEMENTATION
+    create backend route
+    create constant, reducer, action
+    create screen and bring the action in, call it and get what we want from the state
 
 8.14) USER DETAILS & ORDERS RESET
+    when another user log in they still see details and order items from previous logged user, because data is still in the state > reset
+    create USER_DETAILS_RESET and ORDER_LIST_MY_RESET constants in userConstants and orderConstants 
+    add case in userDetailsReducer and orderListMyReducer
+    in userActions > logout function dispatch these two constants
+
 
 ---
-1)  ADMIN SCREENS
+9)  ADMIN SCREENS
+
+9.1) ADMIN MIDDLEWARE & GET USERS ENDPOINT
+
+9.2) ADMIN USER LIST
+
+9.3) ADMIN SCREEN ACCESS SECURITY
+
+9.4) ADMIN USER DELETE
+
+9.5) GET USER BY ID & UPDATE USER ENDPOINT
+
+9.6) USER EDIT SCREEN & GET USER DETAILS
+
+9.7) UPDATE USER FUNCTIONALITY
+
+
+PART II
+
+9.8) ADMIN PRODUCT LIST
+
+9.9) ADMIN DELETE PRODUCTS
+
+9.10) CREATE & UPDATE PRODUCT ENDPOINTS
+
+9.11) ADMIN CREATE PRODUCT
+
+9.12)  EDIT PRODUCT SCREEN
+
+9.13) ADMIN UPDATE PRODUCT
+
+9.14) IMAGE UPLOAD CONFIG & ENDPOINT
+
+9.15) FRONT END IMAGE UPLOAD
+
+9.16) ADMIN ORDER LIST
+
+9.17) MARK ORDER AS DELIVERED
+
 
 ---
-10)  PRODUCT REVIEWS, SEARCH & MORE
+10)   PRODUCT REVIEWS, SEARCH & MORE
+
+10.1) MORGAN & CREATE REVIEW ENDPOINT
+
+10.2) FRONT END PRODUCT REVIEWS
+
+10.3) PRODUCT SEARCH
+
+10.4) PRODUCT PAGINATION
+
+10.5) TOP PRODUCTS CAROUSEL
+
+10.6) CUSTOM PAGE TITLES & META
 
 ---
-11)  APP DEPLOYMENT (Heroku)
+11)   APP DEPLOYMENT WITH HEROKU
 
 
 ---
