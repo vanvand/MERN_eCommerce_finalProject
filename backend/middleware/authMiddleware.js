@@ -19,7 +19,7 @@ const protect = asyncHandler(async (req, res, next) => {
             token = req.headers.authorization.split(" ")[1] // exclude the Bearer string to get token itself
             const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
-            console.log(decoded) // { id: '63333c419c777ad4b6838d3d', iat: 1664453510, exp: 1667045510 }
+            // console.log(decoded) // { id: '63333c419c777ad4b6838d3d', iat: 1664453510, exp: 1667045510 }
 
             // req.user is now available for all (protected) routes
             req.user = await User.findById(decoded.id).select("-password")

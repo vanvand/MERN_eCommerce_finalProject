@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { Button, Row, Col, ListGroup, Image, Card } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
@@ -49,13 +49,15 @@ const PlaceOrderScreen = () => {
     const orderCreate = useSelector(state => state.orderCreate)
     const { order, success, error } = orderCreate 
 
-    // useEffect( () => {
-    //     if(success) {
-    //         navigate(`/orders/${order._id}`)
-    //     }
-    //     // add next comment to exclude order._id without any warning
-    //     // eslint-disable-next-line
-    // }, [navigate, success])
+    useEffect(() => {
+    if (success) {
+      navigate(`/orders/${order._id}`)
+      // dispatch({ type: USER_DETAILS_RESET })
+      // dispatch({ type: ORDER_CREATE_RESET })
+    }
+    // add next comment to exclude order._id without any warning
+    // eslint-disable-next-line
+  }, [navigate, success])
 
     const placeOrderHandler = () => {
         dispatch(createOrder({
@@ -67,9 +69,6 @@ const PlaceOrderScreen = () => {
             taxPrice: cart.taxPrice,
             totalPrice: cart.totalPrice
         }))
-        if(success) {
-            navigate(`/orders/${order._id}`)
-        }
     }
 
   

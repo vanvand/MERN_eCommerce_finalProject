@@ -403,30 +403,101 @@ PART II
     create userUpdateReducer
     bring in store.js reducer object
     create updateUser action
+    update UserEditScreen
 
 
 PART II
 
 9.8) ADMIN PRODUCT LIST
+    create ProductListScreen
+    bring in App.js
 
 9.9) ADMIN DELETE PRODUCTS
+    in backend/controllers/productController create deleteProduct function
+    bring in productRoutes
+
+    in frontend/constants/productConstants create PRODUCT_DELETE constants
+    create productDeleteReducer
+    bring in store.js reducer object
+    create deleteProduct action
+    update ProductListScreen
 
 9.10) CREATE & UPDATE PRODUCT ENDPOINTS
+    >> createProduct (create sample product and redirect user to update product) & updateProduct (separate screen)
+    in backend/controllers/productController create createProduct & updateProduct function
+    bring in productRoutes
+
+    add request in postman collection an test
 
 9.11) ADMIN CREATE PRODUCT
+    in frontend
+    create PRODUCT_CREATE constants
+    create productCreateReducer
+    add to store reducer object
+    create createProduct action
+    bring in ProductListScreen > adapt useEffect, dispatch action in createProductHandler
 
 9.12)  EDIT PRODUCT SCREEN
+    >> build screen for edit products by admin (after creation > auto redirect or when admin press edit button on productlist)
+
+    create ProductEditScreen
+    add in App.js
+
 
 9.13) ADMIN UPDATE PRODUCT
+    create PRODUCT_UPDATE constants
+    create productUpdateReducer
+    bring in store.js reducer object
+    create updateProduct action
+
+    bring it in ProductEditScreen > get productUpdate state (add loading and error on Update), add successUpdate to useEffect > dispatch updateProduct in submitHandler function 
 
 9.14) IMAGE UPLOAD CONFIG & ENDPOINT
+    >> enable server to handle file uploads > create endpoint /api/upload and use Multer to handle multipart/form-data > primarily used for uploading files
+    https://www.npmjs.com/package/multer
+
+    create "uploads" folder in root
+    create "file.txt" in uploads folder and put "Add to git repo" in >> so it will be added to our git repository although empty
+
+    in backend/routes add uploadRoutes.js >> put route and config & validation for multer in
+    bring in server.js
+
+    make uploads folder static
+    >> so that it can get loaded in the browser
+    in server.js add following lines:
+        const __dirname = path.resolve()
+        app.use("/uploads", express.static(path.join(__dirname)))
+    
 
 9.15) FRONT END IMAGE UPLOAD
+    >> in ProductListScreen add button to upload files
+    add uploading and setUploading state
+    extent image Form.Group and add uploadFileHandler functionality
+
 
 9.16) ADMIN ORDER LIST
+    in backend/controller/orderController create getOrders
+    bring in orderRoutes
+
+    in frontend
+    create ORDER_LIST constants
+    create orderListReducer
+    bring in store.js in reducer object
+    create listOrders action
+    create OrderListScreen
+    bring in app.js
 
 9.17) MARK ORDER AS DELIVERED
+    in backend/controllers/orderController create updateOrderToDelivered
+    bring in orderRoutes
 
+    in frontend
+    create ORDER_DELIVER constants
+    create orderDeliverReducer
+    bring in store.js reducer object
+    create deliverOrder action
+    bring deliverOrder and ORDER_DELIVER-RESET in OrderScreen
+    > create button with deliverHandler
 
 ---
 1)    PRODUCT REVIEWS, SEARCH & MORE

@@ -3,7 +3,10 @@ import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { 
   productListReducer, 
-  productDetailReducer } from "./reducers/productReducers"
+  productDetailReducer, 
+  productDeleteReducer,
+  productCreateReducer,
+  productUpdateReducer } from "./reducers/productReducers"
 import { cartReducer } from "./reducers/cartReducers"
 import { 
   userLoginReducer, 
@@ -17,12 +20,17 @@ import {
   orderCreateReducer, 
   orderDetailsReducer, 
   orderPayReducer,
-  orderListMyReducer } from "./reducers/orderReducer"
+  orderDeliverReducer,
+  orderListMyReducer,
+  orderListReducer } from "./reducers/orderReducer"
 
 // create constants and reducer > as soon as added here state is visible in browser inspect tool/redux
 const reducer = combineReducers({
   productList: productListReducer,
   productDetails: productDetailReducer,
+  productDelete: productDeleteReducer,
+  productCreate: productCreateReducer,
+  productUpdate: productUpdateReducer,
   cart: cartReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
@@ -34,7 +42,9 @@ const reducer = combineReducers({
   orderCreate: orderCreateReducer,
   orderDetails: orderDetailsReducer,
   orderPay: orderPayReducer,
-  orderListMy: orderListMyReducer
+  orderDeliver: orderDeliverReducer,
+  orderListMy: orderListMyReducer,
+  orderList: orderListReducer
 })
 
 // when store is initialized we check here if sth. is in localStorage already > if yes add that to the state
