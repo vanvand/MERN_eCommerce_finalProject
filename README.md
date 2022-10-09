@@ -582,6 +582,14 @@ ADD LINKS
 1)    APP DEPLOYMENT WITH HEROKU
 
 
+
+BUG FIX 
+> Update Username in Header after update in profile
+    in updateUserProfile action dispatch USER_LOGIN_SUCCESS and update localStorage
+
+    in userConstants & userUpdateProfileReducer add USER_UPDATE_PROFILE_RESET
+    bring in ProfileScreen
+
 ---
 ### Links from Brad
 

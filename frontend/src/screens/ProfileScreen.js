@@ -7,6 +7,7 @@ import Message from "../components/Message"
 import Loader from "../components/Loader"
 import { getUserDetails, updateUserProfile } from "../actions/userActions"
 import { listMyOrders } from "../actions/orderActions"
+import { USER_UPDATE_PROFILE_RESET } from "../constants/userConstants"
 
 
 const ProfileScreen = () => {
@@ -39,7 +40,9 @@ const ProfileScreen = () => {
             navigate("/login")
         } else {
             // check for the user
-            if(!user.name) {
+            if(!user || !user.name || success ) {
+                // in case of name profile update
+                dispatch({ type: USER_UPDATE_PROFILE_RESET })
                 // hit /api/users/profile in userActions
                 dispatch(getUserDetails("profile"))
                 // hit /api/orders/myorders in oderActions
@@ -50,7 +53,7 @@ const ProfileScreen = () => {
                 setEmail(user.email)
             }
         }
-    }, [navigate, userInfo, dispatch, user])
+    }, [navigate, userInfo, dispatch, user, success])
 
 
     const submitHandler = (e) => {
