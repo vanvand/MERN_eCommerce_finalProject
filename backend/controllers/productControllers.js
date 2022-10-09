@@ -6,13 +6,41 @@ import Product from "../models/productModel.js"
 // @route GET /api/products
 // @access Public
 const getProducts = asyncHandler(async (req, res) => {
-     const products = await Product.find({})
+
+    // pagination functionality
+    // static value how many products do we want to show per page
+    const pageSize = 4
+    // page in query ?pageNumber=2
+    const page = Number(req.query.pageNumber || 1)
+
+
+    const keyword = req.query.keyword ? {
+      name: {
+        // $regex: MongoDB query to find result where keyword is included
+        // no exact matches for text 
+        // !! CHECK THIS: https://www.mongodb.com/docs/manual/tutorial/model-data-for-keyword-search/ 
+        $regex: req.query.keyword,
+        // make search case-insensitive
+        $options: "i" 
+      }
+    } 
+    // if keyword does not exist or empty string Product.find remain {}
+    : {}
+
+    // get total count of products for pagination functionality
+    const count = await Product.count({ ...keyword})
+
+    const products = await Product.find({ ...keyword })
+      .limit(pageSize).skip(pageSize * (page -1)) // pagination functionality
 
     // testing redux error implementation in HomeScreen
     // res.status(401)
     // throw new Error("Not Authorized")
 
-    res.json(products)
+    res.json({ products,
+      // pagination functionality
+      page, pages: Math.ceil(count / pageSize) // Math.ceil rounds up
+    })
 })
 
 
@@ -94,4 +122,68 @@ const updateProduct = asyncHandler(async (req, res) => {
     }
 })
 
-export { getProducts, getProductById, deleteProduct, createProduct, updateProduct }
+// @desc    Create new review
+// @route   POST /api/products/:id/reviews
+// @access  Private
+const createProductReview = asyncHandler(async (req, res) => {
+  const { rating, comment } = req.body
+
+  const product = await Product.findById(req.params.id)
+
+  // check if requesting user already reviewed product
+  if (product) {
+    const alreadyReviewed = product.reviews.find(
+        
+      (r) => r.user.toString() === req.user._id.toString()
+    )
+
+    if (alreadyReviewed) {
+      res.status(400)
+      throw new Error('Product already reviewed')
+    }
+
+    // if not already reviewed
+    const review = {
+      name: req.user.name,
+      rating: Number(rating),
+      comment,
+      user: req.user._id,
+    }
+
+    // add new review to reviews array
+    product.reviews.push(review)
+
+    product.numReviews = product.reviews.length
+
+    // update overall rating (stars)
+    product.rating =
+      product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+      product.reviews.length
+
+    await product.save()
+    res.status(201).json({ message: 'Review added' })
+  } else {
+    res.status(404)
+    throw new Error('Product not found')
+  }
+})
+
+// @desc    Get top rated products
+// @route   GET /api/products/top
+// @access  Public
+const getTopProducts = asyncHandler(async (req, res) => {
+  // sort in ascending order and limit to three products only
+  const products = await Product.find({}).sort({ rating: -1 }).limit(3)
+
+  res.json(products)
+})
+
+export {
+  getProducts,
+  getProductById,
+  deleteProduct,
+  createProduct,
+  updateProduct,
+  createProductReview,
+  getTopProducts
+}

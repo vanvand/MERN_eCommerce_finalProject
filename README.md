@@ -500,19 +500,83 @@ PART II
     > create button with deliverHandler
 
 ---
-1)    PRODUCT REVIEWS, SEARCH & MORE
+10)    PRODUCT REVIEWS, SEARCH & MORE
 
-10.1) MORGAN & CREATE REVIEW ENDPOINT
+10.0) INSTALL MORGAN
+    $ npm i morgan
+    in server.js add following lines
+    if(process.env.NODE_ENV === "development") {
+        app.use(morgan("dev"))
+    }
+
+    whenever one of the backend routes is hit, we see request details in terminal
+
+
+10.1) CREATE REVIEW ENDPOINT
+    update productModel reviewSchema and extend with user
+    in backend/controller/productController create createProductReview
+    bring in productRoutes
+    add request to postman collection and test
+
 
 10.2) FRONT END PRODUCT REVIEWS
+    create PRODUCT_CREATE_REVIEW constants
+    create productReviewCreateReducer
+    bring in store.js reducer object
+    create createProductReview action
+    bring in ProductScreen > second row
 
 10.3) PRODUCT SEARCH
+    create Search Box component
+    add /search/:keyword route in App.js
+    embed SearchBox component in Header.js
+
+    In HomeScreen get keyword from url and pass into listProducts action in useEffect
+    in productActions.js pass in keyword (default empty) and add keyword query string to backend get call (axios) >> ?keyword=${keyword}
+
+    in backend productControllers in getProducts function add keyword ternary operator and spread in Product.find query
 
 10.4) PRODUCT PAGINATION
+ADD FUNCTIONALITY
+    in backend productController add paginate functionality in getProducts function
+
+    in frontend productActions: listProducts function set pageNumber as prop and in get request as paramter
+    &pageNumber=${pageNumber}
+
+    in productReducers extend PRODUCT_LIST_SUCCESS with pages and page (according to changed productController)
+
+ADD LINKS
+    in App.js add routes
+    "/search/:keyword/page/:pageNumber"
+    "/page/:pageNumber"
+
+    in HomeScreen get pageNumbers and extend listProducts props and dependencies
+
+    create Paginate component (Pagination available in react-bootstrap)
+
+    bring Paginate component in HomeScreen 
+
+    to add for Admin/productlist
+    add Paginate component to ProductListScreen
+    add /admin/productlist/:pageNumber to routes in App.js
+
 
 10.5) TOP PRODUCTS CAROUSEL
+    in backend/controllers/productControllers create getTopProducts 
+    bring in productRoutes.js
+
+    in frontend
+    create PRODUCT_TOP constants
+    create productTopRatedReducer
+    bring in store.js reducer object
+    create listTopProducts action
+
+    create ProductCarousel
+    bring in HomeScreen
 
 10.6) CUSTOM PAGE TITLES & META
+    Helmet package to bring in custom HTML Tags
+    in frontend install $ npm i react-helmet
 
 ---
 1)    APP DEPLOYMENT WITH HEROKU

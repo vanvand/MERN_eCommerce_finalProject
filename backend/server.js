@@ -2,7 +2,7 @@ import path from "path"
 import express from "express"
 import dotenv from "dotenv"
 import colors from "colors"
-// import morgan from 'morgan'
+import morgan from 'morgan'
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js"
 import connectDB from "./config/db.js"
 
@@ -16,6 +16,12 @@ dotenv.config()
 connectDB()
 
 const app = express()
+
+// bring in morgan - HTTP request logger middleware for node.js
+// usually only run in development mode, not production
+if(process.env.NODE_ENV === "development") {
+    app.use(morgan("dev"))
+}
 
 // if (process.env.NODE_ENV === 'development') {
 //   app.use(morgan('dev'))

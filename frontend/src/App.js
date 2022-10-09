@@ -28,26 +28,23 @@ const App = () => {
           <Route path="/login" element={<LoginScreen/>} />
           <Route path="/register" element={<RegisterScreen/>} />
           <Route path="/profile" element={<ProfileScreen/>} />
-          
           <Route path="/product/:id" element={<ProductScreen/>} />
-          
           <Route path="/cart/" element={<CartScreen/>} /> 
-          <Route path="/cart/:id" element={<CartScreen/>} /> 
-
+          <Route path="/cart/:id" element={<CartScreen/>} />
           <Route path="/shipping" element={<ShippingScreen/>} /> 
           <Route path="/payment" element={<PaymentScreen/>} /> 
           <Route path="/placeorder" element={<PlaceOrderScreen/>} /> 
           <Route path="/orders/:id" element={<OrderScreen/>} /> 
-
           <Route path="/admin/userlist" element={<UserListScreen/>} />
           <Route path="/admin/users/:id/edit" element={<UserEditScreen/>} />
-          
-          <Route path="/admin/productlist" element={<ProductListScreen/>} />
+          <Route path="/admin/productlist" element={<ProductListScreen/>} exact />
+          <Route path="/admin/productlist/:pageNumber" element={<ProductListScreen/>} exact />
           <Route path="/admin/products/:id/edit" element={<ProductEditScreen/>} />
-
           <Route path="/admin/orderlist" element={<OrderListScreen/>} />
-
-          <Route path="/" element={<HomeScreen/>} />
+          <Route path="/search/:keyword" element={<HomeScreen/>} exact />
+          <Route path="/search/:keyword/page/:pageNumber" element={<HomeScreen/>} /> {/* pagination for search results */}
+          <Route path="/page/:pageNumber" element={<HomeScreen/>} />
+          <Route path="/" element={<HomeScreen/>} exact />
 
         </Routes>
       </Container>

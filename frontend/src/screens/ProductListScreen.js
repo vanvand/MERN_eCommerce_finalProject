@@ -5,6 +5,7 @@ import { Table, Button, Row, Col } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
 import Message from "../components/Message"
 import Loader from "../components/Loader"
+import Paginate from "../components/Paginate"
 import { 
     listProducts, 
     deleteProduct, 
@@ -14,8 +15,8 @@ import { PRODUCT_CREATE_RESET } from "../constants/productConstants"
 
 const ProductListScreen = () => {
 
-    // const params = useParams()
-    // const pageNumber = params.pageNumber || 1
+    const params = useParams()
+    const pageNumber = params.pageNumber || 1
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -25,8 +26,8 @@ const ProductListScreen = () => {
         loading, 
         error, 
         products,
-        // page,
-        // pages
+        page,
+        pages
     } = productList
 
     const productDelete = useSelector(state => state.productDelete)
@@ -61,7 +62,7 @@ const ProductListScreen = () => {
         if(successCreate ) {
             navigate(`/admin/products/${createdProduct._id}/edit`)
         } else {
-            dispatch(listProducts())
+            dispatch(listProducts("", pageNumber))
         }
 
     }, [
@@ -70,7 +71,8 @@ const ProductListScreen = () => {
         navigate, 
         successDelete, // add successDelete to reload listProducts
         successCreate, 
-        createdProduct])
+        createdProduct,
+        pageNumber])
 
     const deleteHandler = (id) => {
         // show pop-up window to confirm delete action
@@ -147,7 +149,12 @@ const ProductListScreen = () => {
                         )}
                     </tbody>
                 </Table>
-                {/* <Paginate pages={pages} page={page} isAdmin={true} /> */}
+
+                <Paginate 
+                    pages={pages} 
+                    page={page} 
+                    // isAdmin={true} 
+                />
             </>
             )
         }
