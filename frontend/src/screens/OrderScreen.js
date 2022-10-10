@@ -22,7 +22,6 @@ const OrderScreen = () => {
     const orderDetails = useSelector(state => state.orderDetails)
     const { order, loading, error } = orderDetails 
 
-    // get loading and success state from orderPayReducer function > ORDER_PAY_SUCCESS
     const orderPay = useSelector(state => state.orderPay)
     const { loading: loadingPay, success: successPay } = orderPay 
 
@@ -68,7 +67,7 @@ const OrderScreen = () => {
             setSdkReady(true)
           }
         }
-    }, [order, orderId, successPay, successDeliver, dispatch])
+    }, [order, orderId, successPay, successDeliver, dispatch, userInfo, navigate])
 
   const successPaymentHandler = (paymentResult) => {
     console.log(paymentResult)

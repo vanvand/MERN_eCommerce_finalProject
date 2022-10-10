@@ -10,11 +10,9 @@ import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants'
 
 
 const ProductScreen = () => {
-  // make params of url available
   const params = useParams(); // or destructure const {id} = useParams()
   const navigate = useNavigate()
 
-  // Redux implementation > listener for action
   const dispatch = useDispatch()
 
   // state for Quantity (countInStock) Dropdown in buy box
@@ -45,8 +43,6 @@ const ProductScreen = () => {
     dispatch(listProductDetails(params.id))
   }, [dispatch, params, successProductReview])
 
-  // onClick Handler for add to cart
-  
 
   const addToCartHandler = () => {
     navigate(`/cart/${params.id}?qty=${qty}`)

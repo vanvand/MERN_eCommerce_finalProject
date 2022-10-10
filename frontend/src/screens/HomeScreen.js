@@ -17,7 +17,6 @@ const HomeScreen = () => {
   const keyword = params.keyword
   const pageNumber = params.pageNumber || 1
 
-  // useState Hook is not used anymore
   const dispatch = useDispatch()
 
   const productList = useSelector(state => state.productList)

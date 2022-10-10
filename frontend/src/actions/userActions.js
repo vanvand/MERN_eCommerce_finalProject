@@ -82,7 +82,6 @@ export const logout = () => (dispatch) => {
     localStorage.removeItem("paymentMethod")
     localStorage.removeItem("shippingAddress")
 
-    //!!!! check this - not working as intended
     dispatch({type: USER_LOGOUT})
     // when we logout state of user details and order list is reset > so that different user who log in does not see other details/order items
     dispatch({type: USER_DETAILS_RESET})
