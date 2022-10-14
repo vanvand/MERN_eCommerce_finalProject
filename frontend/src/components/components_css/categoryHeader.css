@@ -1,0 +1,24 @@
+
+.sticky {
+  position: sticky;
+  top: 5px;
+  z-index: 100;
+  margin-bottom: 10px;
+background-color:   #343a40
+}
+
+.alignStart{flex-grow: 0}
+
+.linkStyling{
+  text-decoration: none;
+  color:white;
+  padding:10px;
+      transition:  0.5s;
+
+}
+
+.linkStyling:hover{
+  text-decoration: none;
+  color:rgb(160, 207, 182);
+  padding:10px;
+}

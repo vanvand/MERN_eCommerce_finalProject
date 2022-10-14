@@ -153,7 +153,7 @@ const ProductListScreen = () => {
                 <Paginate 
                     pages={pages} 
                     page={page} 
-                    // isAdmin={true} 
+                     isAdmin={true} 
                 />
             </>
             )

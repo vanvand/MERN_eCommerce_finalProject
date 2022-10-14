@@ -17,13 +17,15 @@ import UserEditScreen from "./screens/UserEditScreen";
 import ProductListScreen from "./screens/ProductListScreen";
 import ProductEditScreen from "./screens/ProductEditScreen.js";
 import OrderListScreen from "./screens/OrderListScreen";
+import CategoryHeader from "./components/CategoryHeader";
 
 const App = () => {
   return (
     <>
     <Header/>
     <main className="py-3">
-      <Container>
+        <Container>
+          <CategoryHeader/>
         <Routes>
           <Route path="/login" element={<LoginScreen/>} />
           <Route path="/register" element={<RegisterScreen/>} />

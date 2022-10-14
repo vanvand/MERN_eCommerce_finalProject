@@ -6,7 +6,7 @@ import Rating from "./Rating"
 
 const Product = ({ product }) => { // destructure products passed as prop to use directly (alternative pass in (props) > props.product.id)
   return (
-    <Card className="my-3 p-3 rounded">
+    <Card className="my-2 p-3 rounded">
         
         <Link to={`/product/${product._id}`}>
             <Card.Img src={product.image} variant="top"/>
@@ -27,8 +27,8 @@ const Product = ({ product }) => { // destructure products passed as prop to use
                     reviews`}
                 />
             </Card.Text>
-
-            <Card.Text as="h3">
+           {/* it was h3 change it to h5 */}
+            <Card.Text as="h5">
                 ${product.price}
             </Card.Text>
 
