@@ -15,17 +15,15 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    avatar: {
+    image: {
         type: String,
     },
-    location: {
-        city: {
-            type: String,
-            required: true
-        },
-        district: {
-            type: String
-        }
+    city: {
+        type: String,
+        required: true
+    },
+    district: {
+        type: String
     },
     ratingUser: {
         type: Number,
