@@ -32,7 +32,7 @@ const Header = () => {
           
           <SearchBox />
 
-          <Nav className="ml-auto">
+          <Nav className="ms-auto">
             
 
             <LinkContainer to="/cart">

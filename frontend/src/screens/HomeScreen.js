@@ -56,7 +56,9 @@ const HomeScreen = () => {
         : (
           <>
             <Row>
-              {products.map( (product) => (
+              {
+              products&& 
+              products.map( (product) => (
                   <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
                       {/* pass products as props to Product component */}
                       <Product product={product}/>

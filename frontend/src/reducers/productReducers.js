@@ -22,7 +22,10 @@ import {
     PRODUCT_CREATE_REVIEW_RESET,
     PRODUCT_TOP_REQUEST,
     PRODUCT_TOP_SUCCESS,
-    PRODUCT_TOP_FAIL
+    PRODUCT_TOP_FAIL,
+    PRODUCT_CATEGORY_FAIL,
+    PRODUCT_CATEGORY_SUCCESS,
+    PRODUCT_CATEGORY_REQUEST
 } from "../constants/productConstants"
 
 
@@ -60,6 +63,21 @@ export const productDetailReducer = (state = { product: { reviews: [] } }, actio
         case PRODUCT_DETAILS_SUCCESS:
             return { loading: false, product: action.payload}
         case PRODUCT_DETAILS_FAIL:
+             return { loading: false, error: action.payload}
+        // otherwise return existing state unchanged
+        default:
+            return state
+    }
+}
+
+
+export const productCategoryReducer = (state = { products: { reviews: [] } }, action) => { // single product
+    switch (action.type) {
+        case PRODUCT_CATEGORY_REQUEST:
+            return { loading: true, ...state} // ...state equal to copy of state
+        case PRODUCT_CATEGORY_SUCCESS:
+            return { loading: false, products: action.payload}
+        case PRODUCT_CATEGORY_FAIL:
              return { loading: false, error: action.payload}
         // otherwise return existing state unchanged
         default:

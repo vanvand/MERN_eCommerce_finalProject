@@ -5,9 +5,10 @@ import Rating from "./Rating"
 
 
 const Product = ({ product }) => { // destructure products passed as prop to use directly (alternative pass in (props) > props.product.id)
+    console.log('product:', product);
   return (
     <Card className="my-3 p-3 rounded">
-        
+       
         <Link to={`/product/${product._id}`}>
             <Card.Img src={product.image} variant="top"/>
         </Link>

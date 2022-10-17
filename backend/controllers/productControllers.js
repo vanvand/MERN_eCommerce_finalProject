@@ -178,6 +178,24 @@ const getTopProducts = asyncHandler(async (req, res) => {
   res.json(products)
 })
 
+const getProductsByCategory = asyncHandler(async (req, res) => {
+  const query = req.params.category[0].toUpperCase() + req.params.category.slice(1)
+
+  
+  const product = await Product.find({ category: query})
+
+  console.log(query);
+if(product) {
+    res.json(product)
+} else {
+    res.status(404)
+    throw new Error("Product not found")
+}
+
+// old from frontend/product.js file
+// const product = products.find(p => p._id === req.params.id)
+})
+
 export {
   getProducts,
   getProductById,
@@ -185,5 +203,7 @@ export {
   createProduct,
   updateProduct,
   createProductReview,
-  getTopProducts
+  getTopProducts,
+  getProductsByCategory
 }
+

@@ -8,7 +8,8 @@ import {
   productCreateReducer,
   productUpdateReducer,
   productReviewCreateReducer,
-  productTopRatedReducer } from "./reducers/productReducers"
+  productTopRatedReducer, 
+  productCategoryReducer} from "./reducers/productReducers"
 import { cartReducer } from "./reducers/cartReducers"
 import { 
   userLoginReducer, 
@@ -29,6 +30,7 @@ import {
 // create constants and reducer > as soon as added here state is visible in browser inspect tool/redux
 const reducer = combineReducers({
   productList: productListReducer,
+  productCategory: productCategoryReducer,
   productDetails: productDetailReducer,
   productDelete: productDeleteReducer,
   productCreate: productCreateReducer,
