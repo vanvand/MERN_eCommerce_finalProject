@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react"
+import axios from "axios"
 import { useNavigate } from "react-router-dom"
-import { Table, Form, Button, Row, Col } from "react-bootstrap"
-import { LinkContainer } from "react-router-bootstrap"
+import { Form, Button } from "react-bootstrap"
+import Image from "react-bootstrap/Image";
+import FormContainer from "../components/FormContainer"
 import { useDispatch, useSelector } from "react-redux"
 import Message from "../components/Message"
 import Loader from "../components/Loader"
 import { getUserDetails, updateUserProfile } from "../actions/userActions"
-import { listMyOrders } from "../actions/orderActions"
 import { USER_UPDATE_PROFILE_RESET } from "../constants/userConstants"
+import { locationData } from "../locationData.js"
 
 
 const ProfileScreen = () => {
@@ -18,66 +20,123 @@ const ProfileScreen = () => {
     const [ email, setEmail ] = useState("")
     const [ password, setPassword ] = useState("")
     const [ confirmPassword, setConfirmPassword ] = useState("")
+    const [ image, setImage ] = useState("")
+    const [ city, setCity ] = useState("")
+    const [ district, setDistrict ] = useState("")
+    const [ uploading, setUploading] = useState(false)
     const [ message, setMessage ] = useState(null)
 
     const dispatch = useDispatch()
     
-    const userDetails = useSelector((state) => state.userDetails)
-    const { loading, error, user } = userDetails
-
     const userLogin = useSelector((state) => state.userLogin)
     const { userInfo } = userLogin
 
-    const userUpdateProfile = useSelector((state) => state.userUpdateProfile)
-    const { success } = userUpdateProfile
+    const userDetails = useSelector((state) => state.userDetails)
+    const { loading, error, user } = userDetails
 
-    const orderListMy = useSelector((state) => state.orderListMy)
-    const { loading: loadingOrders, error: errorOrders , orders } = orderListMy
+    const userUpdateProfile = useSelector((state) => state.userUpdateProfile)
+    const { success: successUpdateProfile } = userUpdateProfile
     
+    const availableDistrict = locationData.cities.find((c) => c.name === city)
+
     // check if user isn't logged in, if not redirect him to login page
     useEffect( () => {
         if(!userInfo) {
             navigate("/login")
         } else {
             // check for the user
-            if(!user || !user.name || success ) {
+            if(!user || !user.name || successUpdateProfile ) {
                 // in case of name profile update
                 dispatch({ type: USER_UPDATE_PROFILE_RESET })
                 // hit /api/users/profile in userActions
                 dispatch(getUserDetails("profile"))
-                // hit /api/orders/myorders in oderActions
-                dispatch(listMyOrders())
             } else {
-                // prefill user name and email on profile page
+                // prefill user data on profile page
                 setName(user.name)
                 setEmail(user.email)
+                setImage(user.image)
+                setCity(user.city)
+                setDistrict(user.district)
             }
         }
-    }, [navigate, userInfo, dispatch, user, success])
+    }, [navigate, userInfo, dispatch, user, successUpdateProfile])
 
+    const uploadFileHandler = async (e) => {
+        const file = e.target.files[0]
+        const formData = new FormData()
+        formData.append('image', file)
+        setUploading(true) // loading
+
+        try {
+            const config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            }
+
+            const { data } = await axios.post('/api/upload', formData, config)
+
+            setImage(data)
+            setUploading(false)
+        } catch (error) {
+            console.error(error)
+            setUploading(false)
+        }
+    }
 
     const submitHandler = (e) => {
         e.preventDefault()
         if(password !== confirmPassword) {
             setMessage("Passwords do not match")
         } else {
-            dispatch(updateUserProfile({id: user._id, name, email, password}))
+            dispatch(updateUserProfile({
+                id: user._id, 
+                name, 
+                email, 
+                image,
+                city,
+                district,
+                password
+            }))
+            alert("Profile Updated")
+            window.scrollTo(0, 0)
         }
     }
 
   return (
-    <Row>
-        <Col md={3}>
+        <FormContainer>
 
-            <h1>User Profile</h1>
+            <h1>Your Profile</h1>
         
             {message && <Message variant="danger">{message}</Message>}
-            {error && <Message variant="danger">{error}</Message>}
-            {/* success is just a true or false */}
-            {success && <Message variant="success">Profile Updated</Message>}
-            {loading && <Loader/>}
+            {/* {successUpdateProfile && <Message variant='success'>Profile Updated</Message>} */}
+
+            {loading ? (
+                <Loader/>
+            ) : error ? (
+                <Message variant="danger">{error}</Message>
+            ) : (
 
             <Form onSubmit={submitHandler}>
+
+                <Image src={image} rounded/>
+        
+                <Form.Group controlId='image'>
+                    <Form.Label>Avatar</Form.Label>
+                        <Form.Control
+                            type='text'
+                            placeholder='Enter avatar image url'
+                            value={image}
+                            onChange={(e) => setImage(e.target.value)}
+                        ></Form.Control>
+                        <Form.Control
+                            type="file"
+                            label='Choose Avatar'
+                            custom
+                            onChange={uploadFileHandler}
+                        ></Form.Control>
+                    {uploading && <Loader />}
+                </Form.Group>
             
                 <Form.Group controlId="name">
                     <Form.Label>Name</Form.Label>
@@ -119,73 +178,40 @@ const ProfileScreen = () => {
                         ></Form.Control>
                 </Form.Group>
 
+                <Form.Group controlId="location">
+                <Form.Label>Location</Form.Label>
+
+                <Form.Select value={city} onChange={(e) => setCity(e.target.value)}>
+                    <option>Select City</option>
+                    {locationData.cities.map((data, key) => {
+                        return (
+                            <option value={data.name} key={key}>
+                                {data.name}
+                            </option>
+                            )
+                        })}
+                </Form.Select>
+
+                <Form.Select value={district} onChange={(e) => setDistrict(e.target.value)}>
+                    <option>Select District</option>
+                    { availableDistrict?.district.map((data, key) => {
+                    return (
+                            <option value={data.name} key={key}>
+                                {data}
+                            </option>
+                        )
+                    })}
+                </Form.Select>
+            </Form.Group>
+
+
                 <Button type="submit" variant="primary">
                     Update
                 </Button>
 
             </Form>
-
-        </Col>
-         <Col md={9}>
-            <h2>My Orders</h2>
-
-            {loadingOrders 
-                ? <Loader/>
-                : errorOrders 
-                    ? <Message variant="danger">{errorOrders}</Message>
-                    : ( 
-                    <Table striped bordered hover responsive className="table-sm">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>DATE</th>
-                                <th>TOTAL</th>
-                                <th>PAID</th>
-                                <th>DELIVERED</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {orders.map(order => (
-                                <tr key={order._id}>
-                                    <td>{order._id}</td>
-                                    <td>{order.createdAt.substring(0,10)}</td>
-                                    <td>${order.totalPrice}</td>
-                                    <td>{order.isPaid 
-                                            ? order.paidAt.substring(0,10) 
-                                            : (
-                                                <i 
-                                                    className="fas fa-times" 
-                                                    style={{color: "red"}}
-                                                ></i>
-                                            )
-                                        }
-                                    </td>
-                                    <td>{order.isDelivered 
-                                            ? order.deliveredAt.substring(0,10) 
-                                            : (
-                                                <i 
-                                                    className="fas fa-times" 
-                                                    style={{color: "red"}}
-                                                ></i>
-                                            )
-                                        }
-                                    </td>
-                                    <td>
-                                        <LinkContainer to={`/orders/${order._id}`}>
-                                            <Button className="btn-sm" variant="light">Details</Button>
-                                        </LinkContainer>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </Table>
-                    )
-            }
-        </Col>
-    </Row>
-        
-        
+)}
+        </FormContainer>
 
   )
 }
