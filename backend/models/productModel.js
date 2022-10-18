@@ -29,12 +29,10 @@ const productSchema = mongoose.Schema({
         required: true
     },
     imageSecond: {
-        type: String,
-        required: true
+        type: String
     },
     imageThird: {
-        type: String,
-        required: true
+        type: String
     },
     category: {
         type: String,
