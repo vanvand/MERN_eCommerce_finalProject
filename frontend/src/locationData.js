@@ -1,0 +1,12 @@
+export const locationData = {
+  cities: [
+    {
+      name: "Berlin",
+      district: ["Alt-Hohenschönhausen","Alt-Treptow","Altglienicke","Baumschulenweg","Biesdorf","Blankenburg","Blankenfelde","Bohnsdorf","Borsigwalde","Britz","Buch","Buckow","Charlottenburg","Charlottenburg-Nord","Dahlem","Falkenberg","Falkenhagener Feld","Fennpfuhl","Französisch Buchholz","Friedenau","Friedrichsfelde","Friedrichshagen","Friedrichshain","Frohnau","Gatow","Gesundbrunnen","Gropiusstadt","Grünau","Grunewald","Hakenfelde","Halensee","Hansaviertel","Haselhorst","Heiligensee","Heinersdorf","Hellersdorf","Hermsdorf","Johannisthal","Karlshorst","Karow","Kaulsdorf","Kladow","Konradshöhe","Köpenick","Kreuzberg","Lankwitz","Lichtenberg","Lichtenrade","Lichterfelde","Lübars","Mahlsdorf","Malchow","Mariendorf","Marienfelde","Märkisches Viertel","Marzahn","Mitte","Moabit","Müggelheim","Neu-Hohenschönhausen","Neukölln","Niederschöneweide","Niederschönhausen","Nikolassee","Oberschöneweide","Pankow","Plänterwald","Prenzlauer Berg","Rahnsdorf","Reinickendorf","Rosenthal","Rudow","Rummelsburg","Schlachtensee","Schmargendorf","Schmöckwitz","Schöneberg","Siemensstadt","Spandau","Staaken","Stadtrandsiedlung Malchow","Steglitz","Tegel","Tempelhof","Tiergarten","Waidmannslust","Wannsee","Wartenberg","Wedding","Weißensee","Westend","Wilhelmsruh","Wilhelmstadt","Wilmersdorf","Wittenau","Zehlendorf"]
+    },
+    {
+      name: "Leipzig",
+      district: ["Althen-Kleinpösna","Altlindenau","Anger-Crottendorf","Baalsdorf","Böhlitz-Ehrenberg","Burghausen-Rückmarsdorf","Connewitz","Dölitz-Dösen","Engelsdorf","Eutritzsch","Gohlis-Mitte","Gohlis-Nord","Gohlis-Süd","Großzschocher","Grünau-Mitte","Grünau-Nord","Grünau-Ost","Grünau-Siedlung","Hartmannsdorf-Knautnaundorf","Heiterblick","Holzhausen","Kleinzschocher","Knautkleeberg-Knauthain","Lausen-Grünau","Leutzsch","Liebertwolkwitz","Lindenau","Lindenthal","Lößnig","Lützschena-Stahmeln","Marienbrunn","Meusdorf","Miltitz","Mockau-Nord","Mockau-Süd","Möckern","Mölkau","Neulindenau","Neustadt-Neuschönefeld","Paunsdorf","Plagwitz","Plaußig-Portitz","Probstheida","Reudnitz-Thonberg","Schleußig","Schönau","Schönefeld-Abtnaundorf","Schönefeld-Ost","Seehausen","Sellerhausen-Stünz","Stötteritz","Südvorstadt","Thekla","Volkmarsdorf","Wahren","Wiederitzsch","Zentrum","Zentrum-Nord","Zentrum-Nordwest","Zentrum-Ost","Zentrum-Süd","Zentrum-Südost","Zentrum-West"]
+    }
+  ]
+};

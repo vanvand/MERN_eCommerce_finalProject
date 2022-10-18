@@ -28,7 +28,7 @@ router.route("/profile")
 
 router.route("/:id")
     .delete(protect, isAdmin, deleteUser)
-    .get(protect, isAdmin, getUserById)
+    .get(protect, getUserById)
     .put(protect, isAdmin, updateUser)
 
 export default router

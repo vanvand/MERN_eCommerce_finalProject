@@ -6,7 +6,7 @@ import Message from "../components/Message"
 import Loader from "../components/Loader"
 import FormContainer from "../components/FormContainer"
 import { register } from "../actions/userActions"
-
+import { locationData } from "../locationData.js"
 
 const RegisterScreen = () => {
 
@@ -17,6 +17,8 @@ const RegisterScreen = () => {
     const [ email, setEmail ] = useState("")
     const [ password, setPassword ] = useState("")
     const [ confirmPassword, setConfirmPassword ] = useState("")
+    const [city, setCity]= useState("");
+    const [district, setDistrict]= useState("");
     const [ message, setMessage ] = useState(null)
 
     const dispatch = useDispatch()
@@ -25,6 +27,8 @@ const RegisterScreen = () => {
     const { loading, error, userInfo } = userRegister
 
     const redirect = location.search ? location.search.split("=")[1] : "/"
+
+    const availableDistrict = locationData.cities.find((c) => c.name === city)
 
     useEffect( () => {
         if(userInfo) {
@@ -38,7 +42,7 @@ const RegisterScreen = () => {
         if(password !== confirmPassword) {
             setMessage("Passwords do not match")
         } else {
-            dispatch(register(name, email, password))
+            dispatch(register(name, email, password, city, district))
         }
     }
 
@@ -72,7 +76,7 @@ const RegisterScreen = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     ></Form.Control>
             </Form.Group>
-       
+
             <Form.Group controlId="password">
                 <Form.Label>Password</Form.Label>
                 <Form.Control 
@@ -92,6 +96,33 @@ const RegisterScreen = () => {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     ></Form.Control>
             </Form.Group>
+
+            <Form.Group controlId="location">
+                <Form.Label>Location</Form.Label>
+
+                <Form.Select value={city} onChange={(e) => setCity(e.target.value)}>
+                    <option>Select City</option>
+                    {locationData.cities.map((data, key) => {
+                        return (
+                            <option value={data.name} key={key}>
+                                {data.name}
+                            </option>
+                            );
+                        })}
+                </Form.Select>
+
+                <Form.Select value={district} onChange={(e) => setDistrict(e.target.value)}>
+                    <option>Select District</option>
+                    {availableDistrict?.district.map((data, key) => {
+                    return (
+                                <option value={data.name} key={key}>
+                                {data}
+                            </option>
+                        );
+                    })}
+                </Form.Select>
+            </Form.Group>
+
 
             <Button type="submit" variant="primary">
                 Register
