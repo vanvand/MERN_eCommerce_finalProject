@@ -32,7 +32,7 @@ const authUser = asyncHandler(async (req, res) => {
 // @route POST /api/users
 // @access Public
 const registerUser = asyncHandler(async (req, res) => {
-    const { name, email, password } = req.body
+    const { name, email, password, city, district } = req.body
 
     const userExists = await User.findOne({email: email})
 
@@ -46,7 +46,9 @@ const registerUser = asyncHandler(async (req, res) => {
     const user = await User.create({
         name,
         email,
-        password
+        password,
+        city,
+        district
     })
 
     // if user is created successfully give back complete user data json
@@ -55,6 +57,8 @@ const registerUser = asyncHandler(async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
+            city: user.city,
+            district: user.district,
             isAdmin: user.isAdmin,
             token: generateToken(user._id)
         })
@@ -77,6 +81,9 @@ const getUserProfile = asyncHandler(async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
+            image: user.image,
+            city: user.city,
+            district: user.district,
             isAdmin: user.isAdmin,
         })
         
@@ -100,6 +107,9 @@ const updateUserProfile = asyncHandler(async (req, res) => {
         if(req.body.password) {
             user.password = req.body.password
         }
+        user.image = req.body.image || user.image
+        user.city = req.body.city || user.city
+        user.district = req.body.district || user.district
 
         const updatedUser = await user.save()
 
@@ -107,6 +117,9 @@ const updateUserProfile = asyncHandler(async (req, res) => {
             _id: updatedUser._id,
             name: updatedUser.name,
             email: updatedUser.email,
+            image: updatedUser.image,
+            city: updatedUser.city,
+            district: updatedUser.district,
             isAdmin: updatedUser.isAdmin,
             token: generateToken(updatedUser._id)
         }) 
@@ -171,6 +184,9 @@ const updateUser = asyncHandler(async (req, res) => {
         // if(req.body.password) {
         //     user.password = req.body.password
         // }
+        user.image = req.body.image || user.image
+        user.city = req.body.city || user.city
+        user.district = req.body.district || user.district
         user.isAdmin = req.body.isAdmin 
 
         const updatedUser = await user.save()
@@ -179,6 +195,9 @@ const updateUser = asyncHandler(async (req, res) => {
             _id: updatedUser._id,
             name: updatedUser.name,
             email: updatedUser.email,
+            image: updatedUser.image,
+            city: updatedUser.city,
+            district: updatedUser.district,
             isAdmin: updatedUser.isAdmin
         }) 
 
