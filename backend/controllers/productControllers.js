@@ -179,12 +179,20 @@ const getTopProducts = asyncHandler(async (req, res) => {
 })
 
 const getProductsByCategory = asyncHandler(async (req, res) => {
-  const query = req.params.category[0].toUpperCase() + req.params.category.slice(1)
+  // const query = req.params.category[0].toUpperCase() + req.params.category.slice(1)
 
   
-  const product = await Product.find({ category: query})
+  const product = await Product.find({ 
+    category: {
+      // $regex: MongoDB query to find result where keyword is included
+      // no exact matches for text 
+      // !! CHECK THIS: https://www.mongodb.com/docs/manual/tutorial/model-data-for-keyword-search/ 
+      $regex: req.params.category,
+      // make search case-insensitive
+      $options: "i" 
+    }
+   })
 
-  console.log(query);
 if(product) {
     res.json(product)
 } else {

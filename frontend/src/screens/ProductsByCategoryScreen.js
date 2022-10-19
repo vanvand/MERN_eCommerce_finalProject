@@ -13,20 +13,19 @@ const ProductsByCategory = () => {
   const category = params.category;
   const pageNumber = params.pageNumber || 1;
 
-  console.log(category);
-
   const dispatch = useDispatch();
 
   const productCategory = useSelector((state) => state.productCategory);
-  console.log("from state...", productCategory);
+
   const { loading, error, products, page, pages } = productCategory;
 
-  //console.log(productCategory);
+
+  console.log(products);
 
   // console.log(productCategory);
   useEffect(() => {
     dispatch(getProductCategory(category, pageNumber));
-  }, []);
+  }, [category, pageNumber, dispatch]);
 
   return (
     <>
@@ -48,8 +47,8 @@ const ProductsByCategory = () => {
           <>
             <Row>
               
-              {products.products &&
-                products.products.map((product) => (
+              { products.length > 0 &&
+                products.map((product) => (
                   <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
                     {" "}
                     {/* pass products as props to Product component */}

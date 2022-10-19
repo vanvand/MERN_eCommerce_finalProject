@@ -121,16 +121,6 @@ const ProductEditScreen = () => {
                         onChange={(e) => setName(e.target.value)}
                         ></Form.Control>
                 </Form.Group>
-
-                <Form.Group controlId="price">
-                    <Form.Label>Price</Form.Label>
-                    <Form.Control 
-                        type="number" 
-                        placeholder="Enter price" 
-                        value={price} 
-                        onChange={(e) => setPrice(e.target.value)}
-                        ></Form.Control>
-                </Form.Group>
         
                 <Form.Group controlId='image'>
                     <Form.Label>Image</Form.Label>
@@ -146,30 +136,11 @@ const ProductEditScreen = () => {
                             // id='image-file'
                             label='Choose File'
                             custom
+                            multiple
                             onChange={uploadFileHandler}
                         ></Form.Control>
                     {uploading && <Loader />}
             </Form.Group>
-
-                <Form.Group controlId="brand">
-                    <Form.Label>Brand</Form.Label>
-                    <Form.Control 
-                        type="text" 
-                        placeholder="Enter brand name" 
-                        value={brand} 
-                        onChange={(e) => setBrand(e.target.value)}
-                        ></Form.Control>
-                </Form.Group>
-
-                <Form.Group controlId="countInStock">
-                    <Form.Label>Count in Stock</Form.Label>
-                    <Form.Control 
-                        type="Number" 
-                        placeholder="Enter Count in Stock" 
-                        value={countInStock} 
-                        onChange={(e) => setCountInStock(e.target.value)}
-                        ></Form.Control>
-                </Form.Group>
 
                 <Form.Group controlId="category">
                     <Form.Label>Category</Form.Label>

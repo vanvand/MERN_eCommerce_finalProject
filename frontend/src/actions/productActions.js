@@ -20,10 +20,7 @@ import {
     PRODUCT_CREATE_REVIEW_FAIL,
     PRODUCT_TOP_REQUEST,
     PRODUCT_TOP_SUCCESS,
-    PRODUCT_TOP_FAIL,
-    PRODUCT_CATEGORY_REQUEST,
-    PRODUCT_CATEGORY_SUCCESS,
-    PRODUCT_CATEGORY_FAIL
+    PRODUCT_TOP_FAIL
 } from "../constants/productConstants"
 
 
@@ -74,18 +71,18 @@ export const listProductDetails = (id) => async (dispatch) => {
 
 export const getProductCategory = (category, pageNumber) => async (dispatch) => {
     try {
-        dispatch({ type: PRODUCT_CATEGORY_REQUEST })
+        dispatch({ type: PRODUCT_LIST_REQUEST })
 
-        const { data } = await axios.get(`/api/products/${category}`)
+        const { data } = await axios.get(`/api/products/category/${category}`)
 
         dispatch({ 
-            type: PRODUCT_CATEGORY_SUCCESS,
+            type: PRODUCT_LIST_SUCCESS,
             payload: data
         })
 
     } catch (error) {
         dispatch({
-            type: PRODUCT_CATEGORY_FAIL,
+            type: PRODUCT_LIST_FAIL,
             payload: error.response && error.response.data.message ? error.response.data.message : error.message
         })
     }

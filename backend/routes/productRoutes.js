@@ -18,7 +18,7 @@ router.route("/")
     .get(getProducts)
     .post(protect, isAdmin, createProduct)
 
-router.route("/:category").get(getProductsByCategory)
+router.route("/category/:category").get(getProductsByCategory)
 
 router.route("/:id/reviews").post(protect, createProductReview)
 
