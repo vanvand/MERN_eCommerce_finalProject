@@ -1,20 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Row,
   Col,
-  ListGroup,
-  Card,
-  Button,
-  Form,
+ 
 } from "react-bootstrap";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { listFaqs } from "../actions/faqActions";
-import { FAQ_CREATE_ANSWER_RESET } from "../constants/faqConstants";
-import FaqList from "../components/FaqList";
-import FaqCreate from "../components/FaqCreate";
+
 import Faq from "../components/Faq";
 import BottomAdd from "../components/SecondaryAdd";
 import Paginate from "../components/Paginate";
@@ -30,10 +25,10 @@ const FaqScreen = () => {
 
  const faqList = useSelector((state) => state.faqList);
   const { loading, error, faqs, page, pages } = faqList;
-  //console.log("faqs", faqs);
+  
    const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-  //console.log("userInfo", userInfo);
+  
  useEffect(() => {
    // keyword from search functionality
    dispatch(listFaqs(keyword, pageNumber));
@@ -63,7 +58,7 @@ const FaqScreen = () => {
         error ? (
           <Message variant="danger">{error}</Message>
         ) : (
-          // if loading false and no error show products
+          // if loading false and no error show faq
           <>
             <Row>
               {faqs.map((faq) => (
