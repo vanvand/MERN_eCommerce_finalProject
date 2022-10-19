@@ -60,7 +60,7 @@ const getProductById = asyncHandler(async (req, res) => {
     // old from frontend/product.js file
     // const product = products.find(p => p._id === req.params.id)
 
-    res.json(product)
+   // res.json(product)
 })
 
 // @desc DELETE a product
@@ -178,6 +178,7 @@ const getTopProducts = asyncHandler(async (req, res) => {
   res.json(products)
 })
 
+
 export {
   getProducts,
   getProductById,
@@ -185,5 +186,5 @@ export {
   createProduct,
   updateProduct,
   createProductReview,
-  getTopProducts
-}
+  getTopProducts,
+};

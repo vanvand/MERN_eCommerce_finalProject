@@ -28,7 +28,8 @@ const HomeScreen = () => {
     products,
     page, 
     pages
-   } = productList
+  } = productList
+  //console.log("products", products);
 
   useEffect( () => {
     // keyword from search functionality

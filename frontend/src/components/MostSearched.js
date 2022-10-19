@@ -15,7 +15,7 @@ function MostSearched() {
   return (
     <Container className=" square border-bottom  bar-background-color">
       <h3>Most Searched</h3>
-      <Row d-flex flex-row>
+      <Row d-flex='true' flex-row='true'>
         {mostSearched.map((name, index) => (
           <Col key={index} className="alignStart">
             <Link to={`/${name}`} className="linkStylingSearch">

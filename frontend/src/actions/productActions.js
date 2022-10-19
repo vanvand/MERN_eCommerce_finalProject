@@ -125,7 +125,6 @@ export const createProduct = () => async (dispatch, getState) => {
             {}, // post request but not sending data (fix sample data)
             config
             )
-
         dispatch({
             type: PRODUCT_CREATE_SUCCESS,
             payload: data

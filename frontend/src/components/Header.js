@@ -1,22 +1,34 @@
-import React from 'react'
-import { useDispatch, useSelector } from "react-redux"
-import { LinkContainer } from "react-router-bootstrap"
-import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap"
-import SearchBox from "../components/SearchBox"
-import { logout } from "../actions/userActions"
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { LinkContainer } from "react-router-bootstrap";
+import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
+import SearchBox from "../components/SearchBox";
+import { logout } from "../actions/userActions";
 
 import { BiListPlus } from "react-icons/bi";
 
 import { GrUserSettings } from "react-icons/gr";
-import { IoMdLogOut } from "react-icons/io";
+import { FiLogOut } from "react-icons/fi";
 import { TbDoorEnter } from "react-icons/tb";
 import { HiOutlineDocumentAdd } from "react-icons/hi";
-import { GrCircleQuestion } from "react-icons/gr";
 import "./components_css/header.css";
+import { useNavigate, useParams } from "react-router-dom";
 
+import Loader from "./Loader";
+import Message from "./Message";
+
+import { PRODUCT_CREATE_RESET } from "../constants/productConstants";
+
+import { listProducts, createProduct } from "../actions/productActions.js";
+import { Button } from "react-bootstrap";
+
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const dispatch = useDispatch();
+      const params = useParams();
+
+    const pageNumber = params.pageNumber || 1;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -25,8 +37,44 @@ const Header = () => {
     dispatch(logout());
   };
 
+  //.......... Offer Product..............
+
+  const navigate = useNavigate();
+
+    const productCreate = useSelector((state) => state.productCreate);
+    const {
+      loading: loadingCreate,
+      error: errorCreate,
+      success: successCreate,
+      product: createdProduct,
+    } = productCreate;
+
+ useEffect(() => {
+   dispatch({ type: PRODUCT_CREATE_RESET });
+
+   if (createdProduct) {
+     navigate(`/products/${createdProduct._id}/edit`);
+   } else {
+     dispatch(listProducts("", pageNumber));
+   }
+ }, [
+   userInfo,
+   dispatch,
+   navigate,
+   successCreate,
+   createdProduct,
+   pageNumber,
+ ]);
+  
+   const createProductHandler = () => {
+     dispatch(createProduct());
+   };
+  //........................
+
   return (
     <header>
+      {loadingCreate && <Loader />}
+      {errorCreate && <Message variant="danger">{errorCreate}</Message>}
       <Navbar
         bg="dark"
         variant="dark"
@@ -58,9 +106,16 @@ const Header = () => {
                     </Nav.Link>
                   </LinkContainer>
 
-                  <LinkContainer to="/">
-                    <Nav.Link> Offer Product</Nav.Link>
-                  </LinkContainer>
+                  <Link>
+                    <Button
+                      className="offer-product"
+                      variant="outline-light"
+                      size="sm"
+                      onClick={createProductHandler}
+                    >
+                      <i className="fas fa-plus"></i> Offer Product
+                    </Button>
+                  </Link>
 
                   <NavDropdown title={userInfo.name} id="username">
                     <LinkContainer to="#">
@@ -80,21 +135,15 @@ const Header = () => {
                       </NavDropdown.Item>
                     </LinkContainer>
 
-                    {/* <LinkContainer to="#">
-                      <NavDropdown.Item>
-                        <MdOutlineSavedSearch /> Saved Search
-                      </NavDropdown.Item>
-                    </LinkContainer>
-
-                    <LinkContainer to="/profile">
-                      <NavDropdown.Item>
-                        <CgProfile /> My Profile
-                      </NavDropdown.Item>
-                    </LinkContainer> */}
-
                     <LinkContainer to="#">
                       <NavDropdown.Item>
                         <GrUserSettings /> Setting
+                      </NavDropdown.Item>
+                    </LinkContainer>
+
+                    <LinkContainer to="/login">
+                      <NavDropdown.Item onClick={logoutHandler}>
+                        <FiLogOut /> Logout
                       </NavDropdown.Item>
                     </LinkContainer>
                   </NavDropdown>
@@ -102,9 +151,15 @@ const Header = () => {
               ) : (
                 // is no user is logged in
                 <>
-                  <LinkContainer to="/login">
-                    <Nav.Link>Offer Product</Nav.Link>
-                  </LinkContainer>
+                  <Link to="/login">
+                    <Button
+                      variant="outline-light"
+                      size="sm"
+                      className="offer-product"
+                    >
+                      <i className="fas fa-plus"></i> Offer Product
+                    </Button>
+                  </Link>
                   <LinkContainer to="/login">
                     <Nav.Link>Sign In</Nav.Link>
                   </LinkContainer>
@@ -127,15 +182,7 @@ const Header = () => {
                 </NavDropdown>
               )}
 
-              {userInfo && (
-                <LinkContainer to="/login">
-                  <Nav.Link className="icon" onClick={logoutHandler}>
-                    <i className="fa-solid fa-arrow-right-from-bracket"></i>
-                  </Nav.Link>
-                </LinkContainer>
-              )}
-
-              <LinkContainer to="/help">
+              <LinkContainer to="/faq">
                 <Nav.Link className="icon">
                   <i className="fa-regular fa-circle-question"></i>
                 </Nav.Link>

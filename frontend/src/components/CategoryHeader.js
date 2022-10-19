@@ -8,7 +8,7 @@ function CategoryHeader() {
   const category = ["Tools", "Books", "Clothes"];
   return (
     <Container className=" square border-bottom  sticky ">
-      <Row d-flex flex-row>
+      <Row d-flex='true' flex-row='true'>
         {category.map((name, index) => (
           <Col key={index} className="alignStart">
             <Link to={`/${name}`} className=" linkStyling ">

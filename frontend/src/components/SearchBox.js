@@ -1,27 +1,29 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Form, Button, InputGroup } from 'react-bootstrap'
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Form, Button, InputGroup } from "react-bootstrap";
 import { BsSearch } from "react-icons/bs";
 import "./components_css/searchBox.css";
 
 const SearchBox = () => {
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
-  
-  const [keyword, setKeyword] = useState('')
+  const [keyword, setKeyword] = useState("");
 
   const submitHandler = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (keyword.trim()) {
-      navigate(`/search/${keyword}`)
+      navigate(`/search/${keyword}`);
     } else {
-      navigate('/')
+      navigate("/");
     }
-  }
+  };
 
   return (
-    <Form onSubmit={submitHandler} className=" border-bottom border-top space">
-      <InputGroup size="sm" >
+    <Form
+      onSubmit={submitHandler}
+      className=" border-bottom border-top space search"
+    >
+      <InputGroup size="sm">
         <Form.Control
           type="text"
           name="q"
@@ -34,11 +36,11 @@ const SearchBox = () => {
           className="p-2 search_icon "
           bg="light"
         >
-          <BsSearch  />
+          <BsSearch />
         </Button>
       </InputGroup>
     </Form>
   );
-}
+};
 
-export default SearchBox
+export default SearchBox;

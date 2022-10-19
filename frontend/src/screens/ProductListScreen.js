@@ -9,7 +9,7 @@ import Paginate from "../components/Paginate"
 import { 
     listProducts, 
     deleteProduct, 
-    createProduct } from "../actions/productActions"
+    } from "../actions/productActions"
 import { PRODUCT_CREATE_RESET } from "../constants/productConstants"
 
 
@@ -59,10 +59,10 @@ const ProductListScreen = () => {
             navigate("/login")
         }
 
-        if(successCreate ) {
-            navigate(`/admin/products/${createdProduct._id}/edit`)
+        if (createdProduct) {
+          navigate(`/products/${createdProduct._id}/edit`);
         } else {
-            dispatch(listProducts("", pageNumber))
+          dispatch(listProducts("", pageNumber));
         }
 
     }, [
@@ -81,9 +81,9 @@ const ProductListScreen = () => {
         }
     }
 
-    const createProductHandler = () => {
-        dispatch(createProduct())
-    }
+
+    
+   
 
   return (
     <>
@@ -91,11 +91,7 @@ const ProductListScreen = () => {
             <Col>
                 <h1>Products</h1>
             </Col>
-            <Col className="text-right">
-                <Button className="my-3" onClick={createProductHandler}>
-                    <i className="fas fa-plus"></i> Create Product
-                </Button>
-            </Col>
+        
         </Row>
 
         {loadingDelete && <Loader />}
@@ -130,7 +126,7 @@ const ProductListScreen = () => {
                                 <td>{product.brand}</td>
                                 <td>
                                     <LinkContainer 
-                                    to={`/admin/products/${product._id}/edit`}>
+                                    to={`/products/${product._id}/edit`}>
                                         <Button variant='light' className='btn-sm'>
                                         <i className='fas fa-edit'></i>
                                         </Button>
