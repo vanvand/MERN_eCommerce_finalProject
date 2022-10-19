@@ -1,0 +1,14 @@
+.card_faq {
+  height: 280px;
+}
+.card_text {
+  height: 160px;
+  overflow:auto;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+.card_link {
+  text-decoration: none;
+  color: #343a40;
+}
