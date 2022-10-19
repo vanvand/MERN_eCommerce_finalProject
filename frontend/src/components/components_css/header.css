@@ -3,17 +3,33 @@
   z-index: 1000;
   padding: 0.5rem 1rem;
 }
-.icon{
+.icon {
   font-size: 20px;
-    color: #eee;
-
+  color: #eee;
 }
 .navbar-Collapse {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  justify-content:flex-end;
+  justify-content: flex-end;
   padding: 0;
   color: #eee;
   margin-bottom: 10px;
+}
+
+.offer-product {
+  margin-top: 1px;
+  outline: none;
+  border: none;
+  color: var(--bs-nav-link-color);
+}
+.offer-product:hover {
+  outline: none;
+  border: none;
+  background-color: #343a4016 !important;
+  text-decoration: none;
+}
+
+.btn:first-child:hover:hover {
+  color: #eee;
 }

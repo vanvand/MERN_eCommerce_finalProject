@@ -1,13 +1,15 @@
 
 .sticky {
   position: sticky;
-  top: 5px;
+  top: 0px;
   z-index: 100;
   margin-bottom: 10px;
 background-color:   #343a40
 }
 
-.alignStart{flex-grow: 0}
+.alignStart{flex-grow: 0;
+
+padding:10px}
 
 .linkStyling{
   text-decoration: none;
