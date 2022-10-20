@@ -1,7 +1,7 @@
 import axios from "axios"
 import React, { useState, useEffect } from "react"
 import { Link, useNavigate, useParams } from "react-router-dom"
-import { Form, Button } from "react-bootstrap"
+import { Form, Button, Row, Col } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
 import Message from "../components/Message"
 import Loader from "../components/Loader"
@@ -121,7 +121,8 @@ const ProductEditScreen = () => {
                         onChange={(e) => setName(e.target.value)}
                         ></Form.Control>
                 </Form.Group>
-        
+        <Row>
+            <Col>
                 <Form.Group controlId='image'>
                     <Form.Label>Image</Form.Label>
                         <Form.Control
@@ -129,7 +130,7 @@ const ProductEditScreen = () => {
                             placeholder='Enter image url'
                             value={image}
                             onChange={(e) => setImage(e.target.value)}
-                        ></Form.Control>
+                            ></Form.Control>
                         {/* Form.File not longer supported by react-bootstrap 5 */}
                         <Form.Control
                             type="file"
@@ -138,9 +139,53 @@ const ProductEditScreen = () => {
                             custom
                             multiple
                             onChange={uploadFileHandler}
-                        ></Form.Control>
+                            ></Form.Control>
                     {uploading && <Loader />}
             </Form.Group>
+            </Col>
+            <Col>
+                <Form.Group controlId='image'>
+                    <Form.Label>Image</Form.Label>
+                        <Form.Control
+                            type='text'
+                            placeholder='Enter image url'
+                            value={image}
+                            onChange={(e) => setImage(e.target.value)}
+                            ></Form.Control>
+                        {/* Form.File not longer supported by react-bootstrap 5 */}
+                        <Form.Control
+                            type="file"
+                            // id='image-file'
+                            label='Choose File'
+                            custom
+                            multiple
+                            onChange={uploadFileHandler}
+                            ></Form.Control>
+                    {uploading && <Loader />}
+            </Form.Group>
+            </Col>
+            <Col>
+                <Form.Group controlId='image'>
+                    <Form.Label>Image</Form.Label>
+                        <Form.Control
+                            type='text'
+                            placeholder='Enter image url'
+                            value={image}
+                            onChange={(e) => setImage(e.target.value)}
+                            ></Form.Control>
+                        {/* Form.File not longer supported by react-bootstrap 5 */}
+                        <Form.Control
+                            type="file"
+                            // id='image-file'
+                            label='Choose File'
+                            custom
+                            multiple
+                            onChange={uploadFileHandler}
+                            ></Form.Control>
+                    {uploading && <Loader />}
+            </Form.Group>
+            </Col>
+                            </Row>
 
                 <Form.Group controlId="category">
                     <Form.Label>Category</Form.Label>
