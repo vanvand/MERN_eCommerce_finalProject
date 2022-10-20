@@ -19,10 +19,7 @@ function CategoryHeader () {
         acc.includes(categoryName) ? acc : [...acc, categoryName],
       []
     );
-
   //console.log(" filterCategory", filterCategory);
- 
-
   return (
     <Container className=" square border-bottom  sticky ">
       {
