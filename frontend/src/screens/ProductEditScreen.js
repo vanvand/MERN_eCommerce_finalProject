@@ -17,7 +17,9 @@ const ProductEditScreen = () => {
 
     const [ name, setName ] = useState("")
     const [ price, setPrice ] = useState("")
-    const [ image, setImage ] = useState("")
+    const [ image1, setImage1 ] = useState("")
+    const [ image2, setImage2 ] = useState("")
+    const [ image3, setImage3 ] = useState("")
     const [ brand, setBrand ] = useState("")
     const [ category, setCategory ] = useState("")
     const [ countInStock, setCountInStock ] = useState(0)
@@ -46,7 +48,9 @@ const ProductEditScreen = () => {
             } else {
                 setName(product.name)
                 setPrice(product.price)
-                setImage(product.image)
+                setImage1(product.image1)
+                setImage2(product.image2)
+                setImage3(product.image3)
                 setBrand(product.brand)
                 setCategory(product.category)
                 setCountInStock(product.countInStock)
@@ -70,7 +74,9 @@ const ProductEditScreen = () => {
 
             const { data } = await axios.post('/api/upload', formData, config)
 
-            setImage(data) // data is image path
+            setImage1(data) // data is image path
+            setImage2(data) // data is image path
+            setImage3(data) // data is image path
             setUploading(false)
         } catch (error) {
             console.error(error)
@@ -84,7 +90,9 @@ const ProductEditScreen = () => {
             _id: productId,
             name,
             price,
-            image,
+            image1,
+            image2,
+            image3,
             brand,
             category,
             description,
@@ -128,8 +136,8 @@ const ProductEditScreen = () => {
                         <Form.Control
                             type='text'
                             placeholder='Enter image url'
-                            value={image}
-                            onChange={(e) => setImage(e.target.value)}
+                            value={image1}
+                            onChange={(e) => setImage1(e.target.value)}
                             ></Form.Control>
                         {/* Form.File not longer supported by react-bootstrap 5 */}
                         <Form.Control
@@ -137,7 +145,6 @@ const ProductEditScreen = () => {
                             // id='image-file'
                             label='Choose File'
                             custom
-                            multiple
                             onChange={uploadFileHandler}
                             ></Form.Control>
                     {uploading && <Loader />}
@@ -149,8 +156,8 @@ const ProductEditScreen = () => {
                         <Form.Control
                             type='text'
                             placeholder='Enter image url'
-                            value={image}
-                            onChange={(e) => setImage(e.target.value)}
+                            value={image2}
+                            onChange={(e) => setImage2(e.target.value)}
                             ></Form.Control>
                         {/* Form.File not longer supported by react-bootstrap 5 */}
                         <Form.Control
@@ -158,7 +165,6 @@ const ProductEditScreen = () => {
                             // id='image-file'
                             label='Choose File'
                             custom
-                            multiple
                             onChange={uploadFileHandler}
                             ></Form.Control>
                     {uploading && <Loader />}
@@ -170,8 +176,8 @@ const ProductEditScreen = () => {
                         <Form.Control
                             type='text'
                             placeholder='Enter image url'
-                            value={image}
-                            onChange={(e) => setImage(e.target.value)}
+                            value={image3}
+                            onChange={(e) => setImage3(e.target.value)}
                             ></Form.Control>
                         {/* Form.File not longer supported by react-bootstrap 5 */}
                         <Form.Control
@@ -179,7 +185,6 @@ const ProductEditScreen = () => {
                             // id='image-file'
                             label='Choose File'
                             custom
-                            multiple
                             onChange={uploadFileHandler}
                             ></Form.Control>
                     {uploading && <Loader />}
