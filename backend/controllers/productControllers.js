@@ -102,14 +102,16 @@ const createProduct = asyncHandler(async (req, res) => {
 // @route PUT /api/products/:id
 // @access Private/admin
 const updateProduct = asyncHandler(async (req, res) => {
-    const { name, price, description, image, brand, category, countInStock } = req.body
+    const { name, price, description,image1, image2, image3, brand, category, countInStock } = req.body
     const product = await Product.findById(req.params.id)
 
     if(product) {
         product.name = name
         product.price = price
         product.description = description
-        product.image = image
+        product.image1 = image1
+        product.image2 = image2
+        product.image3 = image3
         product.brand = brand
         product.category = category
         product.countInStock = countInStock

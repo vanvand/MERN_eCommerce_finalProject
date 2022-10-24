@@ -131,7 +131,7 @@ const ProductEditScreen = () => {
                 </Form.Group>
         <Row>
             <Col>
-                <Form.Group controlId='image'>
+                <Form.Group controlId='image1'>
                     <Form.Label>Image</Form.Label>
                         <Form.Control
                             type='text'
@@ -151,7 +151,7 @@ const ProductEditScreen = () => {
             </Form.Group>
             </Col>
             <Col>
-                <Form.Group controlId='image'>
+                <Form.Group controlId='image2'>
                     <Form.Label>Image</Form.Label>
                         <Form.Control
                             type='text'
@@ -171,7 +171,7 @@ const ProductEditScreen = () => {
             </Form.Group>
             </Col>
             <Col>
-                <Form.Group controlId='image'>
+                <Form.Group controlId='image3'>
                     <Form.Label>Image</Form.Label>
                         <Form.Control
                             type='text'

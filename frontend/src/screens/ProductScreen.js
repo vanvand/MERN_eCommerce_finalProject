@@ -167,6 +167,14 @@ const ProductScreen = () => {
         </Col>
       </Row>
 
+         <Row>
+          <Col md={3} className='mt-2'>
+          <Image src={product.image2} alt={product.name} fluid/>
+          </Col>
+          <Col md={3} className='mt-2'>
+          <Image src={product.image3} alt={product.name} fluid/>
+          </Col>
+          </Row> 
       <Row>
             <Col md={6}>
               <h2>Reviews</h2>
