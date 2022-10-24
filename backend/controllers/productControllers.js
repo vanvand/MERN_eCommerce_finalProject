@@ -6,44 +6,52 @@ import Product from "../models/productModel.js"
 // @route GET /api/products
 // @access Public
 const getProducts = asyncHandler(async (req, res) => {
+  //.....................edit by Diala...........................................
 
+  let {keyword}  = req.query;
+
+  // Create expression
+  var re = new RegExp(keyword, "i");
+  let find = {};
+
+  if (keyword != undefined && keyword != "") {
+    //This all are the fields that will used as match
+    find = {
+      $or: [{ name: { $regex: re } }, { category: { $regex: re } }],
+    };
+  }
+
+  // pagination functionality
+  // static value how many products do we want to show per page
+  // page in query ?pageNumber=2
+  const page = Number(req.query.pageNumber || 1);
+
+  const pageSize = 10; //still pagination not working
+
+  //get all products with filter name or category
+  console.log(find);
+  let products = await Product.find(find)
+    .limit(pageSize)
+    .skip(pageSize * (page - 1))
+    .sort({ createdAt: -1 }); //sort products by created time
+
+  //get all products without filter
+  const allProductsCategory = await Product.find({});
+
+  // get total count of products for pagination functionality
+  const count = await Product.count();
+  let totalCount = products.length + 1;
+  console.log(totalCount);
+  console.log(Math.ceil(totalCount / pageSize));
+
+  res.json({
+    products,
+    allProductsCategory,
     // pagination functionality
-    // static value how many products do we want to show per page
-    const pageSize = 4
-    // page in query ?pageNumber=2
-    const page = Number(req.query.pageNumber || 1)
-
-
-    const keyword = req.query.keyword ? {
-      name: {
-        // $regex: MongoDB query to find result where keyword is included
-        // no exact matches for text 
-        // !! CHECK THIS: https://www.mongodb.com/docs/manual/tutorial/model-data-for-keyword-search/ 
-        $regex: req.query.keyword,
-        // make search case-insensitive
-        $options: "i" 
-      }
-    } 
-    // if keyword does not exist or empty string Product.find remain {}
-    : {}
-
-    // get total count of products for pagination functionality
-    const count = await Product.count({ ...keyword})
-
-    const products = await Product.find({ ...keyword })
-      .limit(pageSize).skip(pageSize * (page -1)) // pagination functionality
-
-    // testing redux error implementation in HomeScreen
-    // res.status(401)
-    // throw new Error("Not Authorized")
-
-    res.json({ products,
-      // pagination functionality
-      page, pages: Math.ceil(count / pageSize) // Math.ceil rounds up
-    })
-})
-
-
+    page,
+    pages: Math.ceil(totalCount / pageSize), // Math.ceil rounds up
+  });
+});
 // @desc Fetch single product
 // @route GET /api/products/:id
 // @access Public
@@ -178,32 +186,6 @@ const getTopProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({}).sort({ rating: -1 }).limit(3)
 
   res.json(products)
-})
-
-const getProductsByCategory = asyncHandler(async (req, res) => {
-  // const query = req.params.category[0].toUpperCase() + req.params.category.slice(1)
-
-  
-  const product = await Product.find({ 
-    category: {
-      // $regex: MongoDB query to find result where keyword is included
-      // no exact matches for text 
-      // !! CHECK THIS: https://www.mongodb.com/docs/manual/tutorial/model-data-for-keyword-search/ 
-      $regex: req.params.category,
-      // make search case-insensitive
-      $options: "i" 
-    }
-   })
-
-if(product) {
-    res.json(product)
-} else {
-    res.status(404)
-    throw new Error("Product not found")
-}
-
-// old from frontend/product.js file
-// const product = products.find(p => p._id === req.params.id)
 })
 
 export {

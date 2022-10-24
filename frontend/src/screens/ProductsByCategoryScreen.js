@@ -6,35 +6,35 @@ import Product from "../components/Product";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import Paginate from "../components/Paginate";
-import { getProductCategory } from "../actions/productActions";
+import { listProducts } from "../actions/productActions";
 
 const ProductsByCategory = () => {
   const params = useParams();
-  const category = params.category;
-  const pageNumber = params.pageNumber || 1;
+  const keyword = params.keyword;
 
+  const pageNumber = params.pageNumber || 1;
   const dispatch = useDispatch();
 
-  const productCategory = useSelector((state) => state.productCategory);
+  const productList = useSelector((state) => {
+    console.log(state.productList);
+    return state.productList
+  });
+  const { loading, error, products, page, pages } = productList;
 
-  const { loading, error, products, page, pages } = productCategory;
+  // console.log("products", products);
+  // console.log("productsCategory", productsCategory);
+  console.log("keyword", keyword);
 
-
-  console.log(products);
-
-  // console.log(productCategory);
   useEffect(() => {
-    dispatch(getProductCategory(category, pageNumber));
-  }, [category, pageNumber, dispatch]);
+    dispatch(listProducts(keyword, pageNumber));
+    // keyword from search functionality
+  }, [dispatch, keyword, pageNumber]);
 
   return (
     <>
       <Link to="/" className="btn btn-light">
-        Go Back!
+        Go Back
       </Link>
-
-      <h1>{}</h1>
-
       {
         // if loading true display Loading message in HomeScreen component
         loading ? (
@@ -43,26 +43,31 @@ const ProductsByCategory = () => {
         error ? (
           <Message variant="danger">{error}</Message>
         ) : (
-          // if loading false and no error show products
           <>
             <Row>
-              
-              { products.length > 0 &&
-                products.map((product) => (
-                  <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-                    {" "}
-                    {/* pass products as props to Product component */}
-                    {<Product product={product} />}
-                  </Col>
-                ))}
+              <h1>
+                {keyword && keyword !== "undefined"
+                  ? keyword
+                  : "No match Product"}
+              </h1>
+              {products.map((product) => (
+                <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+                  <h5 key={product._id}>just for testing: {product.category}</h5>
+
+                  {/* pass products as props to Product component */}
+                  <Product product={product} />
+                </Col>
+              ))}
             </Row>
 
-            <Paginate
-              /*  pass props in from state */
-              pages={pages}
-              page={page}
-              keyword={category ? category : ""}
-            />
+            {
+              <Paginate
+                /*  pass props in from state */
+                pages={pages}
+                page={page}
+                keyword={keyword ? keyword : ""}
+              />
+            }
           </>
         )
       }

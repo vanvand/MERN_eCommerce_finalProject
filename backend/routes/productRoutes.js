@@ -8,7 +8,6 @@ import {
     updateProduct,
     createProductReview,
     getTopProducts,
-    getProductsByCategory
  } from "../controllers/productControllers.js"
 import { 
     protect, 
@@ -18,7 +17,6 @@ router.route("/")
     .get(getProducts)
     .post(protect, isAdmin, createProduct)
 
-router.route("/category/:category").get(getProductsByCategory)
 
 router.route("/:id/reviews").post(protect, createProductReview)
 
