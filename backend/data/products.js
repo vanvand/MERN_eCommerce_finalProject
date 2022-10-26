@@ -2,6 +2,8 @@ const products = [
   {
     name: 'Ingrid Noll - Kalt ist der Abendhauch',
     image: '/images/IngridNoll.jpeg',
+    imageSecond: "/images/IngridNoll-1.jpeg",
+    imageThird: "/images/IngridNoll-2.jpeg",
     description:
       'Diogenes Roman. Das Buch ist in einem sehr guten Zustand. Der Einband weist leichte Gebrauchsspuren auf. \\n Die dreiundachtzigjährige Charlotte erwartet Besuch: Hugo, ihren Schwager, für den sie zeit ihres Lebens eine Schwäche hatte. Sollten sie doch noch einen romantischen Lebensabend miteinander verbringen können? Wird, was lange währt, endlich gut? Voll Sehnsucht schmiedet Charlotte Pläne, doch vor allem steigen Erinnerungen an ihre bewegte Vergangenheit in ihr auf...',
     category: 'Books',
@@ -178,6 +180,7 @@ const products = [
     category: 'Film',
     rating: 5,
     numReviews: 12,
+    availability: false
   },
   {
     name: 'Trivial Pursuit 1990er Spiel',
