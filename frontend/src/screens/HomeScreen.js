@@ -6,10 +6,12 @@ import Product from "../components/Product"
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import Paginate from '../components/Paginate'
-import ProductCarousel from '../components/ProductCarousel'
 import { listProducts } from "../actions/productActions"
-
-
+import MainAdd from '../components/MainAdd'
+import TopProducts from '../components/TopProducts'
+import MostSearched from '../components/MostSearched'
+import TopCategoryName from '../components/TopCategoryName'
+import BottomAdd from '../components/SecondaryAdd'
 
 const HomeScreen = () => {
 
@@ -35,47 +37,61 @@ const HomeScreen = () => {
 
   return (
     <>
+      {/* Do not show product carousel with top rated products on search page */}
+      {!keyword ? (
+        <>
+          <MainAdd />
+          <TopProducts />
+          <MostSearched />
+          <TopCategoryName />
+        </>
+      ) : (
+        <Link to="/" className="btn btn-light">
+          Go Back
+        </Link>
+      )}
 
-    {/* Do not show product carousel with top rated products on search page */}
-    {!keyword 
-      ? <ProductCarousel /> 
-      : ( <Link to='/' className='btn btn-light'>Go Back</Link> )
-    }
+      <h1>Latest Products</h1>
 
-        
-        <h1>Latest Products</h1>
-
-        {
+      {
         // if loading true display Loading message in HomeScreen component
-        loading ? <Loader />
-        
-        // if error true display error message in HomeScreen component
-        : error ? <Message variant="danger">{error}</Message>
-
-        // if loading false and no error show products
-        : (
+        loading ? (
+          <Loader />
+        ) : // if error true display error message in HomeScreen component
+        error ? (
+          <Message variant="danger">{error}</Message>
+        ) : (
+          // if loading false and no error show products
           <>
             <Row>
-              {products.map( (product) => (
-                  <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-                      {/* pass products as props to Product component */}
-                      <Product product={product}/>
-                  </Col>
+              {products.map((product) => (
+                <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+                  {/* pass products as props to Product component */}
+                  <Product product={product} />
+                </Col>
               ))}
             </Row>
-              
 
-            <Paginate 
+            <Row>
+              <Col>
+                <BottomAdd />
+              </Col>
+              <Col>
+                <BottomAdd />
+              </Col>
+            </Row>
+
+            <Paginate
               /*  pass props in from state */
-              pages={pages} 
-              page={page} 
-              keyword={keyword ? keyword : ""} />
-
+              pages={pages}
+              page={page}
+              keyword={keyword ? keyword : ""}
+            />
           </>
-          )
-        }
+        )
+      }
     </>
-  )
+  );
 }
 
 export default HomeScreen

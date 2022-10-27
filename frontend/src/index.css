@@ -27,6 +27,8 @@ h2 {
 
 .rating span {
   margin: 0.1rem;
+  /* I made it smaller, there was no size */
+  font-size: 5px;
 }
 
 /* carousel */
