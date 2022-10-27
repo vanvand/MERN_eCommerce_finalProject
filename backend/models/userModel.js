@@ -25,21 +25,6 @@ const userSchema = mongoose.Schema({
     district: {
         type: String
     },
-    ratingUser: {
-        type: Number,
-        required: true,
-        default: 0
-    },
-    numReviewsUser: {
-        type: Number,
-        required: true,
-        default: 0 
-    },
-    numAdsUser: {
-        type: Number,
-        required: true,
-        default: 0
-    },
     isAdmin: {
         type: Boolean,
         required: true,

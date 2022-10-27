@@ -56,12 +56,22 @@ const getProductById = asyncHandler(async (req, res) => {
         res.status(404)
         throw new Error("Product not found")
     }
-    
-    // old from frontend/product.js file
-    // const product = products.find(p => p._id === req.params.id)
-
-    res.json(product)
 })
+
+// @desc Fetch products from userId
+// @route GET /api/products/:userId
+// @access Public
+const getProductByUserId = asyncHandler(async (req, res) => {
+      const products = await Product.find({user: req.params.userId})
+
+    if(products) {
+        res.json(products)
+    } else {
+        res.status(404)
+        throw new Error("Product not found")
+    }
+})
+
 
 // @desc DELETE a product
 // @route DELETE /api/products/:id
@@ -181,6 +191,7 @@ const getTopProducts = asyncHandler(async (req, res) => {
 export {
   getProducts,
   getProductById,
+  getProductByUserId,
   deleteProduct,
   createProduct,
   updateProduct,
