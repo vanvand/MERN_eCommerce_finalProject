@@ -27,30 +27,35 @@ import {
 } from "../constants/productConstants"
 
 
-export const listProducts = (keyword = "", pageNumber = "") => async (dispatch) => {
+export const listProducts =
+  (keyword = "",  pageNumber = "") =>
+  async (dispatch) => {
     try {
-        dispatch({ type: PRODUCT_LIST_REQUEST })
+      dispatch({ type: PRODUCT_LIST_REQUEST });
 
-        // ?keyword=${keyword} for search functionality
-        const { data } = await axios.get(`/api/products/?keyword=${keyword}&pageNumber=${pageNumber}`)
+      // ?keyword=${keyword} for search functionality
+      const { data } = await axios.get(
+        `/api/products/?keyword=${keyword}&pageNumber=${pageNumber}`
+      );
 
-        dispatch({ 
-            type: PRODUCT_LIST_SUCCESS,
-            payload: data
-        })
+            console.log("data", data);
 
+      dispatch({
+        type: PRODUCT_LIST_SUCCESS,
+        payload: data,
+      });
     } catch (error) {
-        dispatch({
-            type: PRODUCT_LIST_FAIL,
-            // error.response is generic
-            // error.response.data.message from custom error
-            payload: 
-                error.response && error.response.data.message 
-                ? error.response.data.message 
-                : error.message
-        })
+      dispatch({
+        type: PRODUCT_LIST_FAIL,
+        // error.response is generic
+        // error.response.data.message from custom error
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
     }
-}
+  };
 
 export const listProductDetails = (id) => async (dispatch) => {
     try {

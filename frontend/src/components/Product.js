@@ -7,6 +7,7 @@ import "./components_css/product.css";
 
 const Product = ({ product }) => { // destructure products passed as prop to use directly (alternative pass in (props) > props.product.id)
   return (
+
     <Card className="my-2 p-3 rounded" key={product._id}>
       <Link to={`/product/${product._id}`}>
         <Card.Img src={product.image} variant="top" className="productImage" />

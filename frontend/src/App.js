@@ -17,12 +17,16 @@ import UserEditScreen from "./screens/UserEditScreen";
 import ProductListScreen from "./screens/ProductListScreen";
 import ProductEditScreen from "./screens/ProductEditScreen.js";
 import OrderListScreen from "./screens/OrderListScreen";
+
+import ProductsByCategoryScreen from "./screens/ProductsByCategoryScreen";
+
 import CategoryHeader from "./components/CategoryHeader";
 import FaqList from "../src/components/FaqList";
 import FaqCreate from "./components/FaqCreate";
 import FaqScreen from "./screens/FaqScreen";
 import FaqDetails from "./components/FaqDetails";
 import UserWishlistScreen from "./screens/UserWishlistScreen";
+
 
 const App = () => {
   return (
@@ -54,20 +58,40 @@ const App = () => {
               element={<ProductListScreen />}
               exact
             />
-            {/* <Route
-              path="/admin/products/:id/edit"
-              element={<ProductEditScreen />}
-            /> */}
+
+
             <Route path="/products/:id/edit" element={<ProductEditScreen />} />
             <Route path="/admin/orderlist" element={<OrderListScreen />} />
+
+            {/* ...........ProductsByCategoryScreen................. */}
+            <Route
+              path="/productssearch/:keyword"
+              element={<ProductsByCategoryScreen />}
+            />
+            <Route
+              path="/productssearch/:keyword/:pageNumber"
+              element={<ProductsByCategoryScreen />}
+            />
+            <Route
+              path="/products/category/:keyword/page/:pageNumber"
+              element={<ProductsByCategoryScreen />}
+            />
+            <Route
+              path="/products/category/:keyword"
+              element={<ProductsByCategoryScreen />}
+              exact
+            />
+            
             <Route path="/search/:keyword" element={<HomeScreen />} exact />
             <Route
               path="/search/:keyword/page/:pageNumber"
               element={<HomeScreen />}
-            />{" "}
+            />
+            
             {/* pagination for search results */}
             <Route path="/page/:pageNumber" element={<HomeScreen />} />
             <Route path="/" element={<HomeScreen />} exact />
+            
             {/* Route for help button (faq) */}
             <Route path="/faq" element={<FaqScreen />} />
             <Route path="faq/page/:pageNumber" element={<FaqScreen />} />
@@ -75,13 +99,15 @@ const App = () => {
             <Route path="/faqList/:pageNumber" element={<FaqList />} exact />
             <Route path="/faq/:id/edit" element={<FaqCreate />} />
             <Route path="/faq/:id" element={<FaqDetails />} />
+            
             {/* faq search */}
             <Route path="/faq/search/:keyword" element={<FaqScreen />} exact />
             <Route
               path="/faq/search/:keyword/page/:pageNumber"
               element={<FaqScreen />}
-            />{" "}
+            />
             <Route path="/wishlist" element={<UserWishlistScreen />} />
+
           </Routes>
         </Container>
       </main>
@@ -91,3 +117,4 @@ const App = () => {
 };
 
 export default App;
+
