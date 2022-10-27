@@ -22,6 +22,7 @@ import FaqList from "../src/components/FaqList";
 import FaqCreate from "./components/FaqCreate";
 import FaqScreen from "./screens/FaqScreen";
 import FaqDetails from "./components/FaqDetails";
+import UserWishlistScreen from "./screens/UserWishlistScreen";
 
 const App = () => {
   return (
@@ -57,10 +58,7 @@ const App = () => {
               path="/admin/products/:id/edit"
               element={<ProductEditScreen />}
             /> */}
-            <Route
-              path="/products/:id/edit"
-              element={<ProductEditScreen />}
-            />
+            <Route path="/products/:id/edit" element={<ProductEditScreen />} />
             <Route path="/admin/orderlist" element={<OrderListScreen />} />
             <Route path="/search/:keyword" element={<HomeScreen />} exact />
             <Route
@@ -83,6 +81,7 @@ const App = () => {
               path="/faq/search/:keyword/page/:pageNumber"
               element={<FaqScreen />}
             />{" "}
+            <Route path="/wishlist" element={<UserWishlistScreen />} />
           </Routes>
         </Container>
       </main>
