@@ -26,7 +26,10 @@ const ProductEditScreen = () => {
 
     const dispatch = useDispatch()
     
-    const productDetails = useSelector((state) => state.productDetails)
+    const productDetails = useSelector((state) => {
+        console.log("state", state.productDetails);
+        return state.productDetails
+    })
     const { loading, error, product } = productDetails
 
     const productUpdate = useSelector((state) => state.productUpdate)
@@ -40,7 +43,8 @@ const ProductEditScreen = () => {
         if (successUpdate) {
             dispatch({ type: PRODUCT_UPDATE_RESET })
             navigate('/admin/productlist')
-         } else {
+        } else {
+            console.log('product',product)
             if(!product.name || product._id !== productId) {
                 dispatch(listProductDetails(productId))
             } else {

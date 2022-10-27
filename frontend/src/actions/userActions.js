@@ -1,31 +1,41 @@
 import axios from "axios"
-import { 
-    USER_LOGIN_FAIL, 
-    USER_LOGIN_REQUEST, 
-    USER_LOGIN_SUCCESS, 
-    USER_LOGOUT,
-    USER_REGISTER_REQUEST,
-    USER_REGISTER_SUCCESS,
-    USER_REGISTER_FAIL,
-    USER_DETAILS_REQUEST,
-    USER_DETAILS_SUCCESS,
-    USER_DETAILS_FAIL,
-    USER_DETAILS_RESET,
-    USER_UPDATE_PROFILE_REQUEST,
-    USER_UPDATE_PROFILE_SUCCESS,
-    USER_UPDATE_PROFILE_FAIL,
-    // USER_UPDATE_PROFILE_RESET,
-    USER_LIST_REQUEST,
-    USER_LIST_SUCCESS,
-    USER_LIST_FAIL,
-    USER_LIST_RESET,
-    USER_DELETE_REQUEST,
-    USER_DELETE_SUCCESS,
-    USER_DELETE_FAIL,
-    USER_UPDATE_REQUEST,
-    USER_UPDATE_SUCCESS,
-    USER_UPDATE_FAIL
-  } from "../constants/userConstants"
+import {
+  USER_LOGIN_FAIL,
+  USER_LOGIN_REQUEST,
+  USER_LOGIN_SUCCESS,
+  USER_LOGOUT,
+  USER_REGISTER_REQUEST,
+  USER_REGISTER_SUCCESS,
+  USER_REGISTER_FAIL,
+  USER_DETAILS_REQUEST,
+  USER_DETAILS_SUCCESS,
+  USER_DETAILS_FAIL,
+  USER_DETAILS_RESET,
+  USER_UPDATE_PROFILE_REQUEST,
+  USER_UPDATE_PROFILE_SUCCESS,
+  USER_UPDATE_PROFILE_FAIL,
+  // USER_UPDATE_PROFILE_RESET,
+  USER_LIST_REQUEST,
+  USER_LIST_SUCCESS,
+  USER_LIST_FAIL,
+  USER_LIST_RESET,
+  USER_DELETE_REQUEST,
+  USER_DELETE_SUCCESS,
+  USER_DELETE_FAIL,
+  USER_UPDATE_REQUEST,
+  USER_UPDATE_SUCCESS,
+  USER_UPDATE_FAIL,
+  //wishList
+  USER_ADD_WISHITEM_REQUEST,
+  USER_ADD_WISHITEM_SUCCESS,
+  USER_ADD_WISHITEM_FAIL,
+  USER_WISHLIST_REQUEST,
+  USER_WISHLIST_SUCCESS,
+  USER_WISHLIST_FAIL,
+  USER_DELETE_WISHITEM_REQUEST,
+  USER_DELETE_WISHITEM_SUCCESS,
+  USER_DELETE_WISHITEM_FAIL,
+} from "../constants/userConstants";
 
 import { 
     ORDER_LIST_MY_RESET, 
@@ -340,3 +350,131 @@ export const updateUser = (user) => async (dispatch, getState) => {
         })
     }
 }
+
+
+
+//wishList
+// USER_ADD_WISHITEM_REQUEST ,
+// USER_ADD_WISHITEM_SUCCESS ,
+// USER_ADD_WISHITEM_FAIL ,
+
+export const addWishItem = (productId) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_ADD_WISHITEM_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(
+      `/api/users/mywish/${productId}`,
+      config
+    );
+    //console.log("wishlistData", data);
+
+    dispatch({
+      type: USER_ADD_WISHITEM_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_ADD_WISHITEM_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+
+
+
+//   USER_WISHLIST_REQUEST,
+//   USER_WISHLIST_SUCCESS,
+//   USER_WISHLIST_FAIL,
+//   USER_WISHLIST_RESET,
+
+
+
+export const getUserWishList = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_WISHLIST_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(`api/users/all/mywish`, config);
+//console.log("data from getUserWish ", data);
+    dispatch({
+      type: USER_WISHLIST_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_WISHLIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+
+//   USER_DELETE_WISHITEM_REQUEST,
+//   USER_DELETE_WISHITEM_SUCCESS,
+//   USER_DELETE_WISHITEM_FAIL,
+
+export const deleteWishItem = (productId) => async (dispatch, getState) => {
+  //console.log("deleteWishItem: productId", productId);
+  try {
+    dispatch({
+      type: USER_DELETE_WISHITEM_REQUEST,
+    });
+
+    // access to logged in user object
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    await axios.delete(`/api/users/mywish/${productId}`, config);
+
+    dispatch({
+      USER_DELETE_WISHITEM_SUCCESS,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_DELETE_WISHITEM_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};

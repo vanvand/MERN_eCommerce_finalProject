@@ -1,14 +1,18 @@
 import express from "express"
 const router = express.Router()
-import { 
-    authUser, 
-    registerUser, 
-    getUserProfile,
-    updateUserProfile, 
-    getUsers, 
-    deleteUser,
-    getUserById,
-    updateUser } from "../controllers/userController.js"
+import {
+  authUser,
+  registerUser,
+  getUserProfile,
+  updateUserProfile,
+  getUsers,
+  deleteUser,
+  getUserById,
+  updateUser,
+  addMyWishItem,
+  getAllMyWishItems,
+  deleteWishItem,
+} from "../controllers/userController.js";
 import { 
     protect, 
     isAdmin } from "../middleware/authMiddleware.js"
@@ -30,5 +34,13 @@ router.route("/:id")
     .delete(protect, isAdmin, deleteUser)
     .get(protect, getUserById)
     .put(protect, isAdmin, updateUser)
+
+
+     //............ /api/users/........
+    router.route("/all/mywish").get(protect, getAllMyWishItems);
+    router
+      .route("/mywish/:productId")
+      .get(protect, addMyWishItem)
+      .delete(protect, deleteWishItem);
 
 export default router

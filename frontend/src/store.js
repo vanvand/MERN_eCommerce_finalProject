@@ -1,35 +1,57 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux'
+// import { configureStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
+import {
+  configureStore,
+  combineReducers,
+  applyMiddleware,
+} from "@reduxjs/toolkit";
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { 
   productListReducer, 
   productDetailReducer, 
+  productDetailByUserIdReducer,
   productDeleteReducer,
   productCreateReducer,
   productUpdateReducer,
   productReviewCreateReducer,
   productTopRatedReducer } from "./reducers/productReducers"
 import { cartReducer } from "./reducers/cartReducers"
-import { 
-  userLoginReducer, 
-  userRegisterReducer, 
-  userDetailsReducer, 
+import {
+  userLoginReducer,
+  userRegisterReducer,
+  userDetailsReducer,
   userUpdateProfileReducer,
   userListReducer,
   userDeleteReducer,
-  userUpdateReducer } from "./reducers/userReducers"
+  userUpdateReducer,
+  userAddWishItemReducer,
+  userWishListReducer,
+  userDeleteWishItemReducer,
+} from "./reducers/userReducers";
 import { 
   orderCreateReducer, 
   orderDetailsReducer, 
   orderPayReducer,
   orderDeliverReducer,
   orderListMyReducer,
-  orderListReducer } from "./reducers/orderReducer"
+  orderListReducer
+} from "./reducers/orderReducer"
+  import {
+    faqListReducer,
+    faqDetailsReducer,
+    faqDeleteReducer,
+    faqCreateReducer,
+    faqUpdateReducer,
+    faqAnswersCreateReducer,
+    faqAnswerDeleteReducer,
+} from "./reducers/faqReducers";
+
 
 // create constants and reducer > as soon as added here state is visible in browser inspect tool/redux
 const reducer = combineReducers({
   productList: productListReducer,
   productDetails: productDetailReducer,
+  productDetailsByUserId: productDetailByUserIdReducer,
   productDelete: productDeleteReducer,
   productCreate: productCreateReducer,
   productUpdate: productUpdateReducer,
@@ -43,13 +65,23 @@ const reducer = combineReducers({
   userList: userListReducer,
   userDelete: userDeleteReducer,
   userUpdate: userUpdateReducer,
+  userAddWishItem: userAddWishItemReducer,
+  userWishList: userWishListReducer,
+  userDeleteWishItem: userDeleteWishItemReducer,
   orderCreate: orderCreateReducer,
   orderDetails: orderDetailsReducer,
   orderPay: orderPayReducer,
   orderDeliver: orderDeliverReducer,
   orderListMy: orderListMyReducer,
-  orderList: orderListReducer
-})
+  orderList: orderListReducer,
+  faqList: faqListReducer,
+  faqDetails: faqDetailsReducer,
+  faqDelete: faqDeleteReducer,
+  faqCreate: faqCreateReducer,
+  faqUpdate: faqUpdateReducer,
+  faqAnswersCreate: faqAnswersCreateReducer,
+  faqAnswerDelete: faqAnswerDeleteReducer,
+});
 
 // when store is initialized we check here if sth. is in localStorage already > if yes add that to the state
 // from cartActions
@@ -82,11 +114,11 @@ const initialState = {
 
 const middleware = [thunk]
 
-const store = createStore(
-  reducer,
+const store = configureStore(
+  { reducer: reducer },
   initialState,
   composeWithDevTools(applyMiddleware(...middleware))
-)
+);
 
 export default store
 

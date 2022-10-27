@@ -1,0 +1,14 @@
+.form-control {
+  background-color: #343a4016;
+}
+.search_icon {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+@media (max-width: 992px) {
+.space { margin-top: 15px;
+  margin-top: 15px;
+}
+
+}

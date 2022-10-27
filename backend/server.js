@@ -10,6 +10,7 @@ import productRoutes from "./routes/productRoutes.js"
 import userRoutes from "./routes/userRoutes.js"
 import orderRoutes from "./routes/orderRoutes.js"
 import uploadRoutes from "./routes/uploadRoutes.js"
+import faqRoutes from "./routes/faqRoutes.js"
 
 dotenv.config()
 
@@ -19,13 +20,13 @@ const app = express()
 
 // bring in morgan - HTTP request logger middleware for node.js
 // usually only run in development mode, not production
-if(process.env.NODE_ENV === "development") {
+/*if(process.env.NODE_ENV === "development") {
     app.use(morgan("dev"))
-}
+}*/
 
-// if (process.env.NODE_ENV === 'development') {
-//   app.use(morgan('dev'))
-// }
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'))
+}
 
 // needed to make json data in request body accessible (used in userController to access email and password)
 app.use(express.json())
@@ -36,11 +37,12 @@ app.use("/api/users", userRoutes)
 app.use("/api/orders", orderRoutes)
 app.use("/api/upload", uploadRoutes)
 
-
-// when we hit the paypal route we will fetch the client id stored in .env file
-app.get("/api/config/paypal", (req, res) => 
-    res.send(process.env.PAYPAL_CLIENT_ID)
-)
+    app.use("/api/faqs", faqRoutes) /
+     
+      // when we hit the paypal route we will fetch the client id stored in .env file
+      app.get("/api/config/paypal", (req, res) =>
+        res.send(process.env.PAYPAL_CLIENT_ID)
+      );
 
 // make image upload folder static
 // __dirname >> point to current directory 

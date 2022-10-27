@@ -207,15 +207,76 @@ const updateUser = asyncHandler(async (req, res) => {
     }
 })
 
+//................................................................
 
+// @desc Add new wish
+// @route get /api/wishs
+// @access Private
+const addMyWishItem = asyncHandler(async (req, res) => {
+    const userId = req.user._id;
+  if (userId) {
+    User.findByIdAndUpdate(
+      userId,
+      { $push: { wishItems: req.params.productId } },
+      { new: true },
+      (err, user) => {
+        res.json(user);
+      }
+    ).populate("wishItems");
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
+});
 
-export { 
-    authUser, 
-    registerUser, 
-    getUserProfile, 
-    updateUserProfile, 
-    getUsers, 
-    deleteUser,
-    getUserById,
-    updateUser
-}
+// @desc Get All mywish
+// @route get /api/wishs
+// @access Private
+
+const getAllMyWishItems = asyncHandler(async (req, res) => {
+    const userId = req.user._id;
+  if (userId) {
+    //console.log(userId);
+    User.findById(userId, (err, user) => {
+      res.json(user.wishItems);
+    }).populate("wishItems");
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
+});
+
+// @desc Delete one wish
+// @route delete /api/wishs
+// @access Private
+
+const deleteWishItem = asyncHandler(async (req, res) => {
+    const userId = req.user._id;
+  if (userId) {
+    User.findByIdAndUpdate(
+      userId,
+      { $pull: { wishItems: req.params.productId } },
+      { new: true },
+      (err, user) => {
+        res.json(user);
+      }
+    ).populate("wishItems");
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
+});
+
+export {
+  authUser,
+  registerUser,
+  getUserProfile,
+  updateUserProfile,
+  getUsers,
+  deleteUser,
+  getUserById,
+  updateUser,
+  addMyWishItem,
+  getAllMyWishItems,
+  deleteWishItem,
+};

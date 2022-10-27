@@ -1,8 +1,8 @@
-import React from 'react'
-import { Pagination } from 'react-bootstrap'
-import { LinkContainer } from 'react-router-bootstrap'
+import React from "react";
+import { Pagination } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
 
-const Paginate = ({ pages, page, isAdmin = false, keyword = '' }) => {
+const Paginate = ({ pages, page, isAdmin = false, keyword = "", faqs }) => {
   return (
     pages > 1 && (
       <Pagination>
@@ -10,7 +10,13 @@ const Paginate = ({ pages, page, isAdmin = false, keyword = '' }) => {
           <LinkContainer
             key={x + 1}
             to={
-              !isAdmin
+              faqs
+                ? !isAdmin
+                  ? keyword && faqs
+                    ? `/search/${keyword}/page/${x + 1}`
+                    : `/faq/page/${x + 1}`
+                  : `/faq/${x + 1}`
+                : !isAdmin
                 ? keyword
                   ? `/search/${keyword}/page/${x + 1}`
                   : `/page/${x + 1}`
@@ -23,7 +29,7 @@ const Paginate = ({ pages, page, isAdmin = false, keyword = '' }) => {
         ))}
       </Pagination>
     )
-  )
-}
+  );
+};
 
-export default Paginate
+export default Paginate;

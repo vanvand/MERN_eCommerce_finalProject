@@ -6,6 +6,9 @@ import {
     PRODUCT_DETAILS_REQUEST, 
     PRODUCT_DETAILS_SUCCESS, 
     PRODUCT_DETAILS_FAIL,
+    PRODUCT_DETAILS_BY_USER_REQUEST,
+    PRODUCT_DETAILS_BY_USER_SUCCESS,
+    PRODUCT_DETAILS_BY_USER_FAIL,
     PRODUCT_DELETE_REQUEST,
     PRODUCT_DELETE_SUCCESS,
     PRODUCT_DELETE_FAIL,
@@ -73,6 +76,24 @@ export const listProductDetails = (id) => async (dispatch) => {
     }
 }
 
+export const listProductDetailsByUserId = (userId) => async (dispatch) => {
+    try {
+        dispatch({ type: PRODUCT_DETAILS_BY_USER_REQUEST })
+
+        const { data } = await axios.get(`/api/products/user/${userId}`)
+
+        dispatch({ 
+            type: PRODUCT_DETAILS_BY_USER_SUCCESS,
+            payload: data
+        })
+
+    } catch (error) {
+        dispatch({
+            type: PRODUCT_DETAILS_BY_USER_FAIL,
+            payload: error.response && error.response.data.message ? error.response.data.message : error.message
+        })
+    }
+}
 
 export const deleteProduct = (id) => async (dispatch, getState) => {
     try {
@@ -130,7 +151,6 @@ export const createProduct = () => async (dispatch, getState) => {
             {}, // post request but not sending data (fix sample data)
             config
             )
-
         dispatch({
             type: PRODUCT_CREATE_SUCCESS,
             payload: data

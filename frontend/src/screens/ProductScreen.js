@@ -1,24 +1,27 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useParams, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import { Row, Col, Image, ListGroup, Card, Button, Form } from "react-bootstrap"
+import { Row, Col, ListGroup, Button, Form } from "react-bootstrap"
+import Carousel from 'react-bootstrap/Carousel';
 import Loader from "../components/Loader"
 import Message from "../components/Message"
 import Rating from "../components/Rating"
 import { listProductDetails, createProductReview} from "../actions/productActions"
+import { getUserDetails } from "../actions/userActions"
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants'
+import UserDetails from '../components/UserDetails';
+import { addWishItem } from "../actions/userActions";
 
 
 const ProductScreen = () => {
-  const params = useParams(); // or destructure const {id} = useParams()
+  const params = useParams();
   const navigate = useNavigate()
 
   const dispatch = useDispatch()
 
-  // state for Quantity (countInStock) Dropdown in buy box
-  const [qty, setQty] = useState(1)
   const [rating, setRating] = useState(0)
   const [comment, setComment] = useState("")
+  const [showMore, setShowMore] = useState(false);
 
   const productDetails = useSelector(state => state.productDetails)
   const { loading, error, product } = productDetails
@@ -26,12 +29,17 @@ const ProductScreen = () => {
   const userLogin = useSelector(state => state.userLogin)
   const { userInfo } = userLogin
 
+  const userDetails = useSelector((state) => state.userDetails)
+  const { loading: loadingUserDetails, error: errorUserDetails, user } = userDetails
+
   const productReviewCreate = useSelector(state => state.productReviewCreate)
   const { 
     loading: loadingProductReview,
     error: errorProductReview,
     success: successProductReview
   } = productReviewCreate
+
+  const productDescription = String(product.description)
 
   useEffect( () => {
     if(successProductReview) {
@@ -41,11 +49,28 @@ const ProductScreen = () => {
       dispatch({ type: PRODUCT_CREATE_REVIEW_RESET })
     }
     dispatch(listProductDetails(params.id))
-  }, [dispatch, params, successProductReview])
+
+  }, [dispatch, params, successProductReview, productDescription])
+
+  useEffect( () => {
+    if(product.user) {
+      dispatch(getUserDetails(product.user))
+    }
+  }, [dispatch, product, product.user])
 
 
-  const addToCartHandler = () => {
-    navigate(`/cart/${params.id}?qty=${qty}`)
+  const requestUserChat = () => {
+    console.log("Chat with User")
+  }
+
+  const addToWishlist = () => {
+    //console.log("Added to Wishlist")
+       dispatch(addWishItem(params.id));
+       if (userInfo) {
+         navigate(`/wishlist`);
+       } else {
+         navigate(`/login`);
+       }
   }
 
   const submitHandler = (e) => {
@@ -66,103 +91,152 @@ const ProductScreen = () => {
       Go Back
     </Link>
 
+    {loadingUserDetails && <Loader />}
+    {errorUserDetails && <Message variant="danger">{errorUserDetails}</Message> }
+    
+
     {loading 
-      ? <Loader/> 
+      ? <Loader /> 
       : error ? <Message variant="danger">{error}</Message> 
       : (
-        // else can only have one element, so wrap in fragment
         <> 
         <Row>
+
         <Col md={6}>
-          <Image src={product.image} alt={product.name} fluid/>
+          {!product.imageSecond && !product.imageThird 
+            ? (
+            <Carousel interval={null}>
+                <Carousel.Item >
+                <img
+                  className="d-block w-75"
+                  src={product.image}
+                  alt="First slide"
+                />
+              </Carousel.Item>
+            </Carousel>
+              )
+            : (
+            <Carousel variant="dark" interval={null}>
+              <Carousel.Item >
+                <img
+                  className="d-block w-75"
+                  src={product.image}
+                  alt="First slide"
+                />
+              </Carousel.Item>
+              {product.imageSecond && 
+              <Carousel.Item>
+                <img
+                  className="d-block w-75"
+                  src={product.imageSecond}
+                  alt="Second slide"
+                />
+              </Carousel.Item>
+              }
+              {product.imageThird && 
+              <Carousel.Item >
+                <img
+                  className="d-block w-75"
+                  src={product.imageThird}
+                  alt="Third slide"
+                />
+              </Carousel.Item>
+              }
+            </Carousel>
+            )
+            } 
         </Col>
 
-        <Col md={3}>
+        <Col md={4}>
           
           <ListGroup variant="flush">
             
             <ListGroup.Item>
+              <i className="fas fa-location-dot"></i> {user.city}, {user.district}
+            </ListGroup.Item>
+
+            <ListGroup.Item>
               <h3>{product.name}</h3>
-            </ListGroup.Item>
-            
-            <ListGroup.Item>
-              <Rating value={product.rating} text={`${product.numReviews} reviews`}/>
-            </ListGroup.Item>
 
-            <ListGroup.Item>
-              Price: ${product.price}
-            </ListGroup.Item>
+              <div style={{"marginBottom": "0.7rem"}}>
+              <Rating 
+                value={product.rating}
+                text={`${product.numReviews} reviews`} 
+              />
+              </div>
 
-            <ListGroup.Item>
-              Description: ${product.description}
-            </ListGroup.Item>
-
-          </ListGroup>
-        </Col>
-
-        <Col md={3}>
-          <Card>
-            <ListGroup variant="flush">
-              
-              <ListGroup.Item>
-                <Row>
-                  <Col>
-                    Price:
-                  </Col>
-                  <Col>
-                    <strong>${product.price}</strong>
-                  </Col>
-                </Row>
-              </ListGroup.Item>
-
-              <ListGroup.Item>
-                <Row>
-                  <Col>
-                    Status:
-                  </Col>
-                  <Col>
-                  {product.countInStock > 0 ? "In Stock" : "Out Of Stock"}
-                  </Col>
-                </Row>
-              </ListGroup.Item>
-
-              {product.countInStock > 0 && ( // && means then
-                <ListGroup.Item>
-                  <Row>
-                    <Col>Qty</Col>
-                    <Col>
-                      <Form.Control 
-                        as="select" 
-                        value={qty} 
-                        onChange={(e) => setQty(e.target.value)}
-                      >
-                        {
-                        [...Array(product.countInStock).keys()].map((x) => (
-                          <option key={x + 1} value={x + 1}>
-                            {x + 1}
-                          </option>
-                        ))
-                        }
-                      </Form.Control>
-                    </Col>
-                  </Row>
-                </ListGroup.Item>
-              )}
-
-              <ListGroup.Item>
+              {/* product description with toggle button for read more when description longer than 230 characters */}
+              {showMore ? productDescription : `${productDescription.substring(0, 230)}`}
+              {productDescription.length > 230 && 
                 <Button 
-                  onClick={addToCartHandler}
-                  className="btn-block" 
-                  type="button" 
-                  disabled={product.countInStock === 0}
-                >
-                  Add To cart
+                  className="btn-light btn-custom btn-sm"
+                  style={{
+                    padding: "0 10px", 
+                    "marginLeft": "0.5rem"
+                  }}
+                  onClick={() => setShowMore(!showMore)}
+                  >
+                  {showMore ? "Show less" : "Show more"}
                 </Button>
-              </ListGroup.Item>
+              }
+              
+              <div className="d-grid gap-2" >
 
-            </ListGroup>
-          </Card>
+                {!userInfo && 
+                  <Button 
+                    onClick={navigate("/login")}
+                    className="btn-dark" 
+                    style={{"marginTop": "2rem"}}
+                    type="button" 
+                    disabled={product.availability === false}
+                  >
+                    {product.availability
+                      ? <span><i className="far fa-check"></i>   Available for rent</span>
+                      : <span><i className="fas fa-pause-circle"></i>   Currently Rented</span>
+                    }
+                  </Button>
+                }
+
+                {userInfo && 
+                <>
+                  <Button 
+                    onClick={requestUserChat}
+                    className="btn-dark" 
+                    style={{"marginTop": "2rem"}}
+                    type="button" 
+                    disabled={product.availability === false}
+                  >
+                    {product.availability
+                      ? <span><i className="fas fa-message"></i>   Request</span>
+                      : <span><i className="fas fa-pause-circle"></i>   Currently Rented</span>
+                    }
+                  </Button>
+ 
+                  <Button 
+                    onClick={addToWishlist}
+                    className="btn-light btn-custom" 
+                    type="button" 
+                  >
+                    <span><i className="fas fa-heart"></i>   Add to Wishlist</span>
+                  </Button>
+                </>
+                }
+
+                
+              </div>
+
+              <div
+                style={{"paddingTop": "3rem"}}
+              >
+                <UserDetails />
+              </div>
+
+            </ListGroup.Item>
+          </ListGroup>
+
+          
         </Col>
+
       </Row>
 
       <Row>
@@ -231,6 +305,14 @@ const ProductScreen = () => {
 
                 </ListGroup.Item>
               </ListGroup>
+
+              <div
+                style={{
+                  margin: "15px 0",
+                  color: "#6c757d",
+                }}  
+              >Add-ID: {product._id}</div>
+
             </Col>
           </Row>
         </>
