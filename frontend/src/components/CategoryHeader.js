@@ -1,12 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Container,
-  Col,
-  Row,
-  Form,
   Button,
   Nav,
-  Navbar,
 } from "react-bootstrap";
 import "./components_css/categoryHeader.css";
 import Message from "./Message";
