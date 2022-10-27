@@ -3,6 +3,7 @@ const router = express.Router()
 import { 
     getProducts, 
     getProductById, 
+    getProductByUserId,
     deleteProduct,
     createProduct,
     updateProduct,
@@ -25,5 +26,7 @@ router.route("/:id")
     .delete(protect, isAdmin, deleteProduct)
     .put(protect, updateProduct)
 
+router.route("/user/:userId")
+    .get(getProductByUserId)
 
 export default router

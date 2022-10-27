@@ -1,3 +1,12 @@
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+
 main {
   min-height: 80vh;
 }
@@ -23,33 +32,16 @@ h2 {
 }
 
 /* carousel */
-.carousel-item-next,
-.carousel-item-prev,
-.carousel-item.active {
-  display: flex;
-}
-.carousel-caption {
-  position: absolute;
-  top: 0;
-}
-
-.carousel-caption h2 {
-  color: #fff;
-}
-
 .carousel img {
-  height: 300px;
-  padding: 30px;
-  margin: 40px;
-  border-radius: 50%;
+  height: 500px;
+  margin: 40px 0;
   margin-left: auto;
   margin-right: auto;
+  object-fit: cover;
 }
-.carousel a {
-  margin: 0 auto;
-}
-@media (max-width: 900px) {
-  .carousel-caption h2 {
-    font-size: 2.5vw;
-  }
-}
+
+/* custom buttons */
+.btn-custom {
+  border: 1px solid #6c757d;
+  color: #6c757d
+} 

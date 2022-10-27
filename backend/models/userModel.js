@@ -15,12 +15,22 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    image: {
+        type: String,
+    },
+    city: {
+        type: String,
+        required: true
+    },
+    district: {
+        type: String
+    },
     isAdmin: {
         type: Boolean,
         required: true,
         default: false
-    }
-}, 
+    },
+},
     {
         timestamps: true // mongoose will create created_at and updated_at automatically
     }

@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react"
+import axios from "axios"
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { Form, Button } from "react-bootstrap"
+import Image from "react-bootstrap/Image";
 import { useDispatch, useSelector } from "react-redux"
 import Message from "../components/Message"
 import Loader from "../components/Loader"
 import FormContainer from "../components/FormContainer"
 import { getUserDetails, updateUser } from "../actions/userActions"
 import { USER_UPDATE_RESET } from "../constants/userConstants"
-
+import { locationData } from "../locationData.js"
 
 const UserEditScreen = () => {
 
@@ -17,6 +19,10 @@ const UserEditScreen = () => {
 
     const [ name, setName ] = useState("")
     const [ email, setEmail ] = useState("")
+    const [ image, setImage ] = useState("")
+    const [ city, setCity ] = useState("")
+    const [ district, setDistrict ] = useState("")
+    const [ uploading, setUploading] = useState(false)
     const [ isAdmin, setIsAdmin ] = useState(false)
 
     const dispatch = useDispatch()
@@ -26,6 +32,8 @@ const UserEditScreen = () => {
 
     const userUpdate = useSelector((state) => state.userUpdate)
     const { loading: loadingUpdate, error: errorUpdate, success: successUpdate } = userUpdate
+
+    const availableDistrict = locationData.cities.find((c) => c.name === city)
 
     useEffect( () => {
         if(successUpdate) {
@@ -38,15 +46,48 @@ const UserEditScreen = () => {
             } else {
                 setName(user.name)
                 setEmail(user.email)
+                setImage(user.image)
+                setCity(user.city)
+                setDistrict(user.district)
                 setIsAdmin(user.isAdmin)
             }
         }
     }, [successUpdate, navigate, user, userId, dispatch])
 
+    const uploadFileHandler = async (e) => {
+        const file = e.target.files[0]
+        const formData = new FormData()
+        formData.append('image', file)
+        setUploading(true) // loading
+
+        try {
+            const config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            }
+
+            const { data } = await axios.post('/api/upload', formData, config)
+
+            setImage(data)
+            setUploading(false)
+        } catch (error) {
+            console.error(error)
+            setUploading(false)
+        }
+    }
 
     const submitHandler = (e) => {
         e.preventDefault()
-        dispatch(updateUser({ _id: userId, name, email, isAdmin}))
+        dispatch(updateUser({ 
+            _id: userId, 
+            name, 
+            email, 
+            image,
+            city,
+            district,
+            isAdmin
+        }))
     }
 
   return (
@@ -57,7 +98,7 @@ const UserEditScreen = () => {
 
         <FormContainer>
         
-        <h1>Edit User</h1>
+        <h1>User Profile</h1>
 
         {loadingUpdate && <Loader />}
         {errorUpdate && <Message variant="danger">{errorUpdate}</Message>}
@@ -68,6 +109,26 @@ const UserEditScreen = () => {
             : (
                  <Form onSubmit={submitHandler}>
         
+
+                <Image src={image} rounded/>
+        
+                <Form.Group controlId='image'>
+                    <Form.Label>Avatar</Form.Label>
+                        <Form.Control
+                            type='text'
+                            placeholder='Enter avatar image url'
+                            value={image}
+                            onChange={(e) => setImage(e.target.value)}
+                        ></Form.Control>
+                        <Form.Control
+                            type="file"
+                            label='Choose Avatar'
+                            custom
+                            onChange={uploadFileHandler}
+                        ></Form.Control>
+                    {uploading && <Loader />}
+                </Form.Group>
+
                 <Form.Group controlId="name">
                     <Form.Label>Name</Form.Label>
                     <Form.Control 
@@ -87,6 +148,32 @@ const UserEditScreen = () => {
                         onChange={(e) => setEmail(e.target.value)}
                         ></Form.Control>
                 </Form.Group>
+
+                <Form.Group controlId="location">
+                <Form.Label>Location</Form.Label>
+
+                <Form.Select value={city} onChange={(e) => setCity(e.target.value)}>
+                    <option>Select City</option>
+                    {locationData.cities.map((data, key) => {
+                        return (
+                            <option value={data.name} key={key}>
+                                {data.name}
+                            </option>
+                            );
+                        })}
+                </Form.Select>
+
+                <Form.Select value={district} onChange={(e) => setDistrict(e.target.value)}>
+                    <option>Select District</option>
+                    {availableDistrict?.district.map((data, key) => {
+                    return (
+                                <option value={data.name} key={key}>
+                                {data}
+                            </option>
+                        );
+                    })}
+                </Form.Select>
+            </Form.Group>
         
                 <Form.Group controlId="isAdmin">
                     <Form.Check 
