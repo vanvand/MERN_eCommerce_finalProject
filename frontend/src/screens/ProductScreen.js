@@ -10,6 +10,7 @@ import { listProductDetails, createProductReview} from "../actions/productAction
 import { getUserDetails } from "../actions/userActions"
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants'
 import UserDetails from '../components/UserDetails';
+import { addWishItem } from "../actions/userActions";
 
 
 const ProductScreen = () => {
@@ -63,7 +64,13 @@ const ProductScreen = () => {
   }
 
   const addToWishlist = () => {
-    console.log("Added to Wishlist")
+    //console.log("Added to Wishlist")
+       dispatch(addWishItem(params.id));
+       if (userInfo) {
+         navigate(`/wishlist`);
+       } else {
+         navigate(`/login`);
+       }
   }
 
   const submitHandler = (e) => {
