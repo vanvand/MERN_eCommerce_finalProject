@@ -16,14 +16,18 @@ import {
   productReviewCreateReducer,
   productTopRatedReducer } from "./reducers/productReducers"
 import { cartReducer } from "./reducers/cartReducers"
-import { 
-  userLoginReducer, 
-  userRegisterReducer, 
-  userDetailsReducer, 
+import {
+  userLoginReducer,
+  userRegisterReducer,
+  userDetailsReducer,
   userUpdateProfileReducer,
   userListReducer,
   userDeleteReducer,
-  userUpdateReducer } from "./reducers/userReducers"
+  userUpdateReducer,
+  userAddWishItemReducer,
+  userWishListReducer,
+  userDeleteWishItemReducer,
+} from "./reducers/userReducers";
 import { 
   orderCreateReducer, 
   orderDetailsReducer, 
@@ -61,6 +65,9 @@ const reducer = combineReducers({
   userList: userListReducer,
   userDelete: userDeleteReducer,
   userUpdate: userUpdateReducer,
+  userAddWishItem: userAddWishItemReducer,
+  userWishList: userWishListReducer,
+  userDeleteWishItem: userDeleteWishItemReducer,
   orderCreate: orderCreateReducer,
   orderDetails: orderDetailsReducer,
   orderPay: orderPayReducer,
@@ -74,7 +81,6 @@ const reducer = combineReducers({
   faqUpdate: faqUpdateReducer,
   faqAnswersCreate: faqAnswersCreateReducer,
   faqAnswerDelete: faqAnswerDeleteReducer,
-
 });
 
 // when store is initialized we check here if sth. is in localStorage already > if yes add that to the state
