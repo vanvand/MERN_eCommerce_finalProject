@@ -26,9 +26,9 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
   const dispatch = useDispatch();
-      const params = useParams();
+  const params = useParams();
 
-    const pageNumber = params.pageNumber || 1;
+  const pageNumber = params.pageNumber || 1;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -41,34 +41,27 @@ const Header = () => {
 
   const navigate = useNavigate();
 
-    const productCreate = useSelector((state) => state.productCreate);
-    const {
-      loading: loadingCreate,
-      error: errorCreate,
-      success: successCreate,
-      product: createdProduct,
-    } = productCreate;
+  const productCreate = useSelector((state) => state.productCreate);
+  const {
+    loading: loadingCreate,
+    error: errorCreate,
+    success: successCreate,
+    product: createdProduct,
+  } = productCreate;
 
- useEffect(() => {
-   dispatch({ type: PRODUCT_CREATE_RESET });
+  useEffect(() => {
+    dispatch({ type: PRODUCT_CREATE_RESET });
 
-   if (createdProduct) {
-     navigate(`/products/${createdProduct._id}/edit`);
-   } else {
-     dispatch(listProducts("", pageNumber));
-   }
- }, [
-   userInfo,
-   dispatch,
-   navigate,
-   successCreate,
-   createdProduct,
-   pageNumber,
- ]);
-  
-   const createProductHandler = () => {
-     dispatch(createProduct());
-   };
+    if (createdProduct) {
+      navigate(`/products/${createdProduct._id}/edit`);
+    } else {
+      dispatch(listProducts("", pageNumber));
+    }
+  }, [userInfo, dispatch, navigate, successCreate, createdProduct, pageNumber]);
+
+  const createProductHandler = () => {
+    dispatch(createProduct());
+  };
   //........................
 
   return (
@@ -129,7 +122,7 @@ const Header = () => {
                       </NavDropdown.Item>
                     </LinkContainer>
 
-                    <LinkContainer to="/cart">
+                    <LinkContainer to="/wishlist">
                       <NavDropdown.Item>
                         <BiListPlus /> Wishlist
                       </NavDropdown.Item>
