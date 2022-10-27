@@ -1,0 +1,11 @@
+.productImage{
+    height: 120px;
+    object-fit: cover;
+}
+
+.productText{    
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;}
+
+
