@@ -1,7 +1,8 @@
 import { 
     PRODUCT_LIST_REQUEST, 
     PRODUCT_LIST_SUCCESS, 
-    PRODUCT_LIST_FAIL, 
+    PRODUCT_LIST_FAIL,
+    PRODUCT_LIST_RESET,
     PRODUCT_DETAILS_REQUEST, 
     PRODUCT_DETAILS_SUCCESS, 
     PRODUCT_DETAILS_FAIL,
@@ -31,29 +32,39 @@ import {
 
 // takes in initial state of empty object and empty array of products
 // and action > dispatch action to reducer
-export const productListReducer = (state = { products: [] }, action) => {
-    
-    switch (action.type) {
-        // check to see if the reducer cares about this action
-        case PRODUCT_LIST_REQUEST:
-            // if so set loading to true and products to an empty array
-            return { loading: true, products: []}
-        case PRODUCT_LIST_SUCCESS:
-            // fill products with payload dispatched by action
-            return { 
-                loading: false, 
-                products: action.payload.products,
-                // pagination functionality >> extended res.json in productController
-                pages: action.payload.pages,
-                page: action.payload.page    
-            }
-        case PRODUCT_LIST_FAIL:
-             return { loading: false, error: action.payload}
-        // otherwise return existing state unchanged
-        default:
-            return state 
-    }
-}
+export const productListReducer = (
+  state = { products: [], allProductsCategory: [] },
+  action
+) => {
+  switch (action.type) {
+    // check to see if the reducer cares about this action
+    case PRODUCT_LIST_REQUEST:
+      // if so set loading to true and products to an empty array
+      return {
+        loading: true,
+        products: [],
+        allProductsCategory: [],
+      };
+    case PRODUCT_LIST_SUCCESS:
+      // fill products with payload dispatched by action
+      return {
+        loading: false,
+        products: action.payload.products,
+        allProductsCategory: action.payload.allProductsCategory,
+
+        // pagination functionality >> extended res.json in productController
+        pages: action.payload.pages,
+        page: action.payload.page,
+      };
+    case PRODUCT_LIST_FAIL:
+      return { loading: false, error: action.payload };
+    case PRODUCT_LIST_RESET:
+      return {};
+    // otherwise return existing state unchanged
+    default:
+      return state;
+  }
+};
 
 
 export const productDetailReducer = (state = { product: { reviews: [] } }, action) => { // single product
