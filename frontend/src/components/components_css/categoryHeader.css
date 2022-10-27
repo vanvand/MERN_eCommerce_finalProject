@@ -17,10 +17,34 @@ padding:10px}
   padding:10px;
       transition:  0.5s;
 
+
 }
 
 .linkStyling:hover{
   text-decoration: none;
   color:rgb(160, 207, 182);
   padding:10px;
+}
+
+
+.categoryBut {
+  outline: none;
+  border: none;
+  color: var(--bs-nav-link-color);
+    color: rgb(139, 138, 138);
+    font-size: 8px;
+              padding: 0px;
+              margin-top:1;
+overflow: hidden;
+
+}
+.categoryBut:hover {
+  outline: none;
+  border: none;
+  background-color: #343a4016 !important;
+  text-decoration: none;
+}
+
+.btn:first-child:hover:hover {
+  color: rgb(243, 236, 236);
 }
