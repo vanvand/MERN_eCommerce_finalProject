@@ -188,6 +188,7 @@ const getTopProducts = asyncHandler(async (req, res) => {
   res.json(products)
 })
 
+
 export {
   getProducts,
   getProductById,
@@ -196,5 +197,5 @@ export {
   createProduct,
   updateProduct,
   createProductReview,
-  getTopProducts
-}
+  getTopProducts,
+};

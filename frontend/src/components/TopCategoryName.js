@@ -15,7 +15,7 @@ const TopCategoryName = () => {
     error: offerError,
     products,
   } = productTopRated;
-  console.log("products", products);
+  //console.log("products", products);
 
   useEffect(() => {
     dispatch(listTopProducts());

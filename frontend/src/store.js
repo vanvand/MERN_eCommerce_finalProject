@@ -1,5 +1,10 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux'
+// import { configureStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
+import {
+  configureStore,
+  combineReducers,
+  applyMiddleware,
+} from "@reduxjs/toolkit";
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { 
   productListReducer, 
@@ -25,7 +30,18 @@ import {
   orderPayReducer,
   orderDeliverReducer,
   orderListMyReducer,
-  orderListReducer } from "./reducers/orderReducer"
+  orderListReducer
+} from "./reducers/orderReducer"
+  import {
+    faqListReducer,
+    faqDetailsReducer,
+    faqDeleteReducer,
+    faqCreateReducer,
+    faqUpdateReducer,
+    faqAnswersCreateReducer,
+    faqAnswerDeleteReducer,
+} from "./reducers/faqReducers";
+
 
 // create constants and reducer > as soon as added here state is visible in browser inspect tool/redux
 const reducer = combineReducers({
@@ -50,8 +66,16 @@ const reducer = combineReducers({
   orderPay: orderPayReducer,
   orderDeliver: orderDeliverReducer,
   orderListMy: orderListMyReducer,
-  orderList: orderListReducer
-})
+  orderList: orderListReducer,
+  faqList: faqListReducer,
+  faqDetails: faqDetailsReducer,
+  faqDelete: faqDeleteReducer,
+  faqCreate: faqCreateReducer,
+  faqUpdate: faqUpdateReducer,
+  faqAnswersCreate: faqAnswersCreateReducer,
+  faqAnswerDelete: faqAnswerDeleteReducer,
+
+});
 
 // when store is initialized we check here if sth. is in localStorage already > if yes add that to the state
 // from cartActions
@@ -84,11 +108,11 @@ const initialState = {
 
 const middleware = [thunk]
 
-const store = createStore(
-  reducer,
+const store = configureStore(
+  { reducer: reducer },
   initialState,
   composeWithDevTools(applyMiddleware(...middleware))
-)
+);
 
 export default store
 
