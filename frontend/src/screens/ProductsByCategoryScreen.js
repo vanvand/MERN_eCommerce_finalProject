@@ -32,6 +32,9 @@ const ProductsByCategory = () => {
 
   return (
     <>
+      <Link to="/" className="btn btn-light">
+        Go Back
+      </Link>
       {
         // if loading true display Loading message in HomeScreen component
         loading ? (
@@ -42,23 +45,19 @@ const ProductsByCategory = () => {
         ) : (
           <>
             <Row>
-              {products.length > 0 ? (
-                <>
-                  <h1>{keyword}</h1>
-                  {products.map((product) => (
-                    <Col sm={12} md={6} lg={4} xl={3}>
-                      {/* <h5 key={product._id}>
-                        just for testing: {product.category}
-                      </h5> */}
+              <h1>
+                {keyword && keyword !== "undefined"
+                  ? keyword
+                  : "No match Product"}
+              </h1>
+              {products.map((product) => (
+                <Col sm={12} md={6} lg={4} xl={3}>
+                  <h5>just for testing: {product.category}</h5>
 
-                      {/* pass products as props to Product component */}
-                      <Product product={product} />
-                    </Col>
-                  ))}
-                </>
-              ) : (
-                <h1>"No matched Product"</h1>
-              )}
+                  {/* pass products as props to Product component */}
+                  <Product product={product} />
+                </Col>
+              ))}
             </Row>
 
             {
