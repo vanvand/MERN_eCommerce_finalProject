@@ -183,21 +183,21 @@ export const userAddWishItemReducer = (state = { wishItems: [] }, action) => {
       case USER_ADD_WISHITEM_REQUEST:
            const item = action.payload 
             const existItem = state.wishItems.find(
-              (x) => x.product === item.product
+              (x) => x._id === item._id
             );
             
             if(existItem) {
                 return {
                   ...state,
                   wishItems: state.wishItems.map((x) =>
-                    x.product === existItem.product ? item : x
+                    x._id === existItem._id ? item : x
                   ),
                 };
             } else {
                 return  { ...state, loading: true }
             }
               
-         //return { ...state, loading: true };
+        //return { ...state, loading: true };
     case USER_ADD_WISHITEM_SUCCESS:
       return { loading: false, wishItems: action.payload };
     case USER_ADD_WISHITEM_FAIL:
