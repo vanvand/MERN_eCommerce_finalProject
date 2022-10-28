@@ -16,8 +16,8 @@ const ProductsByCategory = () => {
   const dispatch = useDispatch();
 
   const productList = useSelector((state) => {
-    console.log(state.productList);
-    return state.productList
+    //console.log(state.productList);
+    return state?.productList
   });
   const { loading, error, products, page, pages } = productList;
 
@@ -49,8 +49,9 @@ const ProductsByCategory = () => {
                 {keyword && keyword !== "undefined"
                   ? keyword
                   : "No match Product"}
-              </h1>
-              {products.map((product) => (
+                  </h1>
+                  { console.log("Products: ", products)}
+              {products?.map((product) => (
                 <Col sm={12} md={6} lg={4} xl={3}>
                   <h5>just for testing: {product.category}</h5>
 

@@ -34,7 +34,7 @@ const UserWishlistScreen = () => {
     } else if (userInfo || successDelete) {
       dispatch(getUserWishList());
     }
-  }, [userInfo, dispatch, navigate, successDelete]);
+  }, [userInfo, dispatch, navigate, userDeleteWishItem, successDelete]);
 
   const deleteHandler = (wishId) => {
     if (window.confirm("Are you sure?")) {

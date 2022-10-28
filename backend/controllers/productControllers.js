@@ -41,8 +41,8 @@ const getProducts = asyncHandler(async (req, res) => {
   // get total count of products for pagination functionality
   const count = await Product.count();
   let totalCount = products.length + 1;
-  console.log(totalCount);
-  console.log(Math.ceil(totalCount / pageSize));
+  // console.log(totalCount);
+  // console.log(Math.ceil(totalCount / pageSize));
 
   res.json({
     products,
