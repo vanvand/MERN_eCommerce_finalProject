@@ -54,7 +54,7 @@ const UserWishlistScreen = () => {
           <Row>
             {wishItems.map((product) => (
               <Col sm={12} md={6} lg={4} xl={3}>
-                <Card className="my-2 p-3 rounded" key={product._id}>
+                <Card className="my-2 p-3 rounded " key={product._id}>
                   <Link to={`/product/${product._id}`}>
                     {product.availability ? (
                       <Card.Img
@@ -69,11 +69,11 @@ const UserWishlistScreen = () => {
                           variant="top"
                           className="productImage opacity-25 "
                         />
-                        <Carousel.Caption>
-                          <div className=" bg-dark mt-5 p-1 ">
-                            <h6 className="fa-solid fa-rotate "> Rented</h6>
+                        <Card.ImgOverlay>
+                          <div className=" bg-dark mt-5 p-1 text-center text-danger">
+                            <h6 className="fa-solid fa-rotate"> Rented</h6>
                           </div>
-                        </Carousel.Caption>
+                        </Card.ImgOverlay>
                       </>
                     )}
                   </Link>
