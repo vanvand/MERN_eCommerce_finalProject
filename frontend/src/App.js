@@ -26,6 +26,7 @@ import FaqCreate from "./components/FaqCreate";
 import FaqScreen from "./screens/FaqScreen";
 import FaqDetails from "./components/FaqDetails";
 import UserWishlistScreen from "./screens/UserWishlistScreen";
+import UserAdsScreen from "./screens/UserAdsScreen";
 
 
 const App = () => {
@@ -59,7 +60,6 @@ const App = () => {
               exact
             />
 
-
             <Route path="/products/:id/edit" element={<ProductEditScreen />} />
             <Route path="/admin/orderlist" element={<OrderListScreen />} />
 
@@ -81,17 +81,17 @@ const App = () => {
               element={<ProductsByCategoryScreen />}
               exact
             />
-            
+
             <Route path="/search/:keyword" element={<HomeScreen />} exact />
             <Route
               path="/search/:keyword/page/:pageNumber"
               element={<HomeScreen />}
             />
-            
+
             {/* pagination for search results */}
             <Route path="/page/:pageNumber" element={<HomeScreen />} />
             <Route path="/" element={<HomeScreen />} exact />
-            
+
             {/* Route for help button (faq) */}
             <Route path="/faq" element={<FaqScreen />} />
             <Route path="faq/page/:pageNumber" element={<FaqScreen />} />
@@ -99,15 +99,18 @@ const App = () => {
             <Route path="/faqList/:pageNumber" element={<FaqList />} exact />
             <Route path="/faq/:id/edit" element={<FaqCreate />} />
             <Route path="/faq/:id" element={<FaqDetails />} />
-            
+
             {/* faq search */}
             <Route path="/faq/search/:keyword" element={<FaqScreen />} exact />
             <Route
               path="/faq/search/:keyword/page/:pageNumber"
               element={<FaqScreen />}
             />
+            {/* user Wishlist Screen */}
             <Route path="/wishlist" element={<UserWishlistScreen />} />
-
+            {/* user Add Screen */}
+            <Route path="/useradd" element={<UserAdsScreen />} exact />
+            <Route path="/useradd/:userId" element={<UserAdsScreen />} exact />
           </Routes>
         </Container>
       </main>
