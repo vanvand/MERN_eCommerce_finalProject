@@ -6,6 +6,8 @@ import Message from "../components/Message";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteWishItem, getUserWishList } from "../actions/userActions";
 import { Link } from "react-router-dom";
+import { getUserDetails } from "../actions/userActions";
+
 
 const UserWishlistScreen = () => {
   const navigate = useNavigate();
@@ -28,6 +30,11 @@ const UserWishlistScreen = () => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+    const userDetails = useSelector((state) => state.userDetails);
+    const {
+      user,
+    } = userDetails;
+
   useEffect(() => {
     if (!userInfo) {
       navigate("/login");
@@ -35,6 +42,15 @@ const UserWishlistScreen = () => {
       dispatch(getUserWishList());
     }
   }, [userInfo, dispatch, navigate, userDeleteWishItem, successDelete]);
+
+   useEffect(() => {
+     if (wishItems) {
+       wishItems.map((product) => {
+        return  dispatch(getUserDetails(product.user));
+       });
+      
+     }
+   }, [dispatch, wishItems]);
 
   const deleteHandler = (wishId) => {
     if (window.confirm("Are you sure?")) {
@@ -79,7 +95,8 @@ const UserWishlistScreen = () => {
                   </Link>
                   <Card.Body>
                     <Card.Text as="h6">
-                      <i className="fa-solid fa-location-dot"></i> 00000 City
+                      <i className="fas fa-location-dot"></i> {user.city},{" "}
+                      {user.district}
                     </Card.Text>
 
                     <Link to={`/product/${product._id}`}>
