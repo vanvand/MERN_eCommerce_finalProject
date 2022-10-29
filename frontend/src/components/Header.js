@@ -111,7 +111,7 @@ const Header = () => {
                   </Link>
 
                   <NavDropdown title={userInfo.name} id="username">
-                    <LinkContainer to="#">
+                    <LinkContainer to="/useradd">
                       <NavDropdown.Item>
                         <HiOutlineDocumentAdd /> My Ads
                       </NavDropdown.Item>
