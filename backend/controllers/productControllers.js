@@ -199,6 +199,29 @@ const getTopProducts = asyncHandler(async (req, res) => {
   res.json(products)
 })
 
+const getTopCategoryName = asyncHandler(async (req, res) => {
+  // sort in ascending order and limit to three products only
+  const products = await Product.find({})
+
+  if (products) {
+    const topCategory = await Product.aggregate([
+      { $match: {} },
+      { $group: { _id: "$category", rating: { $sum: "$rating" } } },
+    ])
+      .sort({ rating: -1 })
+      .limit(1);
+    if (topCategory) {
+      const topCategoryProduct = await Product.find({
+        category: topCategory[0]._id,
+      })
+        .sort({ rating: -1 })
+        .limit(4);;
+      res.json(topCategoryProduct);
+    }
+  }
+  
+  
+});
 
 export {
   getProducts,
@@ -209,4 +232,5 @@ export {
   updateProduct,
   createProductReview,
   getTopProducts,
+  getTopCategoryName,
 };
