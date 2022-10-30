@@ -6,15 +6,13 @@ import "./components_css/searchBox.css";
 
 const SearchBox = () => {
   const navigate = useNavigate();
-
   const [keyword, setKeyword] = useState("");
+
 
   const submitHandler = (e) => {
     e.preventDefault();
     if (keyword.trim()) {
-      navigate(`/search/${keyword}`);
-    } else {
-      navigate("/");
+      navigate(`/productssearch/${keyword}`);
     }
   };
 
