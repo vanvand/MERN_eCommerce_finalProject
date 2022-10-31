@@ -1,8 +1,7 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import { combineReducers } from 'redux';
+import { configureStore } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
 
-import { composeWithDevTools } from 'redux-devtools-extension';
 import {
   productListReducer,
   productDetailReducer,
@@ -121,23 +120,3 @@ const store = configureStore({
 });
 
 export default store;
-
-// try to implement configureStore
-// BUG: productDetails reducer is not called
-
-// import { configureStore } from '@reduxjs/toolkit'
-// import thunk from 'redux-thunk'
-// import { productListReducer, productDetailReducer } from "./reducers/productReducers"
-
-// const store = configureStore({
-//   reducer: {
-//     productList: productListReducer,
-//     productDetails: productDetailReducer
-//   }
-//   preloadedState: {},
-//   middleware: [thunk],
-// })
-
-// console.log(store.getState())
-
-// export default store
