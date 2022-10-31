@@ -1,0 +1,71 @@
+.message-container {
+    display: flex;
+    height: 35rem;
+    overflow: scroll;
+    padding: 1rem 0
+}
+
+.message-row {
+    width: 100%;
+    height: 4.5rem;
+    display: flex;
+    flex-direction: column;
+    /* flex-wrap: nowrap; */
+}
+
+.message-right {
+    background-color: rgb(236, 236, 236);
+    align-self: flex-end;
+    border-radius: 5px;
+}
+.message-left {
+    background-color: rgb(247, 244, 244);
+    /* align-self: flex-start; */
+    border-radius: 5px;
+    display: inline-block;
+    margin-left: .75rem;
+}
+
+.message-avatar {
+    /* align-self: flex-start; */
+    border-radius: 5%;
+    height: 3rem;
+    width: 3rem;
+    margin-left: .3rem;
+    display: inline-block;
+}
+
+/* USER COMPONENT */
+.myChats-container {
+    padding: 0;
+}
+
+.userChat-row {
+    padding: 0 auto;
+    justify-content: flex-start;
+}
+
+.userChat-button {
+    display: flex;
+    padding: 0;
+    border: 1px solid rgb(209, 209, 209);
+}
+
+.userChat-col1 {
+    display: flex;
+    padding-left: .5rem;
+}
+
+.userChat-col2 {
+    display: flex;
+    padding-left: .5rem;
+    padding: 1.1rem 0;
+}
+
+.userChat-avatar {
+    border-radius: 5%;
+    height: 3rem;
+    width: 3rem;
+    display: inline-block;
+    margin: 1rem 0 1rem .3rem;
+}
