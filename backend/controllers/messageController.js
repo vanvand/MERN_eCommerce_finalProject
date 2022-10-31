@@ -1,8 +1,8 @@
 import asyncHandler from 'express-async-handler';
 
+import User from '../models/userModel.js';
 import Chat from '../models/chatModel.js';
 import Message from '../models/messageModel.js';
-import User from '../models/userModel.js';
 
 //Get Fetch all messages
 const getMessages = asyncHandler(async (req, res) => {

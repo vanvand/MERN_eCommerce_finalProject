@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler';
-import Chat from '../models/chatModel.js';
+
 import User from '../models/userModel.js';
+import Chat from '../models/chatModel.js';
 
 // @desc GET chats by id
 // @route GET /api/chat/
