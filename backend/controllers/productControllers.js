@@ -200,7 +200,7 @@ const getTopProducts = asyncHandler(async (req, res) => {
 })
 
 const getTopCategoryName = asyncHandler(async (req, res) => {
-  // sort in ascending order and limit to three products only
+  
   const products = await Product.find({})
 
   if (products) {
