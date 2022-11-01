@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   Container,
   Row,
-  Col,
   InputGroup,
   Form,
   Image,
@@ -16,6 +15,7 @@ import { sendMessage, updateMessages } from '../../actions/chatActions';
 import '../components_css/chat.css';
 
 import MessageStarter from './MessageStarter';
+import UserDetails from '../UserDetails';
 
 const ChatBody = ({ socket, currentChat }) => {
   const [text, setText] = useState('');
@@ -29,8 +29,6 @@ const ChatBody = ({ socket, currentChat }) => {
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-
-  console.log(messages);
 
   useEffect(() => {
     socket.on('message received', (receivedMessage) => {
@@ -68,11 +66,11 @@ const ChatBody = ({ socket, currentChat }) => {
     <Container fluid>
       {currentChat ? (
         <>
-          <Row sm={3}>
+          <Row>
             <h5>This is the product component</h5>
           </Row>
-          <Row sm={1}>
-            <h6>User profile component</h6>
+          <Row md={2} className='chatBody-userDetails'>
+            <UserDetails />
           </Row>
           <Row sm={6} className='message-container'>
             {messages &&
@@ -81,7 +79,7 @@ const ChatBody = ({ socket, currentChat }) => {
                   {message.sender._id !== userInfo._id && (
                     <div className='left-container' key={index}>
                       <Image
-                        src='https://aui.atlassian.com/aui/latest/docs/images/avatar-person.svg'
+                        src={message.sender.image}
                         className='message-avatar'
                       />
                       <Card

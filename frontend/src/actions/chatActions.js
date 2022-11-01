@@ -170,7 +170,7 @@ export const accessChat =
     }
   };
 
-//When socket receives message it automatically updates:
+//When socket.on receives a message it automatically updates the messages state:
 export const updateMessages = (chatId) => async (dispatch, getState) => {
   try {
     dispatch({ type: UPDATE_MESSAGES_REQUEST });

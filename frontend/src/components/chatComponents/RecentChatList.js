@@ -4,13 +4,7 @@ import { Container } from 'react-bootstrap';
 
 import UserInboxComponent from './UserInboxComponent';
 
-const RecentChatList = ({
-  socket,
-  currentChat,
-  setCurrentChat,
-  socketMessages,
-  setSocketMessages,
-}) => {
+const RecentChatList = ({ socket, currentChat, setCurrentChat }) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
@@ -23,19 +17,13 @@ const RecentChatList = ({
           <UserInboxComponent
             key={index}
             {...recent_chats}
-            recent_chat={recent_chat}
             selectedUser={
               recent_chats.users[0]._id === userInfo._id
                 ? recent_chats.users[1]
                 : recent_chats.users[0]
             }
-            currentUser={userInfo._id}
             socket={socket}
-            currentChat={currentChat}
             setCurrentChat={setCurrentChat}
-            token={userInfo.token}
-            socketMessages={socketMessages}
-            setSocketMessages={setSocketMessages}
           />
         ))}
     </Container>

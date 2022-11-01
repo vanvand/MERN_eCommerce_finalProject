@@ -2,39 +2,22 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, Image, Button } from 'react-bootstrap';
 
-import {
-  makeRecentChatApi,
-  fetchCurrentMessages,
-} from '../../actions/chatActions';
+import { fetchCurrentMessages } from '../../actions/chatActions';
 
 const UserInboxComponent = ({
   selectedUser,
   _id,
-  email,
-  name,
-  image,
-  recent_chat,
-  currentUser,
+  latestMessage,
   socket,
-  currentChat,
   setCurrentChat,
-  socketMessages,
-  setSocketMessages,
 }) => {
   const dispatch = useDispatch();
-  const { messages } = useSelector((state) => state.chat);
-
-  useEffect(() => {
-    //currentChat is selected chatId so that user retreat the messages of the selected user
-    if (!currentChat) return;
-  }, [messages]);
 
   //Fetches selected chat messages
   const handleSelectChat = () => {
     let currentChatId = _id;
     dispatch(fetchCurrentMessages(currentChatId, socket));
     setCurrentChat(_id);
-    // setSocketMessages([...messages]);
   };
 
   return (
@@ -48,13 +31,15 @@ const UserInboxComponent = ({
           className='userChat-button'
         >
           <Col md={2} className='userChat-col1'>
-            <Image
-              src='https://aui.atlassian.com/aui/latest/docs/images/avatar-person.svg'
-              className='userChat-avatar'
-            />
+            <Image src={selectedUser.image} className='userChat-avatar' />
           </Col>
-          <Col className='userChat-col2'>
-            <p>{selectedUser.name}</p>
+          <Col md={10} className='userChat-col2'>
+            <Row style={{ width: '100%' }}>
+              <p className='userChat-userName'>{selectedUser.name}</p>
+            </Row>
+            <Row style={{ width: '100%' }}>
+              <p className='userChat-latestMessage'>{latestMessage.content}</p>
+            </Row>
           </Col>
         </Button>
       </Row>

@@ -17,16 +17,12 @@ const socket = io(SERVER);
 
 const ChatScreen = () => {
   const [currentChat, setCurrentChat] = useState(null);
-  const { messages } = useSelector((state) => state.chat);
-
-  const [socketMessages, setSocketMessages] = useState([...messages]);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-  // console.log(userInfo);
 
   useEffect(() => {
     if (!userInfo) {
@@ -44,10 +40,10 @@ const ChatScreen = () => {
   return (
     <Container>
       <Row className='border'>
-        <Col sm={4} className='border'>
+        <Col sm={4} className='chat-inbox-container'>
           <h4>Inbox</h4>
         </Col>
-        <Col sm={8} className='border'>
+        <Col sm={8} className='chat-name-container'>
           <h4>User Name</h4>
         </Col>
       </Row>
@@ -57,17 +53,13 @@ const ChatScreen = () => {
             socket={socket}
             currentChat={currentChat}
             setCurrentChat={setCurrentChat}
-            socketMessages={socketMessages}
-            setSocketMessages={setSocketMessages}
           />
         </Col>
-        <Col sm={8} className='border'>
+        <Col sm={8} className='chat-body-container'>
           <ChatBody
             socket={socket}
             currentChat={currentChat}
             setCurrentChat={setCurrentChat}
-            socketMessages={socketMessages}
-            setSocketMessages={setSocketMessages}
           />
         </Col>
       </Row>
