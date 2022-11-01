@@ -11,6 +11,8 @@ import userRoutes from "./routes/userRoutes.js"
 import orderRoutes from "./routes/orderRoutes.js"
 import uploadRoutes from "./routes/uploadRoutes.js"
 import faqRoutes from "./routes/faqRoutes.js"
+import mostSearchRoutes from "./routes/mostSearchRoutes.js";
+
 
 dotenv.config()
 
@@ -37,12 +39,13 @@ app.use("/api/users", userRoutes)
 app.use("/api/orders", orderRoutes)
 app.use("/api/upload", uploadRoutes)
 
-    app.use("/api/faqs", faqRoutes) /
-     
-      // when we hit the paypal route we will fetch the client id stored in .env file
-      app.get("/api/config/paypal", (req, res) =>
-        res.send(process.env.PAYPAL_CLIENT_ID)
-      );
+app.use("/api/faqs", faqRoutes) 
+app.use("/api/search", mostSearchRoutes) 
+
+  // when we hit the paypal route we will fetch the client id stored in .env file
+  app.get("/api/config/paypal", (req, res) =>
+    res.send(process.env.PAYPAL_CLIENT_ID)
+  );
 
 // make image upload folder static
 // __dirname >> point to current directory 
