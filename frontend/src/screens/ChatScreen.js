@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Row, Col, Container } from 'react-bootstrap';
 import { io } from 'socket.io-client';
 
 import ChatBody from '../components/chatComponents/ChatBody';
 import RecentChatList from '../components/chatComponents/RecentChatList';
+
+import { getRecentChats } from '../actions/chatActions';
 
 // import { addUnseenMsg } from '../actions/notificationActions';
 // import { fetchCurrentMessages, sendMessageApi } from '../actions/chatActions';
@@ -18,24 +20,26 @@ const ChatScreen = () => {
   const { messages } = useSelector((state) => state.chat);
 
   const [socketMessages, setSocketMessages] = useState([...messages]);
-  // console.log(socketMessages, 'socketMessages');
-  // console.log(messages, 'messages');
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+  // console.log(userInfo);
 
   useEffect(() => {
+    if (!userInfo) {
+      return navigate('/login');
+    }
+
     socket.emit('setup', userInfo);
     socket.on('connected', () => {
       console.log(`My Socket Id is: ${socket.id}`);
     });
-  }, []);
 
-  if (!userInfo._id) {
-    return navigate('/login');
-  }
+    dispatch(getRecentChats());
+  }, []);
 
   return (
     <Container>

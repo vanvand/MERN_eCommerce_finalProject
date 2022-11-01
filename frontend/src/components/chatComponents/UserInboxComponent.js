@@ -3,51 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, Image, Button } from 'react-bootstrap';
 
 import {
-  accessChat,
   makeRecentChatApi,
   fetchCurrentMessages,
 } from '../../actions/chatActions';
 
-// const UserChatComponent = ({
-//   selectedUserId,
-//   email,
-//   name,
-//   image,
-//   token,
-//   recent_chat,
-//   currentUser,
-// }) => {
-//   const dispatch = useDispatch();
-//   console.log(name);
-
-//   const handleSelectChat = () => {
-//     console.log(selectedUserId, token, recent_chat, currentUser);
-//     dispatch(accessChat(selectedUserId, token, recent_chat, currentUser));
-//   };
-
-//   return (
-//     <>
-//       <Row key={selectedUserId} className='d-grip gap-2'>
-//         <Button
-//           key={selectedUserId}
-//           variant='outline-primary rounded'
-//           size='lg'
-//           onClick={handleSelectChat}
-//         >
-//           <Col>
-//             <Image src={image} />
-//           </Col>
-//           <Col>
-//             <p>{name}</p>
-//           </Col>
-//         </Button>
-//       </Row>
-//     </>
-//   );
-// };
-
 const UserInboxComponent = ({
-  selectedUserId,
+  selectedUser,
   _id,
   email,
   name,
@@ -61,12 +22,11 @@ const UserInboxComponent = ({
   setSocketMessages,
 }) => {
   const dispatch = useDispatch();
-  const { messages, chat } = useSelector((state) => state.chat);
+  const { messages } = useSelector((state) => state.chat);
 
   useEffect(() => {
     //currentChat is selected chatId so that user retreat the messages of the selected user
     if (!currentChat) return;
-    setSocketMessages([...messages]);
   }, [messages]);
 
   //Fetches selected chat messages
@@ -77,19 +37,11 @@ const UserInboxComponent = ({
     // setSocketMessages([...messages]);
   };
 
-  //creates new chat when selecting user
-  // const handleSelectChat = () => {
-  //   console.log(selectedUserId, token, recent_chat, currentUser);
-  //   dispatch(accessChat(selectedUserId, token, recent_chat, currentUser));
-  // };
-
-  console.log(chat);
-
   return (
     <>
-      <Row key={selectedUserId} className='d-grip userChat-row'>
+      <Row key={selectedUser._id} className='d-grip userChat-row'>
         <Button
-          key={selectedUserId}
+          key={selectedUser._id}
           variant='rounded'
           size='lg'
           onClick={handleSelectChat}
@@ -102,7 +54,7 @@ const UserInboxComponent = ({
             />
           </Col>
           <Col className='userChat-col2'>
-            <p>{selectedUserId.name}</p>
+            <p>{selectedUser.name}</p>
           </Col>
         </Button>
       </Row>

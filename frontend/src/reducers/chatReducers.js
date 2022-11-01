@@ -10,6 +10,9 @@ import {
   FETCH_MESSAGES_REQUEST,
   FETCH_MESSAGES_SUCCESS,
   FETCH_MESSAGES_FAIL,
+  UPDATE_MESSAGES_REQUEST,
+  UPDATE_MESSAGES_SUCCESS,
+  UPDATE_MESSAGES_FAIL,
 } from '../constants/chatConstants';
 
 const initialState = {
@@ -49,6 +52,17 @@ export const chatReducer = (state = initialState, { type, payload }) => {
         error: false,
       };
     case FETCH_MESSAGES_FAIL:
+      return { ...state, error: payload };
+    case UPDATE_MESSAGES_REQUEST:
+      return { ...state, loading: true };
+    case UPDATE_MESSAGES_SUCCESS:
+      return {
+        ...state,
+        messages: payload,
+        loading: false,
+        error: false,
+      };
+    case UPDATE_MESSAGES_FAIL:
       return { ...state, error: payload };
     default:
       return state;

@@ -11,6 +11,9 @@ import {
   RECENT_CHAT_FAIL,
   RECENT_CHAT_SUCCESS,
   NEW_CREATED_CHAT,
+  UPDATE_MESSAGES_FAIL,
+  UPDATE_MESSAGES_SUCCESS,
+  UPDATE_MESSAGES_REQUEST,
 } from '../constants/chatConstants.js';
 
 //fetches selected messages and joins chat on socket.io
@@ -46,15 +49,19 @@ export const fetchCurrentMessages =
     }
   };
 
-export const sendMessageApi =
-  (msg, token, socket, currentChat) => async (dispatch) => {
+export const sendMessage =
+  (msg, socket, currentChat) => async (dispatch, getState) => {
     try {
       dispatch({ type: SEND_MESSAGE_REQUEST });
+
+      const {
+        userLogin: { userInfo },
+      } = getState();
 
       const config = {
         headers: {
           'content-type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${userInfo.token}`,
         },
       };
 
@@ -81,7 +88,7 @@ export const sendMessageApi =
     }
   };
 
-export const makeRecentChatApi = () => async (dispatch, getState) => {
+export const getRecentChats = () => async (dispatch, getState) => {
   try {
     dispatch({ type: RECENT_CHAT_REQUEST });
 
@@ -115,14 +122,18 @@ export const makeRecentChatApi = () => async (dispatch, getState) => {
 
 //Access to chat if possible, if not, creates new chat
 export const accessChat =
-  (selectedUserId, token, recentChat, currentUser) => async (dispatch) => {
+  (selectedUserId, recentChat, currentUser) => async (dispatch, getState) => {
     try {
       dispatch({ type: RECENT_CHAT_REQUEST });
+
+      const {
+        userLogin: { userInfo },
+      } = getState();
 
       const config = {
         headers: {
           'content-type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${userInfo.token}`,
         },
       };
 
@@ -158,3 +169,33 @@ export const accessChat =
       });
     }
   };
+
+//When socket receives message it automatically updates:
+export const updateMessages = (chatId) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: UPDATE_MESSAGES_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        'content-type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(`/api/message/${chatId}`, config);
+
+    dispatch({ type: UPDATE_MESSAGES_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: UPDATE_MESSAGES_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};

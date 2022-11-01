@@ -11,19 +11,13 @@ import {
   Card,
 } from 'react-bootstrap';
 
-import {
-  sendMessageApi,
-  fetchCurrentMessages,
-} from '../../actions/chatActions';
+import { sendMessage, updateMessages } from '../../actions/chatActions';
 
-import './chat.css';
+import '../components_css/chat.css';
 
-const ChatBody = ({
-  socket,
-  currentChat,
-  socketMessages,
-  setSocketMessages,
-}) => {
+import MessageStarter from './MessageStarter';
+
+const ChatBody = ({ socket, currentChat }) => {
   const [text, setText] = useState('');
 
   const dispatch = useDispatch();
@@ -36,21 +30,14 @@ const ChatBody = ({
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  //gets messages
-  // useEffect(() => {
-  //   //currentChat id is of selected chat so that user can join same chat room
-  //   if (!currentChat) return;
-  //   dispatch(fetchCurrentMessages(currentChat, socket));
-  // }, [dispatch, currentChat, socket]);
+  console.log(messages);
 
   useEffect(() => {
     socket.on('message received', (receivedMessage) => {
-      setSocketMessages((socketMessages) => [
-        ...socketMessages,
-        receivedMessage,
-      ]);
+      let chatId = currentChat || receivedMessage.chat._id;
+      dispatch(updateMessages(chatId));
     });
-  }, [currentChat]);
+  }, [socket]);
 
   useEffect(() => {
     // 👇️ scroll to bottom every time messages change
@@ -60,15 +47,13 @@ const ChatBody = ({
   //send message handlers for input
   const handleOnEnter = (e) => {
     if (e.key === 'Enter') {
-      dispatch(sendMessageApi(text, userInfo.token, socket, currentChat));
-      dispatch(fetchCurrentMessages(currentChat, socket));
+      dispatch(sendMessage(text, socket, currentChat));
       setText('');
     }
   };
 
   const handleOnClick = () => {
-    dispatch(sendMessageApi(text, userInfo.token, socket, currentChat));
-    dispatch(fetchCurrentMessages(currentChat, socket));
+    dispatch(sendMessage(text, socket, currentChat));
     setText('');
   };
 
@@ -90,8 +75,8 @@ const ChatBody = ({
             <h6>User profile component</h6>
           </Row>
           <Row sm={6} className='message-container'>
-            {socketMessages &&
-              socketMessages.map((message, index) => (
+            {messages &&
+              messages.map((message, index) => (
                 <Row className='message-row' key={index}>
                   {message.sender._id !== userInfo._id && (
                     <div className='left-container' key={index}>
@@ -146,18 +131,6 @@ const ChatBody = ({
         <MessageStarter {...userInfo} />
       )}
     </Container>
-  );
-};
-
-const MessageStarter = ({ image, name }) => {
-  return (
-    <div>
-      <div>
-        <Image src={image} sx={{ width: 70, height: 70 }} />
-        <h5>Welcome, {name}</h5>
-        <p>Please select a chat to start messaging.</p>
-      </div>
-    </div>
   );
 };
 

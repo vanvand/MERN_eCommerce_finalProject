@@ -81,7 +81,7 @@ app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 app.use(notFound);
 app.use(errorHandler);
 
-app.listen(
+server.listen(
   PORT,
   console.log(
     `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold

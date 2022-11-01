@@ -1,18 +1,23 @@
-import React, { useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { Col, Row } from "react-bootstrap";
-import { listProducts } from "../actions/productActions";
-import MainAdd from "../components/MainAdd";
-import TopProducts from "../components/TopProducts";
-import MostSearched from "../components/MostSearched";
-import TopCategoryName from "../components/TopCategoryName";
-import BottomAdd from "../components/SecondaryAdd";
+import React, { useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Col, Row } from 'react-bootstrap';
+
+import { listProducts } from '../actions/productActions';
+
+import MainAdd from '../components/MainAdd';
+import TopProducts from '../components/TopProducts';
+import MostSearched from '../components/MostSearched';
+import TopCategoryName from '../components/TopCategoryName';
+import BottomAdd from '../components/SecondaryAdd';
 
 const HomeScreen = () => {
   const params = useParams();
   const keyword = params.keyword;
   const pageNumber = params.pageNumber || 1;
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   const dispatch = useDispatch();
 
@@ -32,7 +37,7 @@ const HomeScreen = () => {
           <TopCategoryName />
         </>
       ) : (
-        <Link to="/" className="btn btn-light">
+        <Link to='/' className='btn btn-light'>
           Go Back
         </Link>
       )}
