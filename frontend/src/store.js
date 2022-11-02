@@ -45,6 +45,11 @@ import {
 import { chatReducer, recentChatReducer } from './reducers/chatReducers';
 // import { notificationReducer } from './reducers/notificationReducers';
 
+import {
+  searchCreateReducer,
+  searchListReducer,
+} from './reducers/MostSearchReducers';
+
 // create constants and reducer > as soon as added here state is visible in browser inspect tool/redux
 const reducer = {
   productList: productListReducer,
@@ -82,6 +87,8 @@ const reducer = {
   faqAnswerDelete: faqAnswerDeleteReducer,
   chat: chatReducer,
   recentChat: recentChatReducer,
+  searchCreate: searchCreateReducer,
+  searchList: searchListReducer,
 };
 
 // when store is initialized we check here if sth. is in localStorage already > if yes add that to the state
