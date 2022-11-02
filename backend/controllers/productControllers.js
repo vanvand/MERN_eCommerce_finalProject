@@ -191,7 +191,6 @@ export {
   createProduct,
   updateProduct,
   createProductReview,
-  getTopProducts,
-  getProductsByCategory
+  getTopProducts
 }
 
