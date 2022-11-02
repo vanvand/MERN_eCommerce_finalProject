@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   Col,
-  ListGroup,
   Row,
-  Image,
   Container,
   Button,
   Card,
@@ -11,19 +9,15 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
-import Product from "../components/Product";
 import { getUserDetails } from "../actions/userActions";
 import "../components/components_css/myAddScreen.css";
 import { Link, useNavigate } from "react-router-dom";
 import {
   deleteProduct,
-  listProductDetails,
   updateProduct,
   listProducts,
-  listProductDetailsByUserId
 } from "../actions/productActions";
 import { LinkContainer } from "react-router-bootstrap";
-import { PRODUCT_UPDATE_SUCCESS } from "../constants/productConstants";
 import UserDetails from "../components/UserDetails";
 
 export default function UserAdsScreen() {
@@ -32,16 +26,10 @@ export default function UserAdsScreen() {
   const [availability, setAvailability] = useState();
   const [product, setProduct] = useState();
   const [productId, setProductId] = useState();
-      const [numAdsUser, setNumAdsUser] = useState(0);
 
   const dispatch = useDispatch();
 
-  const userLogin = useSelector((state) => {
-    //console.log(state.userLogin);
-    return state.userLogin;
-  });
-
-  const { loading, error, userInfo } = userLogin;
+ 
 
   const userDetails = useSelector((state) => state.userDetails);
   const { loading: userLoading, error: userError, user } = userDetails;
@@ -59,7 +47,7 @@ export default function UserAdsScreen() {
   });
   const {
     loading: productLoading,
-    error: errorLoading,
+    error,
     allProductsCategory,
   } = productList;
   //console.log(allProductsCategory);
@@ -108,9 +96,7 @@ export default function UserAdsScreen() {
     <>
       {userLoading && productLoading && <Loader />}
       {userError && <Message variant="danger">{userError}</Message>}
-      {errorLoading && <Message variant="danger">{errorLoading}</Message>}
-
-      {loading ? (
+      {productLoading ? (
         <Loader />
       ) : error ? (
         <Message variant="danger">{error}</Message>
@@ -118,64 +104,6 @@ export default function UserAdsScreen() {
         <Container>
           <Row className=" flex-md-row  ">
             <Row className=" flex-md-row  my-3 userAdd">
-              {/* <Col md={3}>
-                {" "}
-                <Image
-                  variant="top"
-                  src={`${user.image}`}
-                  className="userAddImage"
-                />
-              </Col>
-              <Col md={9}>
-                <Col>
-                  <h6 className="listGroup">
-                    {user.name}{" "}
-                    {userInfo._id === user._id && (
-                      <LinkContainer to="/profile">
-                        <Button variant="light" className="btn-sm ">
-                          <i className="fas fa-edit"></i>
-                        </Button>
-                      </LinkContainer>
-                    )}
-                  </h6>
-                </Col>
-                <Col>
-                  <small className="text-Add-small">
-                    <i className="fa-solid fa-location-dot"></i> {user.city},{" "}
-                    {user.district}
-                  </small>
-                </Col>
-              </Col>
-              <Col>
-                <ListGroup variant="flush">
-                  <ListGroup.Item className="listGroup">
-                    {" "}
-                    <small className="text-Add-small">
-                      active since:/../
-                    </small>
-                  </ListGroup.Item>
-                  <ListGroup.Item className="listGroup ">
-                    <small className="text-Add-small">0 show online </small>
-
-                    {userInfo._id !== user._id && (
-                      <Button variant="light" className="btn-sm ">
-                        <i className="fa-solid fa-triangle-exclamation"></i>{" "}
-                      </Button>
-                    )}
-                  </ListGroup.Item>
-                  <ListGroup.Item className="listGroup">
-                    {" "}
-                    <small className="text-Add-small">
-                      {" "}
-                      {user.ratingUser} rating
-                    </small>
-                  </ListGroup.Item>
-                  <ListGroup.Item className="listGroup">
-                    {" "}
-                    <small> {user.numReviewsUser} reviews</small>
-                  </ListGroup.Item>
-                </ListGroup>
-              </Col> */}
               <UserDetails />
             </Row>
             <Row>
