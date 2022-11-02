@@ -58,9 +58,15 @@ export default function UserAdsScreen() {
   });
   const { product: productUpdatesuccess } = productUpdate;
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  
+
   useEffect(() => {
     if (!user || !user.name) {
       // hit /api/users/profile in userActions
+      console.log("userInfo", userInfo);
       dispatch(getUserDetails("profile"));
     }
   }, [dispatch, user]);
@@ -109,7 +115,7 @@ export default function UserAdsScreen() {
             <Row>
               {allProductsCategory.map((product) => (
                 <>
-                  {user._id === product.user && (
+                  {user._id === product.user && user._id === userInfo._id && (
                     <Card className="my-2 p-3 rounded " key={product._id}>
                       <Row>
                         <Col sm={12} lg={5}>
