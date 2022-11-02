@@ -82,6 +82,7 @@ export const listProductDetailsByUserId = (userId) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_DETAILS_BY_USER_REQUEST });
 
+
     const { data } = await axios.get(`/api/products/user/${userId}`);
 
     dispatch({

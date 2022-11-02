@@ -1,6 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
-
 import Header from './components/Header';
 import Footer from './components/Footer';
 import HomeScreen from './screens/HomeScreen';
@@ -18,16 +17,14 @@ import UserEditScreen from './screens/UserEditScreen';
 import ProductListScreen from './screens/ProductListScreen';
 import ProductEditScreen from './screens/ProductEditScreen.js';
 import OrderListScreen from './screens/OrderListScreen';
-
+import UserAdsScreen from "./screens/UserAdsScreen";
 import ProductsByCategoryScreen from './screens/ProductsByCategoryScreen';
-
 import CategoryHeader from './components/CategoryHeader';
 import FaqList from '../src/components/FaqList';
 import FaqCreate from './components/FaqCreate';
 import FaqScreen from './screens/FaqScreen';
 import FaqDetails from './components/FaqDetails';
 import UserWishlistScreen from './screens/UserWishlistScreen';
-
 import ChatScreen from './screens/ChatScreen';
 
 const App = () => {
@@ -57,6 +54,7 @@ const App = () => {
               <Route path='' element={<ProductListScreen />} />
             </Route>
 
+
             <Route path='/products/:id/edit' element={<ProductEditScreen />} />
             <Route path='/admin/orderlist' element={<OrderListScreen />} />
 
@@ -79,6 +77,7 @@ const App = () => {
               exact
             />
 
+
             <Route path='/' element={<HomeScreen />}>
               <Route path='search/:keyword' element={<HomeScreen />} />
               <Route path='page/:pageNumber' element={<HomeScreen />} />
@@ -96,16 +95,23 @@ const App = () => {
             <Route path='/faq/:id/edit' element={<FaqCreate />} />
             <Route path='/faq/:id' element={<FaqDetails />} />
 
+
             {/* faq search */}
             <Route path='/faq/search/:keyword' element={<FaqScreen />} exact />
             <Route
               path='/faq/search/:keyword/page/:pageNumber'
-              element={<FaqScreen />}
-            />
-            <Route path='/wishlist' element={<UserWishlistScreen />} />
+              element={<FaqScreen />} />
+            
+            {/* user Wishlist Screen */}
+            <Route path="/wishlist" element={<UserWishlistScreen />} />
+            
+            {/* user Add Screen */}
+            <Route path="/useradd" element={<UserAdsScreen />} exact />
+            <Route path="/useradd/:userId" element={<UserAdsScreen />} exact />
 
             {/* Chat */}
             <Route path='/chat' element={<ChatScreen />} />
+
           </Routes>
         </Container>
       </main>
