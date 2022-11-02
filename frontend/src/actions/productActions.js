@@ -86,7 +86,7 @@ export const listProductDetailsByUserId = (userId) => async (dispatch) => {
             type: PRODUCT_DETAILS_BY_USER_SUCCESS,
             payload: data
         })
-
+console.log("listProductDetailsByUserId",data);
     } catch (error) {
         dispatch({
             type: PRODUCT_DETAILS_BY_USER_FAIL,

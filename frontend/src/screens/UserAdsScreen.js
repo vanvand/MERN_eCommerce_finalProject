@@ -19,6 +19,7 @@ import {
   deleteProduct,
   listProductDetails,
   updateProduct,
+  listProducts
 } from "../actions/productActions";
 import { LinkContainer } from "react-router-bootstrap";
 import { PRODUCT_UPDATE_SUCCESS } from "../constants/productConstants";
@@ -41,6 +42,13 @@ export default function UserAdsScreen() {
   const userDetails = useSelector((state) => state.userDetails);
   const { loading: userLoading, error: userError, user } = userDetails;
 
+  const productDelete = useSelector((state) => {
+    console.log("productDelete", state.productDelete);
+
+    return state.productDelete;
+  });
+   const { success:deleteSuccess } = productDelete;
+
   const productList = useSelector((state) => {
     //console.log(state.productList);
     return state.productList;
@@ -51,6 +59,12 @@ export default function UserAdsScreen() {
     allProductsCategory,
   } = productList;
   //console.log(allProductsCategory);
+
+  const productUpdate = useSelector((state) => {
+    //console.log('state.productUpdat',state);
+    return state.productUpdate;
+  });
+  const { product: productUpdatesuccess } = productUpdate;
 
   useEffect(() => {
     if (!user || !user.name) {
@@ -67,9 +81,14 @@ export default function UserAdsScreen() {
 
   useEffect(() => {
     if (product) {
-      dispatch(updateProduct({ ...product, availability }));
+      dispatch(updateProduct({ ...product, availability: availability }));
     }
-  }, [availability, dispatch, product, productId]);
+  }, [availability, dispatch]);
+
+  useEffect(() => {
+    dispatch(listProducts());
+    console.log("Hi it");
+  }, [productUpdatesuccess, deleteSuccess]);
 
   const availabilityHandeler = (productId) => {
     if (window.confirm("Are you sure?")) {
