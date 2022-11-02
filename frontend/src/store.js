@@ -1,4 +1,3 @@
-import { combineReducers } from 'redux';
 import { configureStore } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
 
@@ -47,7 +46,7 @@ import { chatReducer, recentChatReducer } from './reducers/chatReducers';
 // import { notificationReducer } from './reducers/notificationReducers';
 
 // create constants and reducer > as soon as added here state is visible in browser inspect tool/redux
-const reducer = combineReducers({
+const reducer = {
   productList: productListReducer,
   productDetails: productDetailReducer,
   productDetailsByUserId: productDetailByUserIdReducer,
@@ -83,7 +82,7 @@ const reducer = combineReducers({
   faqAnswerDelete: faqAnswerDeleteReducer,
   chat: chatReducer,
   recentChat: recentChatReducer,
-});
+};
 
 // when store is initialized we check here if sth. is in localStorage already > if yes add that to the state
 // from cartActions
@@ -104,7 +103,7 @@ const userInfoFromStorage = localStorage.getItem('userInfo')
   ? JSON.parse(localStorage.getItem('userInfo'))
   : null;
 
-const initialState = {
+const preloadedState = {
   cart: {
     cartItems: cartItemsFromStorage,
     shippingAddress: shippingAddressFromStorage,
@@ -115,7 +114,7 @@ const initialState = {
 
 const store = configureStore({
   reducer,
-  initialState,
+  preloadedState,
   middleware: [thunk],
 });
 
