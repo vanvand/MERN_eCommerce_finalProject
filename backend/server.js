@@ -16,7 +16,7 @@ import uploadRoutes from './routes/uploadRoutes.js';
 import faqRoutes from './routes/faqRoutes.js';
 import chatRoutes from './routes/chatRoutes.js';
 import messageRoutes from './routes/messageRoutes.js';
-
+import mostSearchRoutes from './routes/mostSearchRoutes.js'
 dotenv.config();
 
 connectDB();
@@ -53,10 +53,10 @@ app.use('/api/upload', uploadRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/message', messageRoutes);
 
-app.use('/api/faqs', faqRoutes) /
+app.use('/api/faqs', faqRoutes) 
+app.use("/api/search", mostSearchRoutes) 
   // when we hit the paypal route we will fetch the client id stored in .env file
-  app.get('/api/config/paypal', (req, res) =>
-
+  app.get("/api/config/paypal", (req, res) =>
     res.send(process.env.PAYPAL_CLIENT_ID)
   );
 
