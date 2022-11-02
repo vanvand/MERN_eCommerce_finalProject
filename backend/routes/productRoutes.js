@@ -1,15 +1,17 @@
 import express from "express"
 const router = express.Router()
 
-import { 
-    getProducts, 
-    getProductById, 
-    getProductByUserId,
-    deleteProduct,
-    createProduct,
-    updateProduct,
-    createProductReview,
-    getTopProducts } from "../controllers/productControllers.js"
+import {
+  getProducts,
+  getProductById,
+  getProductByUserId,
+  deleteProduct,
+  createProduct,
+  updateProduct,
+  createProductReview,
+  getTopProducts,
+  getTopCategoryName,
+} from "../controllers/productControllers.js";
 import { 
     protect, 
     isAdmin } from "../middleware/authMiddleware.js"
@@ -21,6 +23,7 @@ router.route("/")
 router.route("/:id/reviews").post(protect, createProductReview)
 
 router.get("/top", getTopProducts)
+router.get("/topCategory", getTopCategoryName);
 
 
 router.route("/:id")

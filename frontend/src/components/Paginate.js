@@ -12,14 +12,14 @@ const Paginate = ({ pages, page, isAdmin = false, keyword = "", faqs }) => {
             to={
               faqs
                 ? !isAdmin
-                  ? keyword && faqs
+                  ? keyword
                     ? `/search/${keyword}/page/${x + 1}`
                     : `/faq/page/${x + 1}`
                   : `/faq/${x + 1}`
                 : !isAdmin
                 ? keyword
-                  ? `/search/${keyword}/page/${x + 1}`
-                  : `/page/${x + 1}`
+                  ? `/productssearch/${keyword}/${x + 1}`
+                  : `/products/category/${keyword}/page/${x + 1}`
                 : `/admin/productlist/${x + 1}`
             }
           >

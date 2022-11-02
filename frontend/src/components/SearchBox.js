@@ -1,20 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button, InputGroup } from "react-bootstrap";
 import { BsSearch } from "react-icons/bs";
 import "./components_css/searchBox.css";
+import { useDispatch, useSelector } from "react-redux";
+import { createSearch } from "../actions/mostSearchActions";
+import { MOSTSEARCH_CREATE_SAVE } from "../constants/mostSearchConstants.js";
 
 const SearchBox = () => {
   const navigate = useNavigate();
-
   const [keyword, setKeyword] = useState("");
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch({ type: MOSTSEARCH_CREATE_SAVE });
+  }, [dispatch]);
 
   const submitHandler = (e) => {
     e.preventDefault();
     if (keyword.trim()) {
-      navigate(`/search/${keyword}`);
-    } else {
-      navigate("/");
+      navigate(`/productssearch/${keyword}`);
+      dispatch(createSearch(keyword));
     }
   };
 

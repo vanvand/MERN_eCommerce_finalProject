@@ -33,7 +33,7 @@ const getProducts = asyncHandler(async (req, res) => {
   let products = await Product.find(find)
     .limit(pageSize)
     .skip(pageSize * (page - 1))
-    .sort({ createdAt: -1 }); //sort products by created time
+    .sort({ createdAt: -1 }).populate('user'); //sort products by created time
 
   //get all products without filter
   const allProductsCategory = await Product.find({});
@@ -206,11 +206,37 @@ const createProductReview = asyncHandler(async (req, res) => {
 // @access  Public
 const getTopProducts = asyncHandler(async (req, res) => {
   // sort in ascending order and limit to three products only
-  const products = await Product.find({}).sort({ rating: -1 }).limit(4)
+  const products = await Product.find({})
+    .sort({ rating: -1 })
+    .limit(4)
+    .populate("user");
 
   res.json(products)
 })
 
+const getTopCategoryName = asyncHandler(async (req, res) => {
+  
+  const products = await Product.find({})
+
+  if (products) {
+    const topCategory = await Product.aggregate([
+      { $match: {} },
+      { $group: { _id: "$category", rating: { $sum: "$rating" } } },
+    ])
+      .sort({ rating: -1 })
+      .limit(1);
+    if (topCategory) {
+      const topCategoryProduct = await Product.find({
+        category: topCategory[0]._id,
+      })
+        .sort({ rating: -1 })
+        .limit(4);;
+      res.json(topCategoryProduct);
+    }
+  }
+  
+  
+});
 
 export {
   getProducts,
@@ -221,4 +247,5 @@ export {
   updateProduct,
   createProductReview,
   getTopProducts,
+  getTopCategoryName,
 };
