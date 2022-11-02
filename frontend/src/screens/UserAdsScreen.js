@@ -19,10 +19,12 @@ import {
   deleteProduct,
   listProductDetails,
   updateProduct,
-  listProducts
+  listProducts,
+  listProductDetailsByUserId
 } from "../actions/productActions";
 import { LinkContainer } from "react-router-bootstrap";
 import { PRODUCT_UPDATE_SUCCESS } from "../constants/productConstants";
+import UserDetails from "../components/UserDetails";
 
 export default function UserAdsScreen() {
   const navigate = useNavigate();
@@ -30,6 +32,8 @@ export default function UserAdsScreen() {
   const [availability, setAvailability] = useState();
   const [product, setProduct] = useState();
   const [productId, setProductId] = useState();
+      const [numAdsUser, setNumAdsUser] = useState(0);
+
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => {
@@ -100,7 +104,6 @@ export default function UserAdsScreen() {
       setAvailability(!product.availability);
     }
   };
-
   return (
     <>
       {userLoading && productLoading && <Loader />}
@@ -115,7 +118,7 @@ export default function UserAdsScreen() {
         <Container>
           <Row className=" flex-md-row  ">
             <Row className=" flex-md-row  my-3 userAdd">
-              <Col md={3}>
+              {/* <Col md={3}>
                 {" "}
                 <Image
                   variant="top"
@@ -148,7 +151,7 @@ export default function UserAdsScreen() {
                   <ListGroup.Item className="listGroup">
                     {" "}
                     <small className="text-Add-small">
-                      active since:--/--/--/
+                      active since:/../
                     </small>
                   </ListGroup.Item>
                   <ListGroup.Item className="listGroup ">
@@ -172,7 +175,8 @@ export default function UserAdsScreen() {
                     <small> {user.numReviewsUser} reviews</small>
                   </ListGroup.Item>
                 </ListGroup>
-              </Col>
+              </Col> */}
+              <UserDetails />
             </Row>
             <Row>
               {allProductsCategory.map((product) => (
