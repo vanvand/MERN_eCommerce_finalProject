@@ -1,0 +1,50 @@
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Row, Col, Image, Button } from 'react-bootstrap';
+
+import { fetchCurrentMessages } from '../../actions/chatActions';
+
+const UserInboxComponent = ({
+  selectedUser,
+  _id,
+  latestMessage,
+  socket,
+  setCurrentChat,
+}) => {
+  const dispatch = useDispatch();
+
+  //Fetches selected chat messages
+  const handleSelectChat = () => {
+    let currentChatId = _id;
+    dispatch(fetchCurrentMessages(currentChatId, socket));
+    setCurrentChat(_id);
+  };
+
+  return (
+    <>
+      <Row key={selectedUser._id} className='d-grip userChat-row'>
+        <Button
+          key={selectedUser._id}
+          variant='rounded'
+          size='lg'
+          onClick={handleSelectChat}
+          className='userChat-button'
+        >
+          <Col md={2} className='userChat-col1'>
+            <Image src={selectedUser.image} className='userChat-avatar' />
+          </Col>
+          <Col md={10} className='userChat-col2'>
+            <Row style={{ width: '100%' }}>
+              <p className='userChat-userName'>{selectedUser.name}</p>
+            </Row>
+            <Row style={{ width: '100%' }}>
+              <p className='userChat-latestMessage'>{latestMessage.content}</p>
+            </Row>
+          </Col>
+        </Button>
+      </Row>
+    </>
+  );
+};
+
+export default UserInboxComponent;

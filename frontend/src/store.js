@@ -1,7 +1,7 @@
-import { createStore, combineReducers, applyMiddleware } from "redux";
-import thunk from "redux-thunk";
+import { combineReducers } from 'redux';
+import { configureStore } from '@reduxjs/toolkit';
+import thunk from 'redux-thunk';
 
-import { composeWithDevTools } from "redux-devtools-extension";
 import {
   productListReducer,
   productDetailReducer,
@@ -12,8 +12,8 @@ import {
   productReviewCreateReducer,
   productTopRatedReducer,
   productTopCategoryNameReducer,
-} from "./reducers/productReducers";
-import { cartReducer } from "./reducers/cartReducers";
+} from './reducers/productReducers';
+import { cartReducer } from './reducers/cartReducers';
 import {
   userLoginReducer,
   userRegisterReducer,
@@ -25,7 +25,7 @@ import {
   userAddWishItemReducer,
   userWishListReducer,
   userDeleteWishItemReducer,
-} from "./reducers/userReducers";
+} from './reducers/userReducers';
 import {
   orderCreateReducer,
   orderDetailsReducer,
@@ -33,7 +33,7 @@ import {
   orderDeliverReducer,
   orderListMyReducer,
   orderListReducer,
-} from "./reducers/orderReducer";
+} from './reducers/orderReducer';
 import {
   faqListReducer,
   faqDetailsReducer,
@@ -42,7 +42,9 @@ import {
   faqUpdateReducer,
   faqAnswersCreateReducer,
   faqAnswerDeleteReducer,
-} from "./reducers/faqReducers";
+} from './reducers/faqReducers';
+import { chatReducer, recentChatReducer } from './reducers/chatReducers';
+// import { notificationReducer } from './reducers/notificationReducers';
 
 import {
   searchCreateReducer,
@@ -84,18 +86,20 @@ const reducer = combineReducers({
   faqUpdate: faqUpdateReducer,
   faqAnswersCreate: faqAnswersCreateReducer,
   faqAnswerDelete: faqAnswerDeleteReducer,
+  chat: chatReducer,
+  recentChat: recentChatReducer,
   searchCreate: searchCreateReducer,
   searchList: searchListReducer,
 });
 
 // when store is initialized we check here if sth. is in localStorage already > if yes add that to the state
 // from cartActions
-const cartItemsFromStorage = localStorage.getItem("cartItems")
-  ? JSON.parse(localStorage.getItem("cartItems"))
+const cartItemsFromStorage = localStorage.getItem('cartItems')
+  ? JSON.parse(localStorage.getItem('cartItems'))
   : [];
 
-const shippingAddressFromStorage = localStorage.getItem("shippingAddress")
-  ? JSON.parse(localStorage.getItem("shippingAddress"))
+const shippingAddressFromStorage = localStorage.getItem('shippingAddress')
+  ? JSON.parse(localStorage.getItem('shippingAddress'))
   : {};
 
 // const paymentMethodFromStorage = localStorage.getItem("paymentMethod")
@@ -103,8 +107,8 @@ const shippingAddressFromStorage = localStorage.getItem("shippingAddress")
 //   : {}
 
 // from userActions
-const userInfoFromStorage = localStorage.getItem("userInfo")
-  ? JSON.parse(localStorage.getItem("userInfo"))
+const userInfoFromStorage = localStorage.getItem('userInfo')
+  ? JSON.parse(localStorage.getItem('userInfo'))
   : null;
 
 const initialState = {
@@ -116,32 +120,10 @@ const initialState = {
   userLogin: { userInfo: userInfoFromStorage },
 };
 
-const middleware = [thunk];
-
-const store = createStore(
+const store = configureStore({
   reducer,
   initialState,
-  composeWithDevTools(applyMiddleware(...middleware))
-);
+  middleware: [thunk],
+});
 
 export default store;
-
-// try to implement configureStore
-// BUG: productDetails reducer is not called
-
-// import { configureStore } from '@reduxjs/toolkit'
-// import thunk from 'redux-thunk'
-// import { productListReducer, productDetailReducer } from "./reducers/productReducers"
-
-// const store = configureStore({
-//   reducer: {
-//     productList: productListReducer,
-//     productDetails: productDetailReducer
-//   }
-//   preloadedState: {},
-//   middleware: [thunk],
-// })
-
-// console.log(store.getState())
-
-// export default store
