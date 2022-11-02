@@ -38,7 +38,7 @@ const UserInboxComponent = ({
               <p className='userChat-userName'>{selectedUser.name}</p>
             </Row>
             <Row style={{ width: '100%' }}>
-              <p className='userChat-latestMessage'>{latestMessage.content}</p>
+              <p className='userChat-latestMessage'>{latestMessage?.content}</p>
             </Row>
           </Col>
         </Button>
