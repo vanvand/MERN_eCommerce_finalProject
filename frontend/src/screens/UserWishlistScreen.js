@@ -8,7 +8,6 @@ import { deleteWishItem, getUserWishList } from "../actions/userActions";
 import { Link } from "react-router-dom";
 import { getUserDetails } from "../actions/userActions";
 
-
 const UserWishlistScreen = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -30,10 +29,8 @@ const UserWishlistScreen = () => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-    const userDetails = useSelector((state) => state.userDetails);
-    const {
-      user,
-    } = userDetails;
+  const userDetails = useSelector((state) => state.userDetails);
+  const { user } = userDetails;
 
   useEffect(() => {
     if (!userInfo) {
@@ -43,14 +40,13 @@ const UserWishlistScreen = () => {
     }
   }, [userInfo, dispatch, navigate, userDeleteWishItem, successDelete]);
 
-   useEffect(() => {
-     if (wishItems) {
-       wishItems.map((product) => {
-        return  dispatch(getUserDetails(product.user));
-       });
-      
-     }
-   }, [dispatch, wishItems]);
+  useEffect(() => {
+    if (wishItems) {
+      wishItems.map((product) => {
+        return dispatch(getUserDetails(product.user));
+      });
+    }
+  }, [dispatch, wishItems]);
 
   const deleteHandler = (wishId) => {
     if (window.confirm("Are you sure?")) {
@@ -70,50 +66,51 @@ const UserWishlistScreen = () => {
           <Row>
             {wishItems.map((product) => (
               <Col sm={12} md={6} lg={4} xl={3}>
-                <Card className="my-2 p-3 rounded " key={product._id}>
-                  <Link to={`/product/${product._id}`}>
-                    {product.availability ? (
-                      <Card.Img
-                        src={product.image}
-                        variant="top"
-                        className="productImage"
-                      />
-                    ) : (
-                      <>
+                <Card className="my-2 p-3 rounded ">
+                  <Card key={product._id}>
+                    <Link to={`/product/${product._id}`}>
+                      {product.availability ? (
                         <Card.Img
                           src={product.image}
                           variant="top"
-                          className="productImage opacity-25 "
+                          className="productImage"
                         />
-                        <Card.ImgOverlay>
-                          <div className=" bg-dark mt-5 p-1 text-center text-danger">
-                            <h6 className="fa-solid fa-rotate"> Rented</h6>
-                          </div>
-                        </Card.ImgOverlay>
-                      </>
-                    )}
-                  </Link>
-                  <Card.Body>
-                    <Card.Text as="h6">
-                      <i className="fas fa-location-dot"></i> {user.city},{" "}
-                      {user.district}
-                    </Card.Text>
-
-                    <Link to={`/product/${product._id}`}>
-                      <Card.Title as="h6" className="productText">
-                        {product.name}
-                      </Card.Title>
+                      ) : (
+                        <>
+                          <Card.Img
+                            src={product.image}
+                            variant="top"
+                            className="productImage opacity-25 "
+                          />
+                          <Card.ImgOverlay>
+                            <div className=" bg-dark mt-5 p-1 text-center text-danger">
+                              <h6 className="fa-solid fa-rotate"> Rented</h6>
+                            </div>
+                          </Card.ImgOverlay>
+                        </>
+                      )}
                     </Link>
-                  </Card.Body>
-                  <Row>
-                    <Button
-                      variant="dark"
-                      className="btn-sm"
-                      onClick={() => deleteHandler(product._id)}
-                    >
-                      <i className="fas fa-trash"></i> Remove from withlist
-                    </Button>
-                  </Row>
+                    <Card.Body>
+                      <Card.Text as="h6">
+                        <i className="fas fa-location-dot"></i> {user.city},{" "}
+                        {user.district}
+                      </Card.Text>
+
+                      <Link to={`/product/${product._id}`}>
+                        <Card.Title as="h6" className="productText">
+                          {product.name}
+                        </Card.Title>
+                      </Link>
+                    </Card.Body>
+                    <Row></Row>
+                  </Card>
+                  <Button
+                    variant="dark"
+                    className="btn-sm"
+                    onClick={() => deleteHandler(product._id)}
+                  >
+                    <i className="fas fa-trash"></i> Remove from withlist
+                  </Button>
                 </Card>
               </Col>
             ))}

@@ -8,7 +8,7 @@ function MostSearched() {
   const dispatch = useDispatch();
 
   const searchList = useSelector((state) => {
-    console.log(state);
+   // console.log(state);
     return state.searchList;
   });
   const { mostSearch } = searchList;
