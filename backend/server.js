@@ -56,6 +56,7 @@ app.use('/api/message', messageRoutes);
 app.use('/api/faqs', faqRoutes) /
   // when we hit the paypal route we will fetch the client id stored in .env file
   app.get('/api/config/paypal', (req, res) =>
+
     res.send(process.env.PAYPAL_CLIENT_ID)
   );
 

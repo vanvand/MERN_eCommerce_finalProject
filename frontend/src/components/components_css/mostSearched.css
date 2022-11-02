@@ -21,3 +21,31 @@
   color:rgb(160, 207, 182);
   padding:10px;
 }
+
+.searchText{ white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow:auto;
+  max-width: 280px;
+scroll-behavior: smooth}
+
+
+/* Works on Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #343a40 #f8f9fa;
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 5px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #f8f9fa;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #343a40;
+  border-radius: 30px;
+  border: 6px solid #f8f9fa;
+}
