@@ -45,7 +45,7 @@ const ChatScreen = () => {
           <h4>Inbox</h4>
         </Col>
         <Col sm={8} className='chat-name-container'>
-          {/* <h4>{currentUser}</h4> */}
+          <h4>{currentUser}</h4>
         </Col>
       </Row>
       <Row className='chat-mainRow2 border'>
