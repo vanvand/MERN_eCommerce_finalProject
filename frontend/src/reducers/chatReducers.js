@@ -7,6 +7,9 @@ import {
   RECENT_CHAT_REQUEST,
   RECENT_CHAT_SUCCESS,
   RECENT_CHAT_FAIL,
+  UPDATE_RECENT_CHAT_REQUEST,
+  UPDATE_RECENT_CHAT_SUCCESS,
+  UPDATE_RECENT_CHAT_FAIL,
   FETCH_MESSAGES_REQUEST,
   FETCH_MESSAGES_SUCCESS,
   FETCH_MESSAGES_FAIL,
@@ -95,6 +98,18 @@ export const recentChatReducer = (state = initState, { type, payload }) => {
         error: false,
       };
     case RECENT_CHAT_FAIL:
+      return { loading: false, error: payload };
+    case UPDATE_RECENT_CHAT_REQUEST:
+      return { ...state, loading: true };
+
+    case UPDATE_RECENT_CHAT_SUCCESS:
+      return {
+        ...state,
+        recent_chat: payload,
+        loading: false,
+        error: false,
+      };
+    case UPDATE_RECENT_CHAT_FAIL:
       return { loading: false, error: payload };
     default:
       return state;

@@ -10,6 +10,7 @@ const getChat = asyncHandler(async (req, res) => {
   try {
     let chat = await Chat.find({ users: { $elemMatch: { $eq: req.user._id } } })
       .populate('users', '-password')
+      .populate('product')
       .populate('latestMessage')
       .sort({ updatedAt: -1 })
       .then(async (results) => {
@@ -29,7 +30,7 @@ const getChat = asyncHandler(async (req, res) => {
 // @access Private
 const createChat = asyncHandler(async (req, res) => {
   try {
-    const { selectedUserId } = req.body;
+    const { selectedUserId, productId } = req.body;
     let chat = await Chat.find({
       $and: [
         {
@@ -38,9 +39,11 @@ const createChat = asyncHandler(async (req, res) => {
         {
           users: { $elemMatch: { $eq: selectedUserId } },
         },
+        { product: productId },
       ],
     })
       .populate('users', '-password')
+      .populate('product')
       .populate('latestMessage');
     chat = await User.populate(chat[0], {
       path: 'latestMessage.sender',
@@ -51,6 +54,7 @@ const createChat = asyncHandler(async (req, res) => {
     } else {
       let chatData = {
         users: [req.user._id, selectedUserId],
+        product: productId,
       };
 
       try {

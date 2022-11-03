@@ -1,14 +1,13 @@
-import React, { useEffect } from "react";
-import { Container, Row, Col, Badge } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import "./components_css/mostSearched.css";
-import { listSearch } from "../actions/mostSearchActions";
+import React, { useEffect } from 'react';
+import { Container, Row, Col, Badge } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import './components_css/mostSearched.css';
+import { listSearch } from '../actions/mostSearchActions';
 
 function MostSearched() {
   const dispatch = useDispatch();
 
   const searchList = useSelector((state) => {
-    console.log(state);
     return state.searchList;
   });
   const { mostSearch } = searchList;
@@ -18,18 +17,18 @@ function MostSearched() {
   }, [dispatch]);
 
   return (
-    <Container className=" square border-bottom  bar-background-color">
+    <Container className=' square border-bottom  bar-background-color'>
       <h3>Most Searched</h3>
-      <Row d-flex="true" flex-row="true">
+      <Row d-flex='true' flex-row='true'>
         {mostSearch?.map((searched, index) => (
-          <Col key={index} className="alignStart">
+          <Col key={index} className='alignStart'>
             <Badge
-              bg="secondary"
-              text="dark"
-              overflow="hidden"
-              className="searchText"
+              bg='secondary'
+              text='dark'
+              overflow='hidden'
+              className='searchText'
             >
-              {" "}
+              {' '}
               <h5> {searched._id}/</h5>
             </Badge>
           </Col>

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   Container,
   Row,
+  Col,
   InputGroup,
   Form,
   Image,
@@ -16,14 +17,14 @@ import '../components_css/chat.css';
 
 import MessageStarter from './MessageStarter';
 import UserDetails from '../UserDetails';
+import ProductDetails from './ProductDetails';
 
-const ChatBody = ({ socket, currentChat }) => {
+const ChatBody = ({ socket, currentChat, currentProduct }) => {
   const [text, setText] = useState('');
+  // const [isTyping, setIsTyping] = useState();
 
   const dispatch = useDispatch();
   const lastMessageRef = useRef(null);
-
-  const { recent_chat } = useSelector((state) => state.recentChat);
 
   const { messages } = useSelector((state) => state.chat);
 
@@ -35,6 +36,9 @@ const ChatBody = ({ socket, currentChat }) => {
       let chatId = currentChat || receivedMessage.chat._id;
       dispatch(updateMessages(chatId));
     });
+    // socket.on('typingResponse', (data) => {
+    //   setIsTyping(data.text);
+    // });
   }, [socket]);
 
   useEffect(() => {
@@ -63,72 +67,75 @@ const ChatBody = ({ socket, currentChat }) => {
   // };
 
   return (
-    <Container fluid>
-      {currentChat ? (
-        <>
-          <Row>
-            <h5>This is the product component</h5>
-          </Row>
-          <Row md={2} className='chatBody-userDetails'>
-            <UserDetails />
-          </Row>
-          <Row sm={6} className='message-container'>
-            {messages &&
-              messages.map((message, index) => (
-                <Row className='message-row' key={index}>
-                  {message.sender._id !== userInfo._id && (
-                    <div className='left-container' key={index}>
-                      <Image
-                        src={message.sender.image}
-                        className='message-avatar'
-                      />
+    <>
+      <Container fluid>
+        {currentChat ? (
+          <>
+            <ProductDetails currentProduct={currentProduct} />
+            {/* <Row md={3} className='chatBody-userDetails'>
+              <Col>
+                
+              </Col>
+            </Row> */}
+            <Row sm={6} className='message-container'>
+              {messages &&
+                messages.map((message, index) => (
+                  <Row className='message-row' key={index}>
+                    {message.sender._id !== userInfo._id && (
+                      <div className='left-container' key={index}>
+                        <Image
+                          src={message.sender.image}
+                          className='message-avatar'
+                        />
+                        <Card
+                          body
+                          key={index}
+                          style={{ width: '18rem' }}
+                          className='message-left'
+                        >
+                          {message.content}
+                        </Card>
+                      </div>
+                    )}
+
+                    {message.sender._id === userInfo._id && (
                       <Card
                         body
                         key={index}
                         style={{ width: '18rem' }}
-                        className='message-left'
+                        className='message-right'
                       >
                         {message.content}
                       </Card>
-                    </div>
-                  )}
-
-                  {message.sender._id === userInfo._id && (
-                    <Card
-                      body
-                      key={index}
-                      style={{ width: '18rem' }}
-                      className='message-right'
-                    >
-                      {message.content}
-                    </Card>
-                  )}
-                </Row>
-              ))}
-            <div ref={lastMessageRef} />
-          </Row>
-          <Row>
-            <InputGroup className='mb-3'>
-              <Form.Control
-                placeholder='Your Message'
-                aria-label='Your Message'
-                aria-describedby='basic-addon2'
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-                onKeyPress={(e) => handleOnEnter(e)}
-                // onKeyDown={handleTyping}
-                disabled={currentChat === null}
-              />
-              <Button id='basic-addon2' onClick={handleOnClick}>
-                <i className='fa-regular fa-paper-plane'></i>
-              </Button>
-            </InputGroup>
-          </Row>
-        </>
-      ) : (
-        <MessageStarter {...userInfo} />
-      )}
-    </Container>
+                    )}
+                  </Row>
+                ))}
+              {/* <div>{isTyping}</div> */}
+              <div ref={lastMessageRef} />
+            </Row>
+          </>
+        ) : (
+          <MessageStarter {...userInfo} />
+        )}
+      </Container>
+      <Row className='p-2'>
+        <InputGroup className='mb-3'>
+          <Form.Control
+            placeholder='Your Message'
+            aria-label='Your Message'
+            aria-describedby='basic-addon2'
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            onKeyPress={(e) => handleOnEnter(e)}
+            // onKeyDown={(e) => handleTyping(e.target.value)}
+            disabled={currentChat === null}
+          />
+          <Button id='basic-addon2' onClick={handleOnClick}>
+            <i className='fa-regular fa-paper-plane'></i>
+          </Button>
+        </InputGroup>
+      </Row>
+    </>
   );
 };
 

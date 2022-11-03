@@ -56,7 +56,6 @@ app.use('/api/message', messageRoutes);
 app.use('/api/faqs', faqRoutes) /
   // when we hit the paypal route we will fetch the client id stored in .env file
   app.get('/api/config/paypal', (req, res) =>
-
     res.send(process.env.PAYPAL_CLIENT_ID)
   );
 
@@ -110,7 +109,9 @@ io.on('connection', (socket) => {
     socket.join(room);
   });
 
-  // socket.on('typing', (data) => socket.to().emit('typingResponse', data));
+  // socket.on('typing', (data) => {
+  //   socket.to(data.room).emit('typingResponse', data);
+  // });
 
   socket.on('new message', (receivedMessage) => {
     socket

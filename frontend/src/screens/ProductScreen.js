@@ -14,7 +14,7 @@ import {
   listProductDetails,
   createProductReview,
 } from '../actions/productActions';
-import { accessChat } from '../actions/chatActions';
+import { accessChat, updateRecentChats } from '../actions/chatActions';
 
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
 
@@ -30,6 +30,7 @@ const ProductScreen = () => {
 
   const productDetails = useSelector((state) => state.productDetails);
   const { loading, error, product } = productDetails;
+  console.log(product);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -71,7 +72,8 @@ const ProductScreen = () => {
   const requestUserChat = () => {
     let selectedUserId = user._id;
     let currentUser = userInfo._id;
-    dispatch(accessChat(selectedUserId, recent_chat, currentUser));
+    let productId = product._id;
+    dispatch(accessChat(selectedUserId, recent_chat, currentUser, productId));
     navigate(`/chat`);
   };
 
