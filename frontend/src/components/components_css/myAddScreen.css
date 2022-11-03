@@ -1,6 +1,6 @@
 .userAddImage {
-    max-width: 70px;
     width: fit-content;
+    height: 150px;
 }
 .userAdd{
         max-width: 400px;
