@@ -16,13 +16,10 @@ const ProductEditScreen = () => {
     const navigate = useNavigate()
 
     const [ name, setName ] = useState("")
-    const [ price, setPrice ] = useState("")
-    const [ image1, setImage1 ] = useState("")
+    const [ image, setImage ] = useState("")
     const [ image2, setImage2 ] = useState("")
     const [ image3, setImage3 ] = useState("")
-    const [ brand, setBrand ] = useState("")
     const [ category, setCategory ] = useState("")
-    const [ countInStock, setCountInStock ] = useState(0)
     const [ description, setDescription ] = useState("")
     const [ uploading, setUploading ] = useState(false) // similar to loading in redux > set to true before we make our request and set to false when request is done
 
@@ -47,13 +44,10 @@ const ProductEditScreen = () => {
                 dispatch(listProductDetails(productId))
             } else {
                 setName(product.name)
-                setPrice(product.price)
-                setImage1(product.image1)
+                setImage(product.image)
                 setImage2(product.image2)
                 setImage3(product.image3)
-                setBrand(product.brand)
                 setCategory(product.category)
-                setCountInStock(product.countInStock)
                 setDescription(product.description)
             }
         }
@@ -74,7 +68,7 @@ const ProductEditScreen = () => {
 
             const { data } = await axios.post('/api/upload', formData, config)
 
-            setImage1(data) // data is image path
+            setImage(data) // data is image path
             setImage2(data) // data is image path
             setImage3(data) // data is image path
             setUploading(false)
@@ -89,14 +83,11 @@ const ProductEditScreen = () => {
         dispatch(updateProduct({
             _id: productId,
             name,
-            price,
-            image1,
+            image,
             image2,
             image3,
-            brand,
             category,
-            description,
-            countInStock,
+            description
         })
         )
     }
@@ -136,8 +127,8 @@ const ProductEditScreen = () => {
                         <Form.Control
                             type='text'
                             placeholder='Enter image url'
-                            value={image1}
-                            onChange={(e) => setImage1(e.target.value)}
+                            value={image}
+                            onChange={(e) => setImage(e.target.value)}
                             ></Form.Control>
                         {/* Form.File not longer supported by react-bootstrap 5 */}
                         <Form.Control
