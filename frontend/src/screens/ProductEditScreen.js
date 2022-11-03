@@ -22,12 +22,12 @@ const ProductEditScreen = () => {
     const [ category, setCategory ] = useState("")
     const [ countInStock, setCountInStock ] = useState(0)
     const [ description, setDescription ] = useState("")
-    const [ uploading, setUploading ] = useState(false) // similar to loading in redux > set to true before we make our request and set to false when request is done
+    const [uploading, setUploading] = useState(false)// similar to loading in redux > set to true before we make our request and set to false when request is done
 
     const dispatch = useDispatch()
     
     const productDetails = useSelector((state) => {
-        console.log("state", state.productDetails);
+        //console.log("state", state);
         return state.productDetails
     })
     const { loading, error, product } = productDetails
@@ -39,23 +39,35 @@ const ProductEditScreen = () => {
         success: successUpdate,
     } = productUpdate
 
+      const userLogin = useSelector((state) => {
+        console.log("state", state.userLogin);
+        return state.userLogin;
+      });
+    
+    const {  userInfo } = userLogin;
+    //console.log(userInfo);
+    
     useEffect( () => {
         if (successUpdate) {
-            dispatch({ type: PRODUCT_UPDATE_RESET })
-            navigate('/admin/productlist')
+          dispatch({ type: PRODUCT_UPDATE_RESET });
+         // navigate("/admin/productlist");
         } else {
-            console.log('product',product)
-            if(!product.name || product._id !== productId) {
-                dispatch(listProductDetails(productId))
-            } else {
-                setName(product.name)
-                setPrice(product.price)
-                setImage(product.image)
-                setBrand(product.brand)
-                setCategory(product.category)
-                setCountInStock(product.countInStock)
-                setDescription(product.description)
+          console.log("product", product);
+          if (!product.name || product._id !== productId) {
+            dispatch(listProductDetails(productId));
+            }  
+            if (product) {
+                  setName(product.name);
+                  setPrice(product.price);
+                  setImage(product.image);
+                  setBrand(product.brand);
+                  setCategory(product.category);
+                  setCountInStock(product.countInStock);
+                setDescription(product.description);
+
             }
+       
+          
         }
     }, [navigate, product, productId, dispatch, successUpdate])
 
@@ -95,6 +107,8 @@ const ProductEditScreen = () => {
             countInStock,
         })
         )
+                    navigate("/useradd");
+
     }
 
   return (
