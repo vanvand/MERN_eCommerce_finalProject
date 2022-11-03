@@ -119,10 +119,23 @@ const preloadedState = {
   userLogin: { userInfo: userInfoFromStorage },
 };
 
+const preloadedState = {
+  cart: {
+    cartItems: cartItemsFromStorage,
+    shippingAddress: shippingAddressFromStorage,
+    // paymentMethod: paymentMethodFromStorage
+  },
+  userLogin: { userInfo: userInfoFromStorage },
+};
+
+// const store = configureStore({
+//   reducer,
+//   initialState,
+//   middleware: [thunk],
+// });
 const store = configureStore({
   reducer,
   preloadedState,
   middleware: [thunk],
 });
-
 export default store;

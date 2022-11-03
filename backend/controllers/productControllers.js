@@ -33,7 +33,7 @@ const getProducts = asyncHandler(async (req, res) => {
   let products = await Product.find(find)
     .limit(pageSize)
     .skip(pageSize * (page - 1))
-    .sort({ createdAt: -1 }); //sort products by created time
+    .sort({ createdAt: -1 }).populate('user'); //sort products by created time
 
   //get all products without filter
   const allProductsCategory = await Product.find({});
@@ -112,7 +112,9 @@ const createProduct = asyncHandler(async (req, res) => {
         category: "Sample category",
         countInStock: 0,
         numReviews: 0,
-        description: "Sample description"
+        description: "Sample description",
+        availability:true,
+
     })
 
     const createdProduct = await product.save()
@@ -123,7 +125,16 @@ const createProduct = asyncHandler(async (req, res) => {
 // @route PUT /api/products/:id
 // @access Private/admin
 const updateProduct = asyncHandler(async (req, res) => {
-    const { name, price, description, image, brand, category, countInStock } = req.body
+    const {
+      name,
+      price,
+      description,
+      image,
+      brand,
+      category,
+      countInStock,
+      availability,
+    } = req.body;
     const product = await Product.findById(req.params.id)
 
     if(product) {
@@ -133,7 +144,8 @@ const updateProduct = asyncHandler(async (req, res) => {
         product.image = image
         product.brand = brand
         product.category = category
-        product.countInStock = countInStock
+      product.countInStock = countInStock
+      product.availability = availability
 
         const updatedProduct = await product.save()
         res.status(201).json(updatedProduct)
@@ -194,7 +206,10 @@ const createProductReview = asyncHandler(async (req, res) => {
 // @access  Public
 const getTopProducts = asyncHandler(async (req, res) => {
   // sort in ascending order and limit to three products only
-  const products = await Product.find({}).sort({ rating: -1 }).limit(4)
+  const products = await Product.find({})
+    .sort({ rating: -1 })
+    .limit(4)
+    .populate("user");
 
   res.json(products)
 })

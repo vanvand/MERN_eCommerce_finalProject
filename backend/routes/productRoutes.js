@@ -28,7 +28,7 @@ router.get("/topCategory", getTopCategoryName);
 
 router.route("/:id")
     .get(getProductById)
-    .delete(protect, isAdmin, deleteProduct)
+    .delete(protect, deleteProduct)
     .put(protect, updateProduct)
 
 router.route("/user/:userId")

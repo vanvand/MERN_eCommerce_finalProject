@@ -4,19 +4,15 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import SearchBox from '../components/SearchBox';
 import { logout } from '../actions/userActions';
-
 import { BiListPlus } from 'react-icons/bi';
-
 import { GrUserSettings } from 'react-icons/gr';
 import { FiLogOut } from 'react-icons/fi';
 import { TbDoorEnter } from 'react-icons/tb';
 import { HiOutlineDocumentAdd } from 'react-icons/hi';
 import './components_css/header.css';
 import { useNavigate, useParams } from 'react-router-dom';
-
 import Loader from './Loader';
 import Message from './Message';
-
 import { PRODUCT_CREATE_RESET } from '../constants/productConstants';
 
 import { listProducts, createProduct } from '../actions/productActions.js';
@@ -110,8 +106,9 @@ const Header = () => {
                     </Button>
                   </Link>
 
-                  <NavDropdown title={userInfo.name} id='username'>
-                    <LinkContainer to='#'>
+                  <NavDropdown title={userInfo.name} id="username">
+                    <LinkContainer to="/useradd">
+
                       <NavDropdown.Item>
                         <HiOutlineDocumentAdd /> My Ads
                       </NavDropdown.Item>
