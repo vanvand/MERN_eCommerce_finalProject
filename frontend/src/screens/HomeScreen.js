@@ -10,6 +10,7 @@ import TopProducts from '../components/TopProducts';
 import MostSearched from '../components/MostSearched';
 import TopCategoryName from '../components/TopCategoryName';
 import BottomAdd from '../components/SecondaryAdd';
+import BottomAdd2 from '../components/SecondaryAdd2';
 
 const HomeScreen = () => {
   const params = useParams();
@@ -46,7 +47,7 @@ const HomeScreen = () => {
           <BottomAdd />
         </Col>
         <Col>
-          <BottomAdd />
+          <BottomAdd2 />
         </Col>
       </Row>
     </>

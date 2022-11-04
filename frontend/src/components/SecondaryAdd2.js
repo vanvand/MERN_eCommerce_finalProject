@@ -7,7 +7,7 @@ import {
  
 } from "react-bootstrap";
 
-function SecondaryAdd() {
+function SecondaryAdd2() {
   return (
     // <Card className="bg-light text-black">
     //   <Card.Img src="../../../uploads/add2.png" alt="Card image" />
@@ -27,9 +27,10 @@ function SecondaryAdd() {
         </Col>
         <Col md={8}>
           <Card.Body>
-            <Card.Title className="text-center align-middle">BOOKS</Card.Title>
+            <Card.Title className="text-center align-middle">MOVIES</Card.Title>
             <Card.Text className="text-center align-middle">
-              Here is a collection of books our users have enjoyed!
+              A movie is always a good way to spend an evening together.
+              Enjoy our users' large movie collection! 
             </Card.Text>
           </Card.Body>
         </Col>
@@ -38,4 +39,4 @@ function SecondaryAdd() {
   );
 }
 
-export default SecondaryAdd;
+export default SecondaryAdd2;

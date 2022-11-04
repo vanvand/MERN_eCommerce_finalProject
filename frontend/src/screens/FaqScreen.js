@@ -12,6 +12,7 @@ import { listFaqs } from "../actions/faqActions";
 
 import Faq from "../components/Faq";
 import BottomAdd from "../components/SecondaryAdd";
+import BottomAdd2 from "../components/SecondaryAdd2";
 import Paginate from "../components/Paginate";
 import FaqAskButton from "../components/FaqAskButton";
 import FaqSearchBox from '../components/FaqSearchBox'
@@ -74,7 +75,7 @@ const FaqScreen = () => {
                 <BottomAdd />
               </Col>
               <Col>
-                <BottomAdd />
+                <BottomAdd2 />
               </Col>
             </Row>
 

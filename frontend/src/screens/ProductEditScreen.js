@@ -16,11 +16,8 @@ const ProductEditScreen = () => {
     const navigate = useNavigate()
 
     const [ name, setName ] = useState("")
-    const [ price, setPrice ] = useState("")
     const [ image, setImage ] = useState("")
-    const [ brand, setBrand ] = useState("")
     const [ category, setCategory ] = useState("")
-    const [ countInStock, setCountInStock ] = useState(0)
     const [ description, setDescription ] = useState("")
     const [ uploading, setUploading ] = useState(false) // similar to loading in redux > set to true before we make our request and set to false when request is done
 
@@ -49,11 +46,8 @@ const ProductEditScreen = () => {
                 dispatch(listProductDetails(productId))
             } else {
                 setName(product.name)
-                setPrice(product.price)
                 setImage(product.image)
-                setBrand(product.brand)
                 setCategory(product.category)
-                setCountInStock(product.countInStock)
                 setDescription(product.description)
             }
         }
@@ -87,12 +81,9 @@ const ProductEditScreen = () => {
         dispatch(updateProduct({
             _id: productId,
             name,
-            price,
             image,
-            brand,
             category,
             description,
-            countInStock,
         })
         )
     }
@@ -125,16 +116,6 @@ const ProductEditScreen = () => {
                         onChange={(e) => setName(e.target.value)}
                         ></Form.Control>
                 </Form.Group>
-
-                <Form.Group controlId="price">
-                    <Form.Label>Price</Form.Label>
-                    <Form.Control 
-                        type="number" 
-                        placeholder="Enter price" 
-                        value={price} 
-                        onChange={(e) => setPrice(e.target.value)}
-                        ></Form.Control>
-                </Form.Group>
         
                 <Form.Group controlId='image'>
                     <Form.Label>Image</Form.Label>
@@ -151,29 +132,10 @@ const ProductEditScreen = () => {
                             label='Choose File'
                             custom
                             onChange={uploadFileHandler}
+                            multiple
                         ></Form.Control>
                     {uploading && <Loader />}
             </Form.Group>
-
-                <Form.Group controlId="brand">
-                    <Form.Label>Brand</Form.Label>
-                    <Form.Control 
-                        type="text" 
-                        placeholder="Enter brand name" 
-                        value={brand} 
-                        onChange={(e) => setBrand(e.target.value)}
-                        ></Form.Control>
-                </Form.Group>
-
-                <Form.Group controlId="countInStock">
-                    <Form.Label>Count in Stock</Form.Label>
-                    <Form.Control 
-                        type="Number" 
-                        placeholder="Enter Count in Stock" 
-                        value={countInStock} 
-                        onChange={(e) => setCountInStock(e.target.value)}
-                        ></Form.Control>
-                </Form.Group>
 
                 <Form.Group controlId="category">
                     <Form.Label>Category</Form.Label>
