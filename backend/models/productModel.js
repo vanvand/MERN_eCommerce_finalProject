@@ -14,59 +14,64 @@ const reviewSchema = mongoose.Schema({
 })
 
 
-const productSchema = mongoose.Schema({
+const productSchema = mongoose.Schema(
+  {
     user: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-        ref: "User"
+      ref: "User",
     },
     name: {
       type: String,
-        required: true
+      required: true,
     },
     image: {
       type: String,
-        required: true
+      required: true,
     },
     imageSecond: {
-        type: String
+      type: String,
     },
     imageThird: {
-        type: String
+      type: String,
     },
     category: {
       type: String,
-        required: true
+      required: true,
     },
     description: {
       type: String,
-        required: true
+      required: true,
     },
     reviews: [reviewSchema],
     rating: {
       type: Number,
       required: true,
-        default: 0
+      default: 0,
     },
     numReviews: {
       type: Number,
       required: true,
-        default: 0 
+      default: 0,
     },
     availability: {
       type: Boolean,
-        default: true
+      default: true,
     },
     timesRented: {
       type: Number,
       required: true,
       default: 0,
-    }
+    },
+    rentedTo: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
   {
-        timestamps: true // mongoose will create created_at and updated_at automatically
+    timestamps: true, // mongoose will create created_at and updated_at automatically
   }
-)
+);
 
 const Product = mongoose.model("Product", productSchema)
 
