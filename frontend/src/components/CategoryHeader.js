@@ -1,14 +1,5 @@
-import React, { useState } from "react";
-import {
-  Container,
-  Col,
-  Row,
-  Form,
-  Button,
-  Nav,
-  Navbar,
-} from "react-bootstrap";
-import "./components_css/categoryHeader.css";
+import React from "react";
+import { Button, Nav } from "react-bootstrap";
 import Message from "./Message";
 import Loader from "./Loader";
 import { useSelector } from "react-redux";
@@ -30,24 +21,23 @@ function CategoryHeader() {
   ];
 
   return (
-    <Container className=" square border-bottom  sticky ">
+    <>
       {loading ? (
         <Loader />
       ) : error ? (
         <Message variant="danger">{error}</Message>
       ) : (
-        <Nav className="ml-auto ">
+        <Nav className="ml-auto category-nav">
           {categories.map((category, index) => (
             <Link
               key={index}
               to={`/products/category/${category}`}
-              className=" linkStyling "
+              className="link-container"
             >
               <Button
-                variant="outline-light"
-                size="xs"
+                variant="light"
                 type="submit"
-                className="p-0 categoryBut"
+                className="btn-category-nav"
               >
                 {category}
               </Button>
@@ -55,7 +45,7 @@ function CategoryHeader() {
           ))}
         </Nav>
       )}
-    </Container>
+    </>
   );
 }
 

@@ -31,7 +31,7 @@ const App = () => {
   return (
     <>
       <Header />
-      <main className='py-3'>
+      <main >
         <Container>
           <CategoryHeader />
           <Routes>

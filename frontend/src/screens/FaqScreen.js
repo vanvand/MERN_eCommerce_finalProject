@@ -39,10 +39,11 @@ const FaqScreen = () => {
     <>
       
       <h1>FAQ/Help</h1>
-      <FaqSearchBox/>
-      <Link to="/" className="btn btn-light">
-        Go Home
-      </Link>
+
+      <div style={{width: "50vw"}}>
+        <FaqSearchBox />
+      </div>
+
       {userInfo?.isAdmin && (
         <Link to="/faqList" className="btn btn-light">
           Faq list
