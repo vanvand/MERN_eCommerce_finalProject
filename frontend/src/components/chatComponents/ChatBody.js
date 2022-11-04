@@ -19,12 +19,14 @@ import MessageStarter from './MessageStarter';
 import UserDetails from '../UserDetails';
 import ProductDetails from './ProductDetails';
 
-const ChatBody = ({ socket, currentChat, currentProduct }) => {
+const ChatBody = ({ socket, currentChat, currentProduct, currentUser }) => {
   const [text, setText] = useState('');
+  const [confirmRequired, setConfirmRequired] = useState();
   // const [isTyping, setIsTyping] = useState();
 
   const dispatch = useDispatch();
   const lastMessageRef = useRef(null);
+  const renterInfoRef = useRef(null);
 
   const { messages } = useSelector((state) => state.chat);
 
@@ -39,6 +41,12 @@ const ChatBody = ({ socket, currentChat, currentProduct }) => {
     // socket.on('typingResponse', (data) => {
     //   setIsTyping(data.text);
     // });
+
+    socket.on('confirmation required', (renterInfo) => {
+      console.log('confirmation required, client side');
+      setConfirmRequired(true);
+      renterInfoRef(renterInfo._id);
+    });
   }, [socket]);
 
   useEffect(() => {
@@ -59,6 +67,10 @@ const ChatBody = ({ socket, currentChat, currentProduct }) => {
     setText('');
   };
 
+  const handleApproval = () => {
+    socket.emit('confirmation approved', currentProduct.user);
+  };
+
   // const handleTyping = () => {
   //   socket.emit('typing', {
   //     text: `${userInfo.name} is typing...`,
@@ -71,7 +83,11 @@ const ChatBody = ({ socket, currentChat, currentProduct }) => {
       <Container fluid>
         {currentChat ? (
           <>
-            <ProductDetails currentProduct={currentProduct} />
+            <ProductDetails
+              currentProduct={currentProduct}
+              currentUser={currentUser}
+              socket={socket}
+            />
             {/* <Row md={3} className='chatBody-userDetails'>
               <Col>
                 
@@ -108,6 +124,19 @@ const ChatBody = ({ socket, currentChat, currentProduct }) => {
                         {message.content}
                       </Card>
                     )}
+                    {userInfo._id === renterInfoRef.current &&
+                    confirmRequired ? (
+                      <Card body>
+                        <p>
+                          {currentProduct.user} marked product as rented. Please
+                          approve as soon as you picked it up.
+                        </p>
+                        <Button onClick={handleApproval}>
+                          <i className='fa-regular fa-check'></i>
+                          Approve
+                        </Button>
+                      </Card>
+                    ) : null}
                   </Row>
                 ))}
               {/* <div>{isTyping}</div> */}

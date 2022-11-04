@@ -1,24 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Card, Button } from 'react-bootstrap';
 
 import { updateProduct } from '../../actions/productActions';
 
-function ProductDetails({ currentProduct }) {
+function ProductDetails({ currentProduct, currentUser, socket }) {
   const dispatch = useDispatch();
-  const [availability, setAvailability] = useState();
+  const [availability, setAvailability] = useState(true);
+  const [rented, setRented] = useState(false);
 
-  // const productDetails = useSelector((state) => state.productDetails);
-  // const { product } = productDetails;
-  console.log(currentProduct);
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  //create action for this listener
+  useEffect(() => {
+    socket.on('rented', () => {
+      console.log('rented');
+      setRented(true);
+      dispatch(
+        updateProduct({
+          _id: currentProduct._id,
+          name: currentProduct.name,
+          image: currentProduct.image,
+          category: currentProduct.category,
+          description: currentProduct.description,
+          rating: currentProduct.rating,
+          numReviews: currentProduct.numReviews,
+          timesRented: currentProduct.timesRented++,
+          availability: false,
+          rentedTo: currentUser,
+        })
+      );
+    });
+  }, [socket]);
 
   const handleMarkAsRented = () => {
-    dispatch(
-      updateProduct({
-        _id: currentProduct._id,
-        availability: false,
-      })
-    );
+    if (currentProduct.availability) {
+      socket.emit('marked as rented', currentUser);
+      setAvailability(false);
+    } else {
+      socket.emit('marked as available', currentUser);
+      //cancel all process through socket
+      setAvailability(true);
+    }
   };
 
   return (
@@ -33,19 +57,21 @@ function ProductDetails({ currentProduct }) {
           <h5 className='pb-1' style={{ color: 'grey' }}>
             {currentProduct.category}
           </h5>
-          <Button
-            variant='primary'
-            className='rounded px-5 py-2'
-            style={{
-              textTransform: 'none',
-              fontSize: '1rem',
-              backgroundColor: '#343a40',
-            }}
-            onClick={handleMarkAsRented}
-          >
-            <i className='px-2 fa-solid fa-rotate'></i>
-            Mark as rented to UserName
-          </Button>
+          {currentProduct.user === userInfo._id && (
+            <Button
+              variant='primary'
+              className='rounded px-5 py-2'
+              style={{
+                textTransform: 'none',
+                fontSize: '1rem',
+                backgroundColor: '#343a40',
+              }}
+              onClick={handleMarkAsRented}
+            >
+              <i className='px-2 fa-solid fa-rotate'></i>
+              {availability ? 'Mark as rented to UserName' : 'Rented'}
+            </Button>
+          )}
         </Card.Body>
       </Card>
     </Row>

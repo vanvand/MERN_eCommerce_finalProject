@@ -110,15 +110,24 @@ io.on('connection', (socket) => {
     socket.join(room);
   });
 
-  // socket.on('typing', (data) => {
-  //   socket.to(data.room).emit('typingResponse', data);
-  // });
-
   socket.on('new message', (receivedMessage) => {
     socket
       .to(receivedMessage.chat._id)
       .emit('message received', receivedMessage);
   });
+
+  socket.on('marked as rented', (renterInfo) => {
+    console.log('marked as rented');
+    socket.to(renterInfo._id).emit('confirmation required', renterInfo);
+  });
+
+  socket.on('confirmation approved', (owner) => {
+    socket.to(owner).emit('rented');
+  });
+
+  // socket.on('typing', (data) => {
+  //   socket.to(data.room).emit('typingResponse', data);
+  // });
 
   socket.off('setup', () => {
     socket.leave(userData._id);

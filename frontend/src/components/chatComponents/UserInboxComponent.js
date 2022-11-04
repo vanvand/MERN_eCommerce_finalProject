@@ -26,7 +26,7 @@ const UserInboxComponent = ({
     setCurrentProduct(
       recent_chat.find((current) => _id === current._id).product
     );
-    setCurrentUser(selectedUser.name);
+    setCurrentUser(selectedUser);
   };
 
   return (
