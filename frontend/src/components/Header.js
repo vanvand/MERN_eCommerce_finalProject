@@ -1,27 +1,28 @@
 import React, { useEffect } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+// Bootstrap
+import { Navbar, Nav, Button, Container, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
+import Image from "react-bootstrap/Image";
 import SearchBox from '../components/SearchBox';
-import { logout } from '../actions/userActions';
+// react icons
 import { BiListPlus } from 'react-icons/bi';
 import { GrUserSettings } from 'react-icons/gr';
 import { FiLogOut } from 'react-icons/fi';
 import { TbDoorEnter } from 'react-icons/tb';
 import { HiOutlineDocumentAdd } from 'react-icons/hi';
-import './components_css/header.css';
-import { useNavigate, useParams } from 'react-router-dom';
+
 import Loader from './Loader';
 import Message from './Message';
 import { PRODUCT_CREATE_RESET } from '../constants/productConstants';
-
+import { logout, getUserDetails } from '../actions/userActions';
 import { listProducts, createProduct } from '../actions/productActions.js';
-import { Button } from 'react-bootstrap';
 
-import { Link } from 'react-router-dom';
 
 const Header = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const params = useParams();
 
   const pageNumber = params.pageNumber || 1;
@@ -29,13 +30,12 @@ const Header = () => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const logoutHandler = () => {
-    dispatch(logout());
-  };
-
-  //.......... Offer Product..............
-
-  const navigate = useNavigate();
+  const userDetails = useSelector((state) => state.userDetails)
+  const { 
+    loading: loadingUserDetails, 
+    error: errorUserDetails, 
+    user 
+  } = userDetails
 
   const productCreate = useSelector((state) => state.productCreate);
   const {
@@ -47,7 +47,6 @@ const Header = () => {
 
   useEffect(() => {
     dispatch({ type: PRODUCT_CREATE_RESET });
-
     if (createdProduct) {
       navigate(`/products/${createdProduct._id}/edit`);
     } else {
@@ -55,91 +54,103 @@ const Header = () => {
     }
   }, [userInfo, dispatch, navigate, successCreate, createdProduct, pageNumber]);
 
+  useEffect(() => {
+    if(userInfo) {
+      dispatch(getUserDetails(userInfo._id))
+    }
+  }, [userInfo, dispatch])
+
+  const logoutHandler = () => {
+    dispatch(logout());
+  };
+
   const createProductHandler = () => {
     dispatch(createProduct());
   };
-  //........................
 
   return (
     <header>
+      {loadingUserDetails && <Loader />}
+      {errorUserDetails && (<Message variant='danger'>{errorUserDetails}</Message>)}
       {loadingCreate && <Loader />}
       {errorCreate && <Message variant='danger'>{errorCreate}</Message>}
+
       <Navbar
-        bg='dark'
-        variant='dark'
+        bg='light'
+        variant='light'
         expand='lg'
         collapseOnSelect
-        className='navbar_header'
       >
         <Container className='d-flex '>
+
           <LinkContainer to='/'>
-            <Navbar.Brand>ProShop</Navbar.Brand>
+            <Navbar.Brand>asOne</Navbar.Brand>
           </LinkContainer>
 
           <Navbar.Toggle aria-controls='responsive-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
-            <SearchBox />
 
-            <Nav className='ml-auto navbar-Collapse'>
-              {/* is user is logged in */}
+            <Nav className='ml-auto navbar-Collapse align-items-center'>
+
+              <SearchBox />
+
+              {/* view: user logged in */}
               {userInfo ? (
                 <>
-                  <LinkContainer to='/'>
-                    <Nav.Link className='icon'>
+                  <Nav.Item >
+                    <Nav.Link href="/wishlist" className='icon'>
                       <i className='fa-regular fa-heart'></i>
                     </Nav.Link>
-                  </LinkContainer>
-                  <LinkContainer to='/chat'>
-                    <Nav.Link className='icon'>
+                  </Nav.Item>
+
+                  <Nav.Item >
+                    <Nav.Link href="/chat" className='icon'>
                       <i className='fa-regular fa-envelope'></i>
                     </Nav.Link>
-                  </LinkContainer>
+                  </Nav.Item>
 
-                  <Link>
-                    <Button
-                      className='offer-product'
-                      variant='outline-light'
-                      size='sm'
-                      onClick={createProductHandler}
-                    >
-                      <i className='fas fa-plus'></i> Offer Product
-                    </Button>
-                  </Link>
-
-                  <NavDropdown title={userInfo.name} id="username">
-                    <LinkContainer to="/useradd">
-
-                      <NavDropdown.Item>
+                  <NavDropdown 
+                    title={
+                      user.image 
+                      ? <Image 
+                        className="userThumbnail" 
+                        src={user.image} 
+                        fluid
+                        /> 
+                      : <i className='far fa-user'></i>}
+                  >
+                    
+                      <NavDropdown.Item href="/useradd">
                         <HiOutlineDocumentAdd /> My Ads
                       </NavDropdown.Item>
-                    </LinkContainer>
-                    <LinkContainer to='#'>
-                      <NavDropdown.Item>
+
+                      <NavDropdown.Item href="#">
                         <TbDoorEnter /> My Rents
                       </NavDropdown.Item>
-                    </LinkContainer>
 
-                    <LinkContainer to='/wishlist'>
-                      <NavDropdown.Item>
+                      <NavDropdown.Item href="/wishlist">
                         <BiListPlus /> Wishlist
                       </NavDropdown.Item>
-                    </LinkContainer>
 
-                    <LinkContainer to='#'>
-                      <NavDropdown.Item>
+                      <NavDropdown.Item href="/profile">
                         <GrUserSettings /> Setting
                       </NavDropdown.Item>
-                    </LinkContainer>
 
-                    <LinkContainer to='/login'>
-                      <NavDropdown.Item onClick={logoutHandler}>
+                      <NavDropdown.Item href="/login" onClick={logoutHandler}>
                         <FiLogOut /> Logout
                       </NavDropdown.Item>
-                    </LinkContainer>
                   </NavDropdown>
+
+                   <Nav.Item >
+                    <Button
+                      className='btn-offer-product'
+                      size='sm'
+                      onClick={createProductHandler}
+                    >Offer Product</Button>
+                  </Nav.Item>
                 </>
               ) : (
-                // is no user is logged in
+                // view: user NOT logged in
                 <>
                   <Link to='/login'>
                     <Button
@@ -156,6 +167,7 @@ const Header = () => {
                 </>
               )}
 
+              {/* Admin Dashboard */}
               {userInfo && userInfo.isAdmin && (
                 <NavDropdown title='Admin' id='adminmenu'>
                   <LinkContainer to='/admin/userlist'>
@@ -172,11 +184,12 @@ const Header = () => {
                 </NavDropdown>
               )}
 
-              <LinkContainer to='/faq'>
-                <Nav.Link className='icon'>
+              <Nav.Item >
+                <Nav.Link href="/faq" className='icon'>
                   <i className='fa-regular fa-circle-question'></i>
                 </Nav.Link>
-              </LinkContainer>
+              </Nav.Item>
+
             </Nav>
           </Navbar.Collapse>
         </Container>

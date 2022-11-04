@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button, InputGroup } from "react-bootstrap";
 import { BsSearch } from "react-icons/bs";
-import "./components_css/searchBox.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { createSearch } from "../actions/mostSearchActions";
 import { MOSTSEARCH_CREATE_SAVE } from "../constants/mostSearchConstants.js";
 
@@ -27,23 +26,32 @@ const SearchBox = () => {
   return (
     <Form
       onSubmit={submitHandler}
-      className=" border-bottom border-top space search"
+      className="search"
     >
-      <InputGroup size="sm">
+      <InputGroup >
+        <Button
+          type="submit"
+          variant="outline"
+          bg="light"
+          className="btn-search"
+        >
+          {/* search icon */}
+          <BsSearch />
+        </Button>
+
         <Form.Control
           type="text"
           name="q"
           onChange={(e) => setKeyword(e.target.value)}
-          placeholder="Search Products..."
+          style={{
+            boxShadow: "none",
+            backgroundColor: "transparent",
+            outline: "0",
+            padding: "0.25rem",
+            width: "15rem"
+          }}
         />
-        <Button
-          type="submit"
-          variant="outline"
-          className="p-2 search_icon "
-          bg="light"
-        >
-          <BsSearch />
-        </Button>
+       
       </InputGroup>
     </Form>
   );
