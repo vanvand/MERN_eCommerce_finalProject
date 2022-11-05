@@ -24,6 +24,8 @@ export default function UserAdsScreen() {
   const [availability, setAvailability] = useState();
   const [product, setProduct] = useState();
   const [productId, setProductId] = useState();
+  const [countAds, setCountAds] = useState();
+
   const dispatch = useDispatch();
 
  
@@ -75,19 +77,41 @@ export default function UserAdsScreen() {
   };
 
   useEffect(() => {
-      if (product) {
-        dispatch(
-          updateProduct({
-            ...product,
-            availability: availability,
-          })
-        );
-      }
+    if (product) {
+      dispatch(
+        updateProduct({
+          ...product,
+          availability: availability,
+        })
+      );
+    }
+
   }, [availability, dispatch]);
+
+   useEffect(() => {
+     if (product && product.availability === false) {
+       setCountAds((product.timesRented = product.timesRented + 1));
+       dispatch(
+         updateProduct({
+           ...product,
+           timesRented: countAds,
+         })
+       );
+     }else if (product && product.availability === true) {
+       setCountAds(countAds);
+       dispatch(
+         updateProduct({
+           ...product,
+           timesRented: countAds,
+         })
+       );
+     }
+   }, [availability, dispatch]);
 
   useEffect(() => {
     dispatch(listProducts());
   }, [productUpdatesuccess, deleteSuccess]);
+
 
   const availabilityHandeler = (productId) => {
     if (window.confirm("Are you sure?")) {
