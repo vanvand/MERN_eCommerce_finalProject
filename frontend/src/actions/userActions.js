@@ -105,49 +105,47 @@ export const logout = () => (dispatch) => {
 }
 
 
-export const register = (name, email, password, city, district) => async (dispatch) => {
-
-
+export const register =
+  (name, email, password, city, district, image) => async (dispatch) => {
     try {
-        dispatch({
-            type: USER_REGISTER_REQUEST
-        })
+      dispatch({
+        type: USER_REGISTER_REQUEST,
+      });
 
-        const config = {
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
 
-        const { data } = await axios.post(
-            "/api/users",
-            { name, email, password, city, district }, 
-            config
-            )
+      const { data } = await axios.post(
+        "/api/users",
+        { name, email, password, city, district, image },
+        config
+      );
 
-        dispatch({
-            type: USER_REGISTER_SUCCESS,
-            payload: data
-        })
+      dispatch({
+        type: USER_REGISTER_SUCCESS,
+        payload: data,
+      });
 
-        // after registration login the user right away
-        dispatch({
-            type: USER_LOGIN_SUCCESS,
-            payload: data
-        })
+      // after registration login the user right away
+      dispatch({
+        type: USER_LOGIN_SUCCESS,
+        payload: data,
+      });
 
-        localStorage.setItem("userInfo", JSON.stringify(data))
-        
+      localStorage.setItem("userInfo", JSON.stringify(data));
     } catch (error) {
-        dispatch({
-            type: USER_REGISTER_FAIL,
-            payload: 
-                error.response && error.response.data.message 
-                ? error.response.data.message 
-                : error.message
-        })
+      dispatch({
+        type: USER_REGISTER_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
     }
-}
+  };
 
 
 // we get userInfo (with token) from getState method

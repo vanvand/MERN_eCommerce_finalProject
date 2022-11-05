@@ -32,7 +32,7 @@ const authUser = asyncHandler(async (req, res) => {
 // @route POST /api/users
 // @access Public
 const registerUser = asyncHandler(async (req, res) => {
-    const { name, email, password, city, district } = req.body
+    const { name, email, password, city, district, image } = req.body;
 
     const userExists = await User.findOne({email: email})
 
@@ -44,24 +44,26 @@ const registerUser = asyncHandler(async (req, res) => {
     // if user doesn't exist create new User
     // in userModel make sure that password is hashed before user creation
     const user = await User.create({
-        name,
-        email,
-        password,
-        city,
-        district
-    })
+      name,
+      email,
+      password,
+      city,
+      district,
+      image,
+    });
 
     // if user is created successfully give back complete user data json
     if(user) {
         res.status(201).json({
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            city: user.city,
-            district: user.district,
-            isAdmin: user.isAdmin,
-            token: generateToken(user._id)
-        })
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          city: user.city,
+          district: user.district,
+          image: user.image,
+          isAdmin: user.isAdmin,
+          token: generateToken(user._id),
+        });
     } else {
         res.status(400)
         throw new Error("Invalid user data")
