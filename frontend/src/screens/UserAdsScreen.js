@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Col,
-  Row,
-  Container,
-  Button,
-  Card,
-} from "react-bootstrap";
+import { Col, Row, Container, Button, Card } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
@@ -24,41 +18,35 @@ export default function UserAdsScreen() {
   const [availability, setAvailability] = useState();
   const [product, setProduct] = useState();
   const [productId, setProductId] = useState();
-  const dispatch = useDispatch();
+  const [countAds, setCountAds] = useState(0);
 
- 
+  const dispatch = useDispatch();
 
   const userDetails = useSelector((state) => state.userDetails);
   const { loading: userLoading, error: userError, user } = userDetails;
 
   const productDelete = useSelector((state) => {
-   // console.log("productDelete", state.productDelete);
+    // console.log("productDelete", state.productDelete);
 
     return state.productDelete;
   });
-   const { success:deleteSuccess } = productDelete;
+  const { success: deleteSuccess } = productDelete;
 
   const productList = useSelector((state) => {
     //console.log(state.productList);
     return state.productList;
   });
-  const {
-    loading: productLoading,
-    error,
-    allProductsCategory,
-  } = productList;
+  const { loading: productLoading, error, allProductsCategory } = productList;
   //console.log(allProductsCategory);
 
   const productUpdate = useSelector((state) => {
-   // console.log('state.productUpdat',state);
+    // console.log('state.productUpdat',state);
     return state.productUpdate;
   });
   const { product: productUpdatesuccess } = productUpdate;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo, loading } = userLogin;
-
-  
 
   useEffect(() => {
     if (!user || !user.name) {
@@ -75,14 +63,34 @@ export default function UserAdsScreen() {
   };
 
   useEffect(() => {
-      if (product) {
-        dispatch(
-          updateProduct({
-            ...product,
-            availability: availability,
-          })
-        );
-      }
+    if (product) {
+      dispatch(
+        updateProduct({
+          ...product,
+          availability: availability,
+        })
+      );
+    }
+  }, [availability, dispatch]);
+
+  useEffect(() => {
+    if (product && product.availability === false) {
+      const count = product.timesRented + 1;
+      setCountAds(count);
+      dispatch(
+        updateProduct({
+          ...product,
+          timesRented: count,
+        })
+      );
+    } else if (product && product.availability === true) {
+      dispatch(
+        updateProduct({
+          ...product,
+          timesRented: countAds,
+        })
+      );
+    }
   }, [availability, dispatch]);
 
   useEffect(() => {
@@ -97,7 +105,6 @@ export default function UserAdsScreen() {
       });
       setProduct(product);
       setAvailability(!product.availability);
-      
     }
   };
   return (
