@@ -104,18 +104,17 @@ const deleteProduct = asyncHandler(async (req, res) => {
 // @access Private/admin
 const createProduct = asyncHandler(async (req, res) => {
     const product = new Product({
-        name: "Sample name",
-        price: 0,
-        user: req.user._id,
-        image: "/images/sample.jpg",
-        brand: "Sample brand",
-        category: "Sample category",
-        countInStock: 0,
-        numReviews: 0,
-        description: "Sample description",
-        availability:true,
-
-    })
+      user: req.user._id,
+      name: "Sample name",
+      image: "/images/sample.jpg",
+      imageSecond: "/images/sample.jpg",
+      imageThird: "/images/sample.jpg",
+      category: "Sample category",
+      description: "Sample description",
+      numReviews: 0,
+      availability: true,
+      timesRented:0
+    });
 
     const createdProduct = await product.save()
     res.status(201).json(createdProduct)
@@ -127,25 +126,27 @@ const createProduct = asyncHandler(async (req, res) => {
 const updateProduct = asyncHandler(async (req, res) => {
     const {
       name,
-      price,
-      description,
       image,
-      brand,
+      imageSecond,
+      imageThird,
       category,
-      countInStock,
+      description,
       availability,
+      timesRented,
+      rentedTo,
     } = req.body;
     const product = await Product.findById(req.params.id)
 
     if(product) {
-        product.name = name
-        product.price = price
-        product.description = description
-        product.image = image
-        product.brand = brand
-        product.category = category
-      product.countInStock = countInStock
+      product.name = name
+      product.image = image;
+      product.imageSecond = imageSecond;
+      product.imageThird = imageThird;
+      product.category = category
+      product.description = description
       product.availability = availability
+      product.timesRented = timesRented
+      product.rentedTo = rentedTo;
 
         const updatedProduct = await product.save()
         res.status(201).json(updatedProduct)
