@@ -28,7 +28,6 @@ const HomeScreen = () => {
 
   return (
     <>
-      {/* Do not show product carousel with top rated products on search page */}
       {!keyword ? (
         <>
           <MainAdd />

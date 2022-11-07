@@ -1,3 +1,10 @@
+:root {
+  --txt-color: black;
+  --txt-color-dark: #353535;
+  --txt-color-medium: #7F7F7F;
+  --txt-color-light: #F2F2F2
+}
+
 *,
 *::before,
 *::after {
@@ -12,7 +19,7 @@ main {
 }
 
 h3 {
-  padding: 1rem 0;
+  padding: 2rem 0 0 0;
 }
 
 h1 {
@@ -28,7 +35,7 @@ h2 {
 .rating span {
   margin: 0.1rem;
   /* I made it smaller, there was no size */
-  font-size: 5px;
+  /* font-size: 5px; */
 }
 
 /* carousel */
@@ -45,3 +52,125 @@ h2 {
   border: 1px solid #6c757d;
   color: #6c757d
 } 
+
+/* #################################################### */
+/* Header */
+.navbar {
+  padding: 0.5rem 1rem;
+  position: relative;
+  z-Index: 1000
+}
+
+.navbar-Collapse {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+} 
+
+.nav-item {
+  margin-right: 1rem;
+}
+
+.icon > i{
+  font-size: 25px;
+  color: var(--txt-color-medium)
+}
+.icon:hover > i {
+   color: var(--txt-color-dark);
+}
+
+.userThumbnail {
+  border-radius: 50%;
+  width: 40px
+}
+
+.fa-user {
+  font-size: 25px;
+  color: var(--txt-color-medium)
+}
+
+.btn-offer-product {
+  background-color: var(--txt-color-medium);
+  border-radius: 10px;
+  font-size: 12px
+}
+.btn-offer-product:hover {
+  outline: none;
+  border: none;
+  background-color: var(--txt-color-dark);
+}
+
+/* #################################################### */
+/* CategoryHeader */
+.category-nav {
+  background-color: white;
+  position: sticky;
+  top: 0px;
+  z-index: 100;
+  border-bottom: 1px solid var(--txt-color-light);
+}
+
+.link-container{
+  transition:  0.5s;
+}
+
+.btn-category-nav {
+  color: var(--txt-color-medium);
+  text-transform: capitalize; 
+}
+
+.btn-category-nav:hover {
+  background-color: var(--txt-color-light) !important;
+  color: var(--txt-color-dark);
+}
+
+
+/* #################################################### */
+/* SearchBox */
+.search {
+  border-radius: 30px;
+  border: 1px solid var(--txt-color-medium);
+  margin-right: 1rem;
+}
+
+.search:hover {
+  background-color: var(--txt-color-light);
+  border: 1px solid var(--txt-color-light)
+}
+
+@media (max-width: 992px) {
+.search { margin-top: 15px;
+  margin-top: 15px;
+}
+}
+
+.btn-search {
+  padding: 0 1rem
+}
+
+
+/* #################################################### */
+/* Product Component */
+.card-link-custom {
+  text-decoration: none;
+}
+
+.card-img-custom{
+    height: 250px;
+    object-fit: cover;
+}
+
+.card-title-custom{    
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-weight: bold;
+}
+
+.card h6:first-child {
+  color: var(--txt-color-medium)
+}
+
+
+

@@ -1,20 +1,19 @@
 import React from "react";
-import {Card, Col, ListGroup, Row } from "react-bootstrap";
-import "./components_css/mainAdd.css";
+import {Card, Col, Row } from "react-bootstrap";
 
 
 export default function MainAdd() {
   return (
     <>
-      <Card bg="dark">
+      <Card bg="dark" border="light">
         <Row className="flex-column-reverse flex-md-row  align-items-center mainAddCard">
           <Col  className="mainAddCol">
             <Card.Img
               variant="bottom"
-              src="../../../uploads/add2.png"
+              src="../../../uploads/hero-banner.png"
               className="add_image"
             />
-            <Card.ImgOverlay>
+            {/* <Card.ImgOverlay>
               <ListGroup variant="flush">
                 <ListGroup.Item className="mainAddListGroup">
                   <h1>Keep Life Simple</h1>
@@ -25,7 +24,7 @@ export default function MainAdd() {
                   <h5>We are community-bases rental service</h5>
                 </ListGroup.Item>
               </ListGroup>
-            </Card.ImgOverlay>
+            </Card.ImgOverlay> */}
           </Col>
  
         </Row>

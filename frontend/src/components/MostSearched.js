@@ -17,8 +17,8 @@ function MostSearched() {
   }, [dispatch]);
 
   return (
-    <Container className=' square border-bottom  bar-background-color'>
-      <h3>Most Searched</h3>
+    <Container className='most-searched-container'>
+      <h3 className='h3-custom'>Most Searched</h3>
       <Row d-flex='true' flex-row='true'>
         {mostSearch?.map((searched, index) => (
           <Col key={index} className='alignStart'>

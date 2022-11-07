@@ -96,33 +96,16 @@ const reducer = {
   rent: rentReducer,
   searchCreate: searchCreateReducer,
   searchList: searchListReducer,
-};
+});
 
-// when store is initialized we check here if sth. is in localStorage already > if yes add that to the state
-// from cartActions
-const cartItemsFromStorage = localStorage.getItem('cartItems')
-  ? JSON.parse(localStorage.getItem('cartItems'))
-  : [];
-
-const shippingAddressFromStorage = localStorage.getItem('shippingAddress')
-  ? JSON.parse(localStorage.getItem('shippingAddress'))
-  : {};
-
-// const paymentMethodFromStorage = localStorage.getItem("paymentMethod")
-//   ? JSON.parse(localStorage.getItem("paymentMethod"))
-//   : {}
 
 // from userActions
 const userInfoFromStorage = localStorage.getItem('userInfo')
   ? JSON.parse(localStorage.getItem('userInfo'))
   : null;
 
+
 const preloadedState = {
-  cart: {
-    cartItems: cartItemsFromStorage,
-    shippingAddress: shippingAddressFromStorage,
-    // paymentMethod: paymentMethodFromStorage
-  },
   userLogin: { userInfo: userInfoFromStorage },
 };
 
@@ -131,4 +114,5 @@ const store = configureStore({
   preloadedState,
   middleware: [thunk],
 });
+
 export default store;

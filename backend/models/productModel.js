@@ -62,7 +62,6 @@ const productSchema = mongoose.Schema(
     },
     timesRented: {
       type: Number,
-      required: true,
       default: 0,
     },
     rentedTo: {
