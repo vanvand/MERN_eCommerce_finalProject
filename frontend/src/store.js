@@ -96,14 +96,12 @@ const reducer = {
   rent: rentReducer,
   searchCreate: searchCreateReducer,
   searchList: searchListReducer,
-});
-
+};
 
 // from userActions
 const userInfoFromStorage = localStorage.getItem('userInfo')
   ? JSON.parse(localStorage.getItem('userInfo'))
   : null;
-
 
 const preloadedState = {
   userLogin: { userInfo: userInfoFromStorage },
