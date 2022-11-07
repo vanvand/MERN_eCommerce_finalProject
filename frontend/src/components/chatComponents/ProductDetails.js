@@ -1,42 +1,43 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Row, Card, Button } from 'react-bootstrap';
 
-import { updateProduct } from '../../actions/productActions';
+import { updateChat } from '../../actions/chatActions';
 
-function ProductDetails({ currentProduct, currentUser, socket }) {
+function ProductDetails({ socket }) {
   const dispatch = useDispatch();
-  const [availability, setAvailability] = useState(true);
-  const [rented, setRented] = useState(false);
+
+  const selectedChat = useSelector((state) => state.selectedChat);
+  const { currentUser, currentProduct, currentChat } = selectedChat;
+
+  const [availability, setAvailability] = useState(currentChat.isRequired);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  //create action for this listener
+  useEffect(() => {
+    setAvailability(currentProduct.availability);
+  }, [currentProduct]);
+
   useEffect(() => {
     socket.on('rented', () => {
       console.log('rented');
-      setRented(true);
-      dispatch(
-        updateProduct({
-          _id: currentProduct._id,
-          name: currentProduct.name,
-          image: currentProduct.image,
-          category: currentProduct.category,
-          description: currentProduct.description,
-          rating: currentProduct.rating,
-          numReviews: currentProduct.numReviews,
-          timesRented: currentProduct.timesRented++,
-          availability: false,
-          rentedTo: currentUser,
-        })
-      );
+      // setRented(true);
     });
   }, [socket]);
 
   const handleMarkAsRented = () => {
     if (currentProduct.availability) {
-      socket.emit('marked as rented', currentUser);
+      socket.emit('marked as rented', currentUser, currentProduct, currentChat);
+      dispatch(
+        updateChat({
+          _id: currentChat._id,
+          users: currentChat._users,
+          product: currentChat.product,
+          latestMessage: currentChat.latestMessage,
+          isRequired: true,
+        })
+      );
       setAvailability(false);
     } else {
       socket.emit('marked as available', currentUser);
@@ -59,6 +60,7 @@ function ProductDetails({ currentProduct, currentUser, socket }) {
           </h5>
           {currentProduct.user === userInfo._id && (
             <Button
+              key={currentProduct._id}
               variant='primary'
               className='rounded px-5 py-2'
               style={{
@@ -68,7 +70,12 @@ function ProductDetails({ currentProduct, currentUser, socket }) {
               }}
               onClick={handleMarkAsRented}
             >
-              <i className='px-2 fa-solid fa-rotate'></i>
+              {currentProduct.rentedTo ? (
+                <i className='fa-solid fa-circle-check'></i>
+              ) : (
+                <i className='px-2 fa-solid fa-rotate'></i>
+              )}
+
               {availability ? 'Mark as rented to UserName' : 'Rented'}
             </Button>
           )}

@@ -15,15 +15,14 @@ const SERVER = `http://localhost:3000`;
 const socket = io(SERVER);
 
 const ChatScreen = () => {
-  const [currentChat, setCurrentChat] = useState(null);
-  const [currentProduct, setCurrentProduct] = useState();
-  const [currentUser, setCurrentUser] = useState();
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+
+  const selectedChat = useSelector((state) => state.selectedChat);
+  const { currentUser } = selectedChat;
 
   useEffect(() => {
     if (!userInfo) {
@@ -50,21 +49,10 @@ const ChatScreen = () => {
       </Row>
       <Row className='chat-mainRow2 border'>
         <Col sm={4} className='myChats-container'>
-          <RecentChatList
-            socket={socket}
-            currentChat={currentChat}
-            setCurrentChat={setCurrentChat}
-            setCurrentProduct={setCurrentProduct}
-            setCurrentUser={setCurrentUser}
-          />
+          <RecentChatList socket={socket} />
         </Col>
         <Col sm={8} className='chat-body-container'>
-          <ChatBody
-            socket={socket}
-            currentChat={currentChat}
-            currentProduct={currentProduct}
-            currentUser={currentUser}
-          />
+          <ChatBody socket={socket} />
         </Col>
       </Row>
     </Container>

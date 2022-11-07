@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   Container,
   Row,
-  Col,
   InputGroup,
   Form,
   Image,
@@ -11,27 +10,40 @@ import {
   Card,
 } from 'react-bootstrap';
 
-import { sendMessage, updateMessages } from '../../actions/chatActions';
+import {
+  sendMessage,
+  updateMessages,
+  updateRecentChats,
+} from '../../actions/chatActions';
+import { updateProduct } from '../../actions/productActions';
 
 import '../components_css/chat.css';
 
 import MessageStarter from './MessageStarter';
-import UserDetails from '../UserDetails';
 import ProductDetails from './ProductDetails';
 
-const ChatBody = ({ socket, currentChat, currentProduct, currentUser }) => {
+const ChatBody = ({ socket }) => {
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  const selectedChat = useSelector((state) => state.selectedChat);
+  const { currentUser, currentProduct, currentChat } = selectedChat;
+
+  const { messages } = useSelector((state) => state.chat);
+
   const [text, setText] = useState('');
-  const [confirmRequired, setConfirmRequired] = useState();
+  const [confirmRequired, setConfirmRequired] = useState(
+    currentChat.isRequired
+  );
+  const [renterInfo, setRenterInfo] = useState({});
+  console.log(renterInfo);
   // const [isTyping, setIsTyping] = useState();
 
   const dispatch = useDispatch();
   const lastMessageRef = useRef(null);
-  const renterInfoRef = useRef(null);
 
-  const { messages } = useSelector((state) => state.chat);
-
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
+  //ref to render approval button
+  const renterInfoRef = useRef();
 
   useEffect(() => {
     socket.on('message received', (receivedMessage) => {
@@ -41,11 +53,11 @@ const ChatBody = ({ socket, currentChat, currentProduct, currentUser }) => {
     // socket.on('typingResponse', (data) => {
     //   setIsTyping(data.text);
     // });
-
-    socket.on('confirmation required', (renterInfo) => {
-      console.log('confirmation required, client side');
-      setConfirmRequired(true);
-      renterInfoRef(renterInfo._id);
+    socket.on('confirmation required', (renterInfo, productInfo, chat) => {
+      console.log('REQUIRED');
+      renterInfoRef.current = renterInfo;
+      setRenterInfo(renterInfo);
+      setConfirmRequired(currentChat.isRequired);
     });
   }, [socket]);
 
@@ -53,6 +65,25 @@ const ChatBody = ({ socket, currentChat, currentProduct, currentUser }) => {
     // 👇️ scroll to bottom every time messages change
     lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [currentChat, messages]);
+
+  const handleApproval = () => {
+    socket.emit('confirmation approved', currentProduct.user);
+    dispatch(
+      updateProduct({
+        _id: currentProduct._id,
+        name: currentProduct.name,
+        image: currentProduct.image,
+        category: currentProduct.category,
+        description: currentProduct.description,
+        rating: currentProduct.rating,
+        numReviews: currentProduct.numReviews,
+        timesRented: currentProduct.timesRented++,
+        availability: false,
+        rentedTo: renterInfoRef.current,
+      })
+    );
+    setConfirmRequired(false);
+  };
 
   //send message handlers for input
   const handleOnEnter = (e) => {
@@ -67,10 +98,6 @@ const ChatBody = ({ socket, currentChat, currentProduct, currentUser }) => {
     setText('');
   };
 
-  const handleApproval = () => {
-    socket.emit('confirmation approved', currentProduct.user);
-  };
-
   // const handleTyping = () => {
   //   socket.emit('typing', {
   //     text: `${userInfo.name} is typing...`,
@@ -83,11 +110,7 @@ const ChatBody = ({ socket, currentChat, currentProduct, currentUser }) => {
       <Container fluid>
         {currentChat ? (
           <>
-            <ProductDetails
-              currentProduct={currentProduct}
-              currentUser={currentUser}
-              socket={socket}
-            />
+            <ProductDetails socket={socket} />
             {/* <Row md={3} className='chatBody-userDetails'>
               <Col>
                 
@@ -124,22 +147,30 @@ const ChatBody = ({ socket, currentChat, currentProduct, currentUser }) => {
                         {message.content}
                       </Card>
                     )}
-                    {userInfo._id === renterInfoRef.current &&
-                    confirmRequired ? (
-                      <Card body>
-                        <p>
-                          {currentProduct.user} marked product as rented. Please
-                          approve as soon as you picked it up.
-                        </p>
-                        <Button onClick={handleApproval}>
-                          <i className='fa-regular fa-check'></i>
-                          Approve
-                        </Button>
-                      </Card>
-                    ) : null}
                   </Row>
                 ))}
               {/* <div>{isTyping}</div> */}
+              {(confirmRequired || currentChat.isRequired) &&
+              currentProduct.user !== userInfo._id ? (
+                <Row className='approval-container'>
+                  <Card.Body className='rent-approval'>
+                    <p>
+                      {currentUser.name} marked product as rented. Please
+                      approve as soon as you picked it up.
+                    </p>
+                    <Button
+                      onClick={handleApproval}
+                      style={{ borderRadius: '5px', width: '70%' }}
+                    >
+                      Approve
+                      <i
+                        className='fa-solid fa-check'
+                        style={{ marginLeft: '.5rem' }}
+                      ></i>
+                    </Button>
+                  </Card.Body>
+                </Row>
+              ) : null}
               <div ref={lastMessageRef} />
             </Row>
           </>

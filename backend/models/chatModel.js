@@ -8,6 +8,7 @@ const chatSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Message',
     },
+    isRequired: { type: mongoose.Schema.Types.Boolean },
   },
   { timestamps: true, versionKey: false }
 );

@@ -17,6 +17,11 @@ import {
   UPDATE_MESSAGES_FAIL,
   UPDATE_MESSAGES_SUCCESS,
   UPDATE_MESSAGES_REQUEST,
+  SET_CURRENT_FAIL,
+  SET_CURRENT_SUCCESS,
+  UPDATE_CHAT_SUCCESS,
+  UPDATE_CHAT_FAIL,
+  UPDATE_CHAT_REQUEST,
 } from '../constants/chatConstants.js';
 
 //fetches selected messages and joins chat on socket.io
@@ -228,6 +233,55 @@ export const updateMessages = (chatId) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: UPDATE_MESSAGES_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+//Sets current chat
+export const currentChatAction =
+  (currentUser, currentProduct, currentChat) => async (dispatch) => {
+    try {
+      const data = { currentUser, currentProduct, currentChat };
+
+      dispatch({ type: SET_CURRENT_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({
+        type: SET_CURRENT_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
+//Sets confirmation
+export const updateChat = (chat) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: UPDATE_CHAT_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        'content-type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.put(`/api/chat`, chat, config);
+    console.log(data);
+
+    dispatch({ type: UPDATE_CHAT_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: UPDATE_CHAT_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

@@ -16,8 +16,14 @@ import {
   UPDATE_MESSAGES_REQUEST,
   UPDATE_MESSAGES_SUCCESS,
   UPDATE_MESSAGES_FAIL,
+  SET_CURRENT_SUCCESS,
+  SET_CURRENT_FAIL,
+  UPDATE_CHAT_SUCCESS,
+  UPDATE_CHAT_REQUEST,
+  UPDATE_CHAT_FAIL,
 } from '../constants/chatConstants';
 
+//CHAT
 const initialState = {
   chat: {},
   messages: [],
@@ -72,6 +78,7 @@ export const chatReducer = (state = initialState, { type, payload }) => {
   }
 };
 
+//RECENT CHATS
 const initState = {
   recent_chat: [],
   loading: false,
@@ -111,6 +118,56 @@ export const recentChatReducer = (state = initState, { type, payload }) => {
       };
     case UPDATE_RECENT_CHAT_FAIL:
       return { loading: false, error: payload };
+    default:
+      return state;
+  }
+};
+
+//CURRENT CHAT
+const initSelectedState = {
+  currentUser: {},
+  currentProduct: {},
+  currentChat: '',
+};
+
+export const selectedChatReducer = (
+  state = initSelectedState,
+  { type, payload }
+) => {
+  switch (type) {
+    case SET_CURRENT_SUCCESS:
+      return {
+        ...state,
+        currentUser: payload.currentUser,
+        currentProduct: payload.currentProduct,
+        currentChat: payload.currentChat,
+      };
+    case SET_CURRENT_FAIL:
+      return { ...state, error: payload };
+    default:
+      return state;
+  }
+};
+
+//CONFIRMATION REQUIRED
+const initRentedState = {
+  isRequired: false,
+  chatId: '',
+  isRented: false,
+};
+
+export const rentReducer = (state = initRentedState, { type, payload }) => {
+  switch (type) {
+    case UPDATE_CHAT_REQUEST:
+      return { ...state };
+    case UPDATE_CHAT_SUCCESS:
+      return {
+        ...state,
+        isRequired: true,
+        chatId: payload.chatId,
+      };
+    case UPDATE_CHAT_FAIL:
+      return { ...state, error: payload };
     default:
       return state;
   }

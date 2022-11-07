@@ -42,7 +42,12 @@ import {
   faqAnswersCreateReducer,
   faqAnswerDeleteReducer,
 } from './reducers/faqReducers';
-import { chatReducer, recentChatReducer } from './reducers/chatReducers';
+import {
+  chatReducer,
+  recentChatReducer,
+  rentReducer,
+  selectedChatReducer,
+} from './reducers/chatReducers';
 // import { notificationReducer } from './reducers/notificationReducers';
 
 import {
@@ -87,6 +92,8 @@ const reducer = {
   faqAnswerDelete: faqAnswerDeleteReducer,
   chat: chatReducer,
   recentChat: recentChatReducer,
+  selectedChat: selectedChatReducer,
+  rent: rentReducer,
   searchCreate: searchCreateReducer,
   searchList: searchListReducer,
 };

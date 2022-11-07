@@ -3,7 +3,7 @@ import { Image } from 'react-bootstrap';
 
 const MessageStarter = ({ image, name }) => {
   return (
-    <div>
+    <div className='messageStarter-container'>
       <div>
         <Image src={image} sx={{ width: 70, height: 70 }} />
         <h5>Welcome, {name}</h5>
