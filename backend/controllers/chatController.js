@@ -103,14 +103,16 @@ const createChat = asyncHandler(async (req, res) => {
 
 const updateChat = asyncHandler(async (req, res) => {
   const { _id, users, product, latestMessage, isRequired } = req.body;
+  console.log(req.body);
   const chat = await Chat.findById(_id);
-
+  console.log(chat);
   if (chat) {
     chat.users = users || chat.users;
     chat.product = product || chat.product;
     chat.latestMessage = latestMessage || chat.latestMessage;
-    chat.isRequired = isRequired || chat.isRequired;
+    chat.isRequired = isRequired;
 
+    // Chat.updateOne({_id: _id}, {$set: {isRequired: }})
     const updatedChat = await chat.save();
     res.status(201).json(updatedChat);
   } else {

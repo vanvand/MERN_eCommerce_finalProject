@@ -11,7 +11,7 @@ function ProductDetails({ socket }) {
   const { currentUser, currentProduct, currentChat } = selectedChat;
 
   const [rented, setRented] = useState(currentProduct.rentedTo);
-  const [availability, setAvailability] = useState(currentChat.isRequired);
+  const [available, setAvailability] = useState(currentChat.isRequired);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -38,11 +38,11 @@ function ProductDetails({ socket }) {
           isRequired: true,
         })
       );
-      setAvailability(true);
+      setAvailability(false);
     } else {
       socket.emit('marked as available', currentUser);
       //cancel all process through socket
-      setAvailability(false);
+      setAvailability(true);
     }
   };
 
@@ -70,13 +70,17 @@ function ProductDetails({ socket }) {
               }}
               onClick={handleMarkAsRented}
             >
-              {currentProduct.rentedTo ? (
+              {currentProduct.availability && currentChat.isRequired ? (
+                <i className='px-2 fa-solid fa-rotate'></i>
+              ) : !currentProduct.availability && !currentChat.isRequired ? (
                 <i className='px-2 fa-solid fa-circle-check'></i>
               ) : (
                 <i className='px-2 fa-solid fa-rotate'></i>
               )}
 
-              {!availability ? 'Mark as rented to UserName' : 'Rented'}
+              {currentProduct.availability
+                ? 'Mark as rented to UserName'
+                : 'Rented'}
             </Button>
           )}
         </Card.Body>

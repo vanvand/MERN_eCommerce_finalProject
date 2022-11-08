@@ -100,7 +100,7 @@ export const recentChatReducer = (state = initState, { type, payload }) => {
     case NEW_CREATED_CHAT:
       return {
         ...state,
-        recent_chat: [payload, ...state.recent_chat],
+        recent_chat: [...state.recent_chat, payload],
         loading: false,
         error: false,
       };
@@ -161,7 +161,6 @@ export const rentReducer = (state = initRentedState, { type, payload }) => {
     case UPDATE_CHAT_REQUEST:
       return { ...state };
     case UPDATE_CHAT_SUCCESS:
-      console.log(payload);
       return {
         ...state,
         isRequired: payload.isRequired,
