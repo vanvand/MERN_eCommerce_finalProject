@@ -2,7 +2,8 @@
   --txt-color: black;
   --txt-color-dark: #353535;
   --txt-color-medium: #7F7F7F;
-  --txt-color-light: #F2F2F2
+  --txt-color-light: #F2F2F2;
+  --txt-color-highlight: #EE6C87;
 }
 
 *,
@@ -34,8 +35,6 @@ h2 {
 
 .rating span {
   margin: 0.1rem;
-  /* I made it smaller, there was no size */
-  /* font-size: 5px; */
 }
 
 /* carousel */
@@ -47,11 +46,32 @@ h2 {
   object-fit: cover;
 }
 
+/* #################################################### */
 /* custom buttons */
 .btn-custom {
   border: 1px solid #6c757d;
   color: #6c757d
 } 
+
+.btn-custom-cta {
+  background-color: var(--txt-color-medium);
+  border-radius: 10px;
+  font-size: 12px
+}
+
+.btn-custom-cta-light {
+  background-color: white;
+  border: 1px solid var(--txt-color-medium);
+  color: var(--txt-color-medium);
+  border-radius: 10px;
+  font-size: 12px
+}
+
+.btn-custom-cta:hover {
+  outline: none;
+  border: none;
+  background-color: var(--txt-color-dark);
+}
 
 /* #################################################### */
 /* Header */
@@ -88,17 +108,6 @@ h2 {
 .fa-user {
   font-size: 25px;
   color: var(--txt-color-medium)
-}
-
-.btn-offer-product {
-  background-color: var(--txt-color-medium);
-  border-radius: 10px;
-  font-size: 12px
-}
-.btn-offer-product:hover {
-  outline: none;
-  border: none;
-  background-color: var(--txt-color-dark);
 }
 
 /* #################################################### */
@@ -172,5 +181,59 @@ h2 {
   color: var(--txt-color-medium)
 }
 
+/* #################################################### */
+/* Footer */
+.footer-container {
+  background-color: var(--txt-color-light);
+  margin-top: 2rem;
+}
 
+.footer-container-inner {
+  padding: 2rem 0
+}
 
+.footer-logo {
+  padding-bottom: 0.75rem
+}
+
+.footer-claim {
+  color: var(--txt-color-highlight);
+  padding-bottom: 2.5rem
+}
+
+.footer-links {
+  padding-bottom: 2rem
+}
+
+.footer-links h4 {
+  color: var(--txt-color-dark);
+  font-size: 18px;
+}
+
+.footer-links .list-group-item {
+  background-color: transparent;
+  border: none;
+  color: var(--txt-color-dark)
+}
+
+.footer-links .list-group-item:hover {
+  background-color: transparent;
+  color: var(--txt-color-highlight);
+}
+
+.newsletter-form .form-control {
+  background-color: white
+}
+
+.btn-sign-up {
+  padding: 0.3rem 0;
+}
+
+.social-media-links i {
+  font-size: 24px;
+  color: var(--txt-color-highlight);
+}
+
+.copyright-container {
+  margin: 1rem 0
+}
