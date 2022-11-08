@@ -13,7 +13,7 @@ import {
 import {
   sendMessage,
   updateMessages,
-  updateRecentChats,
+  updateChat,
 } from '../../actions/chatActions';
 import { updateProduct } from '../../actions/productActions';
 
@@ -36,7 +36,6 @@ const ChatBody = ({ socket }) => {
     currentChat.isRequired
   );
   const [renterInfo, setRenterInfo] = useState({});
-  console.log(renterInfo);
   // const [isTyping, setIsTyping] = useState();
 
   const dispatch = useDispatch();
@@ -57,7 +56,7 @@ const ChatBody = ({ socket }) => {
       console.log('REQUIRED');
       renterInfoRef.current = renterInfo;
       setRenterInfo(renterInfo);
-      setConfirmRequired(currentChat.isRequired);
+      setConfirmRequired(true);
     });
   }, [socket]);
 
@@ -83,6 +82,15 @@ const ChatBody = ({ socket }) => {
       })
     );
     setConfirmRequired(false);
+    dispatch(
+      updateChat({
+        _id: currentChat._id,
+        users: currentChat._users,
+        product: currentChat.product,
+        latestMessage: currentChat.latestMessage,
+        isRequired: false,
+      })
+    );
   };
 
   //send message handlers for input

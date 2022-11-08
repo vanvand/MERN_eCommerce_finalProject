@@ -144,6 +144,7 @@ export const updateRecentChats = () => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(`/api/chat`, config);
+    console.log(data);
 
     dispatch({
       type: UPDATE_RECENT_CHAT_SUCCESS,
@@ -276,7 +277,6 @@ export const updateChat = (chat) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.put(`/api/chat`, chat, config);
-    console.log(data);
 
     dispatch({ type: UPDATE_CHAT_SUCCESS, payload: data });
   } catch (error) {
