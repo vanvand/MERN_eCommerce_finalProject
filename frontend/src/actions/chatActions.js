@@ -264,6 +264,7 @@ export const currentChatAction =
 export const updateChat = (chat) => async (dispatch, getState) => {
   try {
     dispatch({ type: UPDATE_CHAT_REQUEST });
+    console.log(chat);
 
     const {
       userLogin: { userInfo },
@@ -277,6 +278,7 @@ export const updateChat = (chat) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.put(`/api/chat`, chat, config);
+    console.log(data);
 
     dispatch({ type: UPDATE_CHAT_SUCCESS, payload: data });
   } catch (error) {

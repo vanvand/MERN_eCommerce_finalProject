@@ -7,7 +7,11 @@ import { io } from 'socket.io-client';
 import ChatBody from '../components/chatComponents/ChatBody';
 import RecentChatList from '../components/chatComponents/RecentChatList';
 
-import { getRecentChats } from '../actions/chatActions';
+import {
+  getRecentChats,
+  currentChatAction,
+  fetchCurrentMessages,
+} from '../actions/chatActions';
 
 // import { addUnseenMsg } from '../actions/notificationActions';
 
@@ -22,7 +26,11 @@ const ChatScreen = () => {
   const { userInfo } = userLogin;
 
   const selectedChat = useSelector((state) => state.selectedChat);
-  const { currentUser } = selectedChat;
+  const { currentUser, currentChat } = selectedChat;
+
+  //If no currentChat selected, sets latest chat to current
+  const { recent_chat } = useSelector((state) => state.recentChat);
+  const renderFirstChat = recent_chat[0];
 
   useEffect(() => {
     if (!userInfo) {
@@ -36,6 +44,27 @@ const ChatScreen = () => {
 
     dispatch(getRecentChats());
   }, []);
+
+  useEffect(() => {
+    if (!currentChat) {
+      if (renderFirstChat) {
+        let selectedUser =
+          renderFirstChat.users[0]._id === userInfo._id
+            ? renderFirstChat.users[1]
+            : renderFirstChat.users[0];
+        dispatch(getRecentChats());
+        dispatch(
+          currentChatAction(
+            selectedUser,
+            renderFirstChat.product,
+            renderFirstChat
+          )
+        );
+      }
+    }
+
+    dispatch(fetchCurrentMessages(currentChat._id, socket));
+  });
 
   return (
     <Container className='chat-container' fluid='md'>

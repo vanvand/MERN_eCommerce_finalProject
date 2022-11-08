@@ -14,6 +14,8 @@ import {
   sendMessage,
   updateMessages,
   updateChat,
+  currentChatAction,
+  fetchCurrentMessages,
 } from '../../actions/chatActions';
 import { updateProduct } from '../../actions/productActions';
 
@@ -23,26 +25,39 @@ import MessageStarter from './MessageStarter';
 import ProductDetails from './ProductDetails';
 
 const ChatBody = ({ socket }) => {
+  //Logged user
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+  //Selected chat data
   const selectedChat = useSelector((state) => state.selectedChat);
   const { currentUser, currentProduct, currentChat } = selectedChat;
 
+  //Messages
   const { messages } = useSelector((state) => state.chat);
 
+  //State for input
   const [text, setText] = useState('');
+
+  //State to render approval message
   const [confirmRequired, setConfirmRequired] = useState(
     currentChat.isRequired
   );
+
   const [renterInfo, setRenterInfo] = useState({});
   // const [isTyping, setIsTyping] = useState();
 
   const dispatch = useDispatch();
+
+  //For automatic scrolling
   const lastMessageRef = useRef(null);
 
   //ref to render approval button
   const renterInfoRef = useRef();
+
+  // useEffect(() => {
+  //   dispatch(fetchCurrentMessages(currentChat._id, socket));
+  // }, [currentChat]);
 
   useEffect(() => {
     socket.on('message received', (receivedMessage) => {
@@ -53,7 +68,6 @@ const ChatBody = ({ socket }) => {
     //   setIsTyping(data.text);
     // });
     socket.on('confirmation required', (renterInfo, productInfo, chat) => {
-      console.log('REQUIRED');
       renterInfoRef.current = renterInfo;
       setRenterInfo(renterInfo);
       setConfirmRequired(true);
@@ -65,6 +79,7 @@ const ChatBody = ({ socket }) => {
     lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [currentChat, messages]);
 
+  //Submit approval handler
   const handleApproval = () => {
     socket.emit('confirmation approved', currentProduct.user);
     dispatch(
@@ -81,7 +96,6 @@ const ChatBody = ({ socket }) => {
         rentedTo: renterInfoRef.current,
       })
     );
-    setConfirmRequired(false);
     dispatch(
       updateChat({
         _id: currentChat._id,
@@ -91,9 +105,10 @@ const ChatBody = ({ socket }) => {
         isRequired: false,
       })
     );
+    setConfirmRequired(false);
   };
 
-  //send message handlers for input
+  //Submit message handlers
   const handleOnEnter = (e) => {
     if (e.key === 'Enter') {
       dispatch(sendMessage(text, socket, currentChat._id));
@@ -116,7 +131,7 @@ const ChatBody = ({ socket }) => {
   return (
     <>
       <Container fluid>
-        {currentChat ? (
+        {currentChat && (
           <>
             <ProductDetails socket={socket} />
             {/* <Row md={3} className='chatBody-userDetails'>
@@ -182,8 +197,6 @@ const ChatBody = ({ socket }) => {
               <div ref={lastMessageRef} />
             </Row>
           </>
-        ) : (
-          <MessageStarter {...userInfo} />
         )}
       </Container>
       <Row className='p-2'>
