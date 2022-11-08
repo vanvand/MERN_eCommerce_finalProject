@@ -84,7 +84,12 @@ const Header = () => {
         <Container className='d-flex '>
 
           <LinkContainer to='/'>
-            <Navbar.Brand>asOne</Navbar.Brand>
+            <Navbar.Brand>
+              <Image
+                src="../../../uploads/logo-asone.png"
+                height="40"
+              />
+            </Navbar.Brand>
           </LinkContainer>
 
           <Navbar.Toggle aria-controls='responsive-navbar-nav' />

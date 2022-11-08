@@ -58,15 +58,11 @@ export default function UserAdsScreen() {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo, loading } = userLogin;
 
-  
-
   useEffect(() => {
     if (!user || !user.name) {
-      // hit /api/users/profile in userActions
-      //console.log("userInfo", userInfo);
-      dispatch(getUserDetails("profile"));
+      dispatch(getUserDetails(userInfo._id));
     }
-  }, [dispatch, user]);
+  }, [dispatch, user, userInfo]); 
 
   const deleteHandler = (productId) => {
     if (window.confirm("Are you sure?")) {
