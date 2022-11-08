@@ -49,8 +49,8 @@ h2 {
 /* #################################################### */
 /* custom buttons */
 .btn-custom {
-  border: 1px solid #6c757d;
-  color: #6c757d
+  border: 1px solid var(--txt-color-medium);
+  color: var(--txt-color-medium)
 } 
 
 .btn-custom-cta {
@@ -236,4 +236,25 @@ h2 {
 
 .copyright-container {
   margin: 1rem 0
+}
+
+/* #################################################### */
+/* Wishlist */
+.btn-wishlist-rented {
+  width: 100%;
+  position: absolute;
+  top: 115px;
+  right: 0px;
+  background-color: var(--txt-color-medium);
+  color: white;
+}
+
+.btn-wishlist-remove {
+  width: 20%;
+  margin: 0 auto;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  background-color: var(--txt-color-medium);
+  color: white;
 }

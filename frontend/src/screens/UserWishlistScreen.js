@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Card, Carousel, Col, Row } from "react-bootstrap";
+import { Button, Card, Col, Row } from "react-bootstrap";
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteWishItem, getUserWishList } from "../actions/userActions";
-import { Link } from "react-router-dom";
 import { getUserDetails } from "../actions/userActions";
 
 const UserWishlistScreen = () => {
@@ -16,7 +17,6 @@ const UserWishlistScreen = () => {
     return state.userWishList;
   });
   const { loading, error, wishItems } = userWishList;
-  console.log("wishItems", wishItems);
 
   const userDeleteWishItem = useSelector((state) => {
     return state.userDeleteWishItem;
@@ -26,6 +26,7 @@ const UserWishlistScreen = () => {
     error: errorDelete,
     success: successDelete,
   } = userDeleteWishItem;
+
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
@@ -54,71 +55,94 @@ const UserWishlistScreen = () => {
     }
   };
 
+  const renderTooltip = (props) => (
+    <Tooltip id="button-tooltip" {...props}>
+      Remove from Wishlist
+    </Tooltip>
+  );
+
+
   return (
-    <Row>
-      <h2>My Wish List</h2>
-      <Col md={12}>
+    <>
+      <h2 style={{marginTop: "1rem"}}>
+        My Wish List</h2>
+   
         {loading || loadingDelete ? (
           <Loader />
         ) : error ? (
           <Message variant="danger">{error}</Message>
         ) : (
+          
           <Row>
             {wishItems.map((product) => (
               <Col sm={12} md={6} lg={4} xl={3}>
-                <Card className="my-2 p-3 rounded ">
-                  <Card key={product._id}>
-                    <Link to={`/product/${product._id}`}>
+              <Card border="light" style={{marginBottom: "2rem", padding: "8px"}}>
+
+                {/* Rendering Product Card */}
+                <Card.Link 
+                  className="card-link-custom" 
+                  href={`/product/${product._id}`}
+                >
+                <Card border="light"  key={product._id}>
+     
                       {product.availability ? (
                         <Card.Img
                           src={product.image}
                           variant="top"
-                          className="productImage"
+                          className="card-img-custom"
                         />
                       ) : (
                         <>
                           <Card.Img
                             src={product.image}
                             variant="top"
-                            className="productImage opacity-25 "
+                            className="card-img-custom opacity-25"
                           />
-                          <Card.ImgOverlay>
-                            <div className=" bg-dark mt-5 p-1 text-center text-danger">
-                              <h6 className="fa-solid fa-rotate"> Rented</h6>
-                            </div>
-                          </Card.ImgOverlay>
+                          <Button className="btn-wishlist-rented">
+                            <i className="fa-solid fa-rotate"></i> Rented
+                          </Button>
                         </>
                       )}
-                    </Link>
+        
                     <Card.Body>
-                      <Card.Text as="h6">
-                        <i className="fas fa-location-dot"></i> {user.city},{" "}
+                      <Card.Text as="h6" className="card-text-custom">
+                        <i className="fas fa-location-dot card-text-custom"></i> {user.city},{" "}
                         {user.district}
                       </Card.Text>
 
-                      <Link to={`/product/${product._id}`}>
-                        <Card.Title as="h6" className="productText">
-                          {product.name}
-                        </Card.Title>
-                      </Link>
+                    <Card.Title as="h6" className="card-title-custom">
+                      {product.name}
+                    </Card.Title>
+
                     </Card.Body>
-                    <Row></Row>
-                  </Card>
-                  <Button
-                    variant="dark"
-                    className="btn-sm"
-                    onClick={() => deleteHandler(product._id)}
-                  >
-                    <i className="fas fa-trash"></i> Remove from withlist
-                  </Button>
+
                 </Card>
+                </Card.Link>
+
+              <OverlayTrigger
+                placement="bottom"
+                overlay={<Tooltip id="button-tooltip-2">Remove from Wishlist</Tooltip>}
+              >
+                {({ ref, ...triggerHandler }) => (
+                <Button
+                  className="btn-wishlist-remove"
+                  {...triggerHandler}
+                  ref={ref}
+                  onClick={() => deleteHandler(product._id)}
+                ><i className="fa-solid fa-xmark" style={{fontSize: "18px"}}></i>
+                </Button>
+                )}
+              </OverlayTrigger>
+
+              </Card>
+              
               </Col>
             ))}
           </Row>
+        
         )}
-      </Col>
-    </Row>
-  );
-};
+       
+     </>
+  )};
 
-export default UserWishlistScreen;
+export default UserWishlistScreen
