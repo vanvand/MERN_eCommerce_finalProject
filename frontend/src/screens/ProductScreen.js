@@ -9,7 +9,7 @@ import Message from '../components/Message';
 import Rating from '../components/Rating';
 import UserDetails from '../components/UserDetails';
 
-import { addWishItem, getUserDetails } from '../actions/userActions';
+import { addWishItem, getUserDetails, getUserDetailsProductCreator } from '../actions/userActions';
 import {
   listProductDetails,
   createProductReview,
@@ -64,7 +64,7 @@ const ProductScreen = () => {
 
   useEffect(() => {
     if (product.user) {
-      dispatch(getUserDetails(product.user));
+      dispatch(getUserDetailsProductCreator(product.user));
     }
   }, [dispatch, product, product.user]);
 
@@ -316,6 +316,7 @@ const ProductScreen = () => {
                         disabled={loadingProductReview}
                         type='submit'
                         variant='primary'
+                        style={{marginTop: "1rem"}}
                       >
                         Submit
                       </Button>
@@ -328,14 +329,7 @@ const ProductScreen = () => {
                 </ListGroup.Item>
               </ListGroup>
 
-              <div
-                style={{
-                  margin: '15px 0',
-                  color: '#6c757d',
-                }}
-              >
-                Add-ID: {product._id}
-              </div>
+              
             </Col>
           </Row>
         </>

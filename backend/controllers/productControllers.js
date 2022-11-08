@@ -224,7 +224,8 @@ const getTopCategoryName = asyncHandler(async (req, res) => {
         category: topCategory[0]._id,
       })
         .sort({ rating: -1 })
-        .limit(4);
+        .limit(4)
+        .populate("user")
       res.json(topCategoryProduct);
     }
   }
