@@ -35,7 +35,7 @@ const TopCategoryName = () => {
         <Message variant='danger'>{error}</Message>
       ) : (
         <>
-          <h3>Top Category Name</h3>{' '}
+          <h3>Top Category: Books</h3>{' '}
           <Row>
             {products.map((product, index) => (
               <Col sm={12} md={6} lg={4} xl={3} key={index}>
@@ -43,13 +43,12 @@ const TopCategoryName = () => {
               </Col>
             ))}
             <Row>
-              <Col md={{ span: 2, offset: 10 }}>
-                <LinkContainer
-                  to={`/products/category/${category}`}
-                  className='m-3 '
-                >
-                  <Button className='btn-sm pull-right ' variant='dark'>
-                    Show {category}
+              <Col className="d-flex justify-content-end mb-5" >
+                <LinkContainer to={`/products/category/${category}`}>
+                  <Button 
+                    className="btn-custom-cta"
+                    size='sm'
+                  >Show All {category}
                   </Button>
                 </LinkContainer>
               </Col>

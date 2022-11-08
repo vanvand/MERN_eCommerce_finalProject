@@ -148,7 +148,7 @@ const Header = () => {
 
                    <Nav.Item >
                     <Button
-                      className='btn-offer-product'
+                      className='btn-custom-cta'
                       size='sm'
                       onClick={createProductHandler}
                     >Offer Product</Button>
@@ -157,18 +157,24 @@ const Header = () => {
               ) : (
                 // view: user NOT logged in
                 <>
-                  <Link to='/login'>
-                    <Button
-                      variant='outline-light'
-                      size='sm'
-                      className='offer-product'
-                    >
-                      <i className='fas fa-plus'></i> Offer Product
-                    </Button>
-                  </Link>
-                  <LinkContainer to='/login'>
-                    <Nav.Link>Sign In</Nav.Link>
-                  </LinkContainer>
+                  <Nav.Item >
+                    <Nav.Link href="/login">
+                       <Button
+                          className='btn-custom-cta-light'
+                          size='sm'  
+                        >Register | Login</Button>
+                    </Nav.Link>
+                  </Nav.Item>
+
+                  <Nav.Item >
+                    <Nav.Link href="/login">
+                       <Button
+                          className='btn-custom-cta'
+                          size='sm'  
+                        >Offer Product</Button>
+                    </Nav.Link>
+                  </Nav.Item>
+                  
                 </>
               )}
 
