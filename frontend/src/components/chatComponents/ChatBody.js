@@ -10,30 +10,53 @@ import {
   Card,
 } from 'react-bootstrap';
 
-import { sendMessage, updateMessages } from '../../actions/chatActions';
+import {
+  sendMessage,
+  updateMessages,
+  updateChat,
+} from '../../actions/chatActions';
+import { updateProduct } from '../../actions/productActions';
 
 import '../components_css/chat.css';
 
 import MessageStarter from './MessageStarter';
-import UserDetails from '../UserDetails';
+import ProductDetails from './ProductDetails';
 
-const ChatBody = ({ socket, currentChat }) => {
+const ChatBody = ({ socket }) => {
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  const selectedChat = useSelector((state) => state.selectedChat);
+  const { currentUser, currentProduct, currentChat } = selectedChat;
+
+  const { messages } = useSelector((state) => state.chat);
+
   const [text, setText] = useState('');
+  const [confirmRequired, setConfirmRequired] = useState(
+    currentChat.isRequired
+  );
+  const [renterInfo, setRenterInfo] = useState({});
+  // const [isTyping, setIsTyping] = useState();
 
   const dispatch = useDispatch();
   const lastMessageRef = useRef(null);
 
-  const { recent_chat } = useSelector((state) => state.recentChat);
-
-  const { messages } = useSelector((state) => state.chat);
-
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
+  //ref to render approval button
+  const renterInfoRef = useRef();
 
   useEffect(() => {
     socket.on('message received', (receivedMessage) => {
       let chatId = currentChat || receivedMessage.chat._id;
       dispatch(updateMessages(chatId));
+    });
+    // socket.on('typingResponse', (data) => {
+    //   setIsTyping(data.text);
+    // });
+    socket.on('confirmation required', (renterInfo, productInfo, chat) => {
+      console.log('REQUIRED');
+      renterInfoRef.current = renterInfo;
+      setRenterInfo(renterInfo);
+      setConfirmRequired(true);
     });
   }, [socket]);
 
@@ -42,16 +65,44 @@ const ChatBody = ({ socket, currentChat }) => {
     lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [currentChat, messages]);
 
+  const handleApproval = () => {
+    socket.emit('confirmation approved', currentProduct.user);
+    dispatch(
+      updateProduct({
+        _id: currentProduct._id,
+        name: currentProduct.name,
+        image: currentProduct.image,
+        category: currentProduct.category,
+        description: currentProduct.description,
+        rating: currentProduct.rating,
+        numReviews: currentProduct.numReviews,
+        timesRented: currentProduct.timesRented++,
+        availability: false,
+        rentedTo: renterInfoRef.current,
+      })
+    );
+    setConfirmRequired(false);
+    dispatch(
+      updateChat({
+        _id: currentChat._id,
+        users: currentChat._users,
+        product: currentChat.product,
+        latestMessage: currentChat.latestMessage,
+        isRequired: false,
+      })
+    );
+  };
+
   //send message handlers for input
   const handleOnEnter = (e) => {
     if (e.key === 'Enter') {
-      dispatch(sendMessage(text, socket, currentChat));
+      dispatch(sendMessage(text, socket, currentChat._id));
       setText('');
     }
   };
 
   const handleOnClick = () => {
-    dispatch(sendMessage(text, socket, currentChat));
+    dispatch(sendMessage(text, socket, currentChat._id));
     setText('');
   };
 
@@ -63,72 +114,96 @@ const ChatBody = ({ socket, currentChat }) => {
   // };
 
   return (
-    <Container fluid>
-      {currentChat ? (
-        <>
-          <Row>
-            <h5>This is the product component</h5>
-          </Row>
-          <Row md={2} className='chatBody-userDetails'>
-            <UserDetails />
-          </Row>
-          <Row sm={6} className='message-container'>
-            {messages &&
-              messages.map((message, index) => (
-                <Row className='message-row' key={index}>
-                  {message.sender._id !== userInfo._id && (
-                    <div className='left-container' key={index}>
-                      <Image
-                        src={message.sender.image}
-                        className='message-avatar'
-                      />
+    <>
+      <Container fluid>
+        {currentChat ? (
+          <>
+            <ProductDetails socket={socket} />
+            {/* <Row md={3} className='chatBody-userDetails'>
+              <Col>
+                
+              </Col>
+            </Row> */}
+            <Row sm={6} className='message-container'>
+              {messages &&
+                messages.map((message, index) => (
+                  <Row className='message-row' key={index}>
+                    {message.sender._id !== userInfo._id && (
+                      <div className='left-container' key={index}>
+                        <Image
+                          src={message.sender.image}
+                          className='message-avatar'
+                        />
+                        <Card
+                          body
+                          key={index}
+                          style={{ width: '18rem' }}
+                          className='message-left'
+                        >
+                          {message.content}
+                        </Card>
+                      </div>
+                    )}
+
+                    {message.sender._id === userInfo._id && (
                       <Card
                         body
                         key={index}
                         style={{ width: '18rem' }}
-                        className='message-left'
+                        className='message-right'
                       >
                         {message.content}
                       </Card>
-                    </div>
-                  )}
-
-                  {message.sender._id === userInfo._id && (
-                    <Card
-                      body
-                      key={index}
-                      style={{ width: '18rem' }}
-                      className='message-right'
+                    )}
+                  </Row>
+                ))}
+              {/* <div>{isTyping}</div> */}
+              {(confirmRequired || currentChat.isRequired) &&
+              currentProduct.user !== userInfo._id ? (
+                <Row className='approval-container'>
+                  <Card.Body className='rent-approval'>
+                    <p>
+                      {currentUser.name} marked product as rented. Please
+                      approve as soon as you picked it up.
+                    </p>
+                    <Button
+                      onClick={handleApproval}
+                      style={{ borderRadius: '5px', width: '70%' }}
                     >
-                      {message.content}
-                    </Card>
-                  )}
+                      Approve
+                      <i
+                        className='fa-solid fa-check'
+                        style={{ marginLeft: '.5rem' }}
+                      ></i>
+                    </Button>
+                  </Card.Body>
                 </Row>
-              ))}
-            <div ref={lastMessageRef} />
-          </Row>
-          <Row>
-            <InputGroup className='mb-3'>
-              <Form.Control
-                placeholder='Your Message'
-                aria-label='Your Message'
-                aria-describedby='basic-addon2'
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-                onKeyPress={(e) => handleOnEnter(e)}
-                // onKeyDown={handleTyping}
-                disabled={currentChat === null}
-              />
-              <Button id='basic-addon2' onClick={handleOnClick}>
-                <i className='fa-regular fa-paper-plane'></i>
-              </Button>
-            </InputGroup>
-          </Row>
-        </>
-      ) : (
-        <MessageStarter {...userInfo} />
-      )}
-    </Container>
+              ) : null}
+              <div ref={lastMessageRef} />
+            </Row>
+          </>
+        ) : (
+          <MessageStarter {...userInfo} />
+        )}
+      </Container>
+      <Row className='p-2'>
+        <InputGroup className='mb-3'>
+          <Form.Control
+            placeholder='Your Message'
+            aria-label='Your Message'
+            aria-describedby='basic-addon2'
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            onKeyPress={(e) => handleOnEnter(e)}
+            // onKeyDown={(e) => handleTyping(e.target.value)}
+            disabled={currentChat === null}
+          />
+          <Button id='basic-addon2' onClick={handleOnClick}>
+            <i className='fa-regular fa-paper-plane'></i>
+          </Button>
+        </InputGroup>
+      </Row>
+    </>
   );
 };
 

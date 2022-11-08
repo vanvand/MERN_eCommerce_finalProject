@@ -1,4 +1,3 @@
-import { combineReducers } from 'redux';
 import { configureStore } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
 
@@ -43,16 +42,21 @@ import {
   faqAnswersCreateReducer,
   faqAnswerDeleteReducer,
 } from './reducers/faqReducers';
-import { chatReducer, recentChatReducer } from './reducers/chatReducers';
+import {
+  chatReducer,
+  recentChatReducer,
+  rentReducer,
+  selectedChatReducer,
+} from './reducers/chatReducers';
 // import { notificationReducer } from './reducers/notificationReducers';
 
 import {
   searchCreateReducer,
   searchListReducer,
-} from "./reducers/MostSearchReducers";
+} from './reducers/MostSearchReducers';
 
 // create constants and reducer > as soon as added here state is visible in browser inspect tool/redux
-const reducer = combineReducers({
+const reducer = {
   productList: productListReducer,
   productDetails: productDetailReducer,
   productDetailsByUserId: productDetailByUserIdReducer,
@@ -88,55 +92,25 @@ const reducer = combineReducers({
   faqAnswerDelete: faqAnswerDeleteReducer,
   chat: chatReducer,
   recentChat: recentChatReducer,
+  selectedChat: selectedChatReducer,
+  rent: rentReducer,
   searchCreate: searchCreateReducer,
   searchList: searchListReducer,
-});
-
-// when store is initialized we check here if sth. is in localStorage already > if yes add that to the state
-// from cartActions
-const cartItemsFromStorage = localStorage.getItem('cartItems')
-  ? JSON.parse(localStorage.getItem('cartItems'))
-  : [];
-
-const shippingAddressFromStorage = localStorage.getItem('shippingAddress')
-  ? JSON.parse(localStorage.getItem('shippingAddress'))
-  : {};
-
-// const paymentMethodFromStorage = localStorage.getItem("paymentMethod")
-//   ? JSON.parse(localStorage.getItem("paymentMethod"))
-//   : {}
+};
 
 // from userActions
 const userInfoFromStorage = localStorage.getItem('userInfo')
   ? JSON.parse(localStorage.getItem('userInfo'))
   : null;
 
-const initialState = {
-  cart: {
-    cartItems: cartItemsFromStorage,
-    shippingAddress: shippingAddressFromStorage,
-    // paymentMethod: paymentMethodFromStorage
-  },
-  userLogin: { userInfo: userInfoFromStorage },
-};
-
 const preloadedState = {
-  cart: {
-    cartItems: cartItemsFromStorage,
-    shippingAddress: shippingAddressFromStorage,
-    // paymentMethod: paymentMethodFromStorage
-  },
   userLogin: { userInfo: userInfoFromStorage },
 };
 
-// const store = configureStore({
-//   reducer,
-//   initialState,
-//   middleware: [thunk],
-// });
 const store = configureStore({
   reducer,
   preloadedState,
   middleware: [thunk],
 });
+
 export default store;
