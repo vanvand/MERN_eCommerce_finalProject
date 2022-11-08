@@ -88,13 +88,13 @@ const ChatBody = ({ socket }) => {
   //send message handlers for input
   const handleOnEnter = (e) => {
     if (e.key === 'Enter') {
-      dispatch(sendMessage(text, socket, currentChat));
+      dispatch(sendMessage(text, socket, currentChat._id));
       setText('');
     }
   };
 
   const handleOnClick = () => {
-    dispatch(sendMessage(text, socket, currentChat));
+    dispatch(sendMessage(text, socket, currentChat._id));
     setText('');
   };
 
