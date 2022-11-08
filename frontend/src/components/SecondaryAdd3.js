@@ -26,14 +26,14 @@ function SecondaryAdd() {
   
       <Row className="g-0">
         <Col md={4}>
-          <Card.Img className="img-thumbnail" src="../../../uploads/books.jpg"  />
+          <Card.Img className="img-thumbnail" src="../../../uploads/games.jpeg"  />
         </Col>
         <Col md={8}>
           <Card.Body>
-          <Card.Title className="text-center align-middle">BOOKS</Card.Title>
+          <Card.Title className="text-center align-middle">GAMES</Card.Title>
             <Card.Text className="text-center align-middle">
-            Reading is good for you because it improves your focus, memory, empathy, and communication skills. 
-            Here is a collection of books our users have enjoyed! 
+            Playing board games increases brain function.
+            Playing stimulates brain areas that are responsible for memory formation and complex thought processes for all ages. Check the games our users have for rent now! 
             </Card.Text>
           </Card.Body>
         </Col>

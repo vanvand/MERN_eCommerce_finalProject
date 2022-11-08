@@ -2,10 +2,10 @@ import Card from "react-bootstrap/Card";
 import {
   
   Col,
- 
   Row,
  
 } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 function SecondaryAdd2() {
   return (
@@ -20,21 +20,24 @@ function SecondaryAdd2() {
     //     <Card.Text>Last updated 3 mins ago</Card.Text>
     //   </Card.ImgOverlay>
     // </Card>
-    <Card className="mb-3" md={4}>
-      <Row className="g-0">
+    <Card className="mb-3" md={4}><Link to={`/products/category/movies`}>
+      <Row className="g-0 align-middle">
         <Col md={4}>
-          <Card.Img className="img-thumbnail" src="../../../uploads/books.jpg"  />
+          <Card.Img className="img-thumbnail" src="../../../uploads/movies.jpeg"  />
         </Col>
-        <Col md={8}>
-          <Card.Body>
-            <Card.Title className="text-center align-middle">MOVIES</Card.Title>
-            <Card.Text className="text-center align-middle">
-              A movie is always a good way to spend an evening together.
+        <Col md={8} >
+          <Card.Body style={{justifyContent: "center", alignItems: "center", padding: "1rem "}}>
+            <Card.Title className="text-center ">
+              MOVIES
+            </Card.Title>
+            <Card.Text className="text-center">
+            Movies could provide both enjoyment and stress reduction
               Enjoy our users' large movie collection! 
             </Card.Text>
           </Card.Body>
         </Col>
       </Row>
+      </Link>
     </Card>
   );
 }

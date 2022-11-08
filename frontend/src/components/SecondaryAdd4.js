@@ -26,14 +26,14 @@ function SecondaryAdd() {
   
       <Row className="g-0">
         <Col md={4}>
-          <Card.Img className="img-thumbnail" src="../../../uploads/books.jpg"  />
+          <Card.Img className="img-thumbnail" src="../../../uploads/music.jpeg"  />
         </Col>
         <Col md={8}>
           <Card.Body>
-          <Card.Title className="text-center align-middle">BOOKS</Card.Title>
+          <Card.Title className="text-center align-middle">MUSIC</Card.Title>
             <Card.Text className="text-center align-middle">
-            Reading is good for you because it improves your focus, memory, empathy, and communication skills. 
-            Here is a collection of books our users have enjoyed! 
+            Listening to music can reduce anxiety, blood pressure, and pain as well as improve sleep quality, mood, mental alertness, and memory.
+            Dive into our music section!
             </Card.Text>
           </Card.Body>
         </Col>
