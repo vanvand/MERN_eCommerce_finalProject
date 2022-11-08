@@ -10,19 +10,19 @@ function ProductDetails({ socket }) {
   const selectedChat = useSelector((state) => state.selectedChat);
   const { currentUser, currentProduct, currentChat } = selectedChat;
 
+  const [rented, setRented] = useState(currentProduct.rentedTo);
   const [availability, setAvailability] = useState(currentChat.isRequired);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  useEffect(() => {
-    setAvailability(currentProduct.availability);
-  }, [currentProduct]);
+  // useEffect(() => {
+  //   setAvailability(currentChat.isRequired);
+  // }, [currentChat]);
 
   useEffect(() => {
     socket.on('rented', () => {
-      console.log('rented');
-      // setRented(true);
+      setRented(true);
     });
   }, [socket]);
 
@@ -38,11 +38,11 @@ function ProductDetails({ socket }) {
           isRequired: true,
         })
       );
-      setAvailability(false);
+      setAvailability(true);
     } else {
       socket.emit('marked as available', currentUser);
       //cancel all process through socket
-      setAvailability(true);
+      setAvailability(false);
     }
   };
 
@@ -71,12 +71,12 @@ function ProductDetails({ socket }) {
               onClick={handleMarkAsRented}
             >
               {currentProduct.rentedTo ? (
-                <i className='fa-solid fa-circle-check'></i>
+                <i className='px-2 fa-solid fa-circle-check'></i>
               ) : (
                 <i className='px-2 fa-solid fa-rotate'></i>
               )}
 
-              {availability ? 'Mark as rented to UserName' : 'Rented'}
+              {!availability ? 'Mark as rented to UserName' : 'Rented'}
             </Button>
           )}
         </Card.Body>

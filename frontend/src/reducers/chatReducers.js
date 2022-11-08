@@ -161,10 +161,11 @@ export const rentReducer = (state = initRentedState, { type, payload }) => {
     case UPDATE_CHAT_REQUEST:
       return { ...state };
     case UPDATE_CHAT_SUCCESS:
+      console.log(payload);
       return {
         ...state,
-        isRequired: true,
-        chatId: payload.chatId,
+        isRequired: payload.isRequired,
+        // chatId: payload.chatId,
       };
     case UPDATE_CHAT_FAIL:
       return { ...state, error: payload };
