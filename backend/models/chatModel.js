@@ -3,10 +3,12 @@ import mongoose from 'mongoose';
 const chatSchema = mongoose.Schema(
   {
     users: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
     latestMessage: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Message',
     },
+    isRequired: { type: mongoose.Schema.Types.Boolean },
   },
   { timestamps: true, versionKey: false }
 );

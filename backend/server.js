@@ -16,7 +16,7 @@ import uploadRoutes from './routes/uploadRoutes.js';
 import faqRoutes from './routes/faqRoutes.js';
 import chatRoutes from './routes/chatRoutes.js';
 import messageRoutes from './routes/messageRoutes.js';
-import mostSearchRoutes from './routes/mostSearchRoutes.js'
+import mostSearchRoutes from './routes/mostSearchRoutes.js';
 dotenv.config();
 
 connectDB();
@@ -53,12 +53,12 @@ app.use('/api/upload', uploadRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/message', messageRoutes);
 
-app.use('/api/faqs', faqRoutes) 
-app.use("/api/search", mostSearchRoutes) 
-  // when we hit the paypal route we will fetch the client id stored in .env file
-  app.get("/api/config/paypal", (req, res) =>
-    res.send(process.env.PAYPAL_CLIENT_ID)
-  );
+app.use('/api/faqs', faqRoutes);
+app.use('/api/search', mostSearchRoutes);
+// when we hit the paypal route we will fetch the client id stored in .env file
+app.get('/api/config/paypal', (req, res) =>
+  res.send(process.env.PAYPAL_CLIENT_ID)
+);
 
 // make image upload folder static
 // __dirname >> point to current directory
@@ -110,13 +110,26 @@ io.on('connection', (socket) => {
     socket.join(room);
   });
 
-  // socket.on('typing', (data) => socket.to().emit('typingResponse', data));
-
   socket.on('new message', (receivedMessage) => {
     socket
       .to(receivedMessage.chat._id)
       .emit('message received', receivedMessage);
   });
+
+  socket.on('marked as rented', (renterInfo, productInfo, chat) => {
+    console.log('marked as rented');
+    socket
+      .to(chat._id)
+      .emit('confirmation required', renterInfo, productInfo, chat);
+  });
+
+  socket.on('confirmation approved', (owner) => {
+    socket.to(owner).emit('rented');
+  });
+
+  // socket.on('typing', (data) => {
+  //   socket.to(data.room).emit('typingResponse', data);
+  // });
 
   socket.off('setup', () => {
     socket.leave(userData._id);
