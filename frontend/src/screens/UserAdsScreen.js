@@ -182,7 +182,10 @@ export default function UserAdsScreen() {
                       <Col sm={12} lg={2}>
                         <Row>
                           <LinkContainer to={`/products/${product._id}/edit`}>
-                            <Button variant="dark" className="btn-sm mb-1">
+                            <Button
+                              variant="dark"
+                              className="btn-sm mb-1 btn-custom-cta"
+                            >
                               <i className="fas fa-edit"></i> Edit
                             </Button>
                           </LinkContainer>
@@ -190,7 +193,7 @@ export default function UserAdsScreen() {
                           {product.availability == false ? (
                             <Button
                               variant="dark"
-                              className="btn-sm mb-1"
+                              className="btn-sm mb-1 btn-custom-cta"
                               onClick={() => availabilityHandeler(product._id)}
                             >
                               <i className="fa-solid fa-rotate"></i> Set
@@ -199,7 +202,7 @@ export default function UserAdsScreen() {
                           ) : (
                             <Button
                               variant="dark"
-                              className="btn-sm mb-1"
+                              className="btn-sm mb-1 btn-custom-cta"
                               onClick={() => availabilityHandeler(product._id)}
                             >
                               <i className="fa-solid fa-signal"></i> Online
@@ -207,7 +210,7 @@ export default function UserAdsScreen() {
                           )}
                           <Button
                             variant="dark"
-                            className="btn-sm mb-1"
+                            className="btn-sm mb-1 btn-custom-cta"
                             onClick={() => deleteHandler(product._id)}
                           >
                             <i className="fas fa-trash"></i> Delete
