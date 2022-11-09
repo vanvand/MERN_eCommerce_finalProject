@@ -11,7 +11,7 @@ const Faq = ({ faq }) => {
         <Card.Title>
           <strong>{faq.title}</strong>
         </Card.Title>
-        <Card className="card_text">
+        <Card className="card_text" border="light">
           <Card.Text as="div">
             <strong>{faq.description}</strong>
           </Card.Text>
