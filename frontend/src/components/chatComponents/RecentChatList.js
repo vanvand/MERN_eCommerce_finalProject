@@ -4,7 +4,7 @@ import { Container } from 'react-bootstrap';
 
 import UserInboxComponent from './UserInboxComponent';
 
-import { updateRecentChats } from '../../actions/chatActions';
+import { getRecentChats } from '../../actions/chatActions';
 
 const RecentChatList = ({ socket }) => {
   const dispatch = useDispatch();
@@ -14,9 +14,8 @@ const RecentChatList = ({ socket }) => {
   const { recent_chat } = useSelector((state) => state.recentChat);
 
   useEffect(() => {
-    socket.on('confirmation required', (renterInfo, productInfo, chat) => {
-      console.log('REQUIRED LIST');
-      dispatch(updateRecentChats());
+    socket.on('confirmation required', () => {
+      dispatch(getRecentChats());
     });
   }, [socket]);
 

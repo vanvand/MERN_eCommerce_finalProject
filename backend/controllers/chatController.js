@@ -103,9 +103,7 @@ const createChat = asyncHandler(async (req, res) => {
 
 const updateChat = asyncHandler(async (req, res) => {
   const { _id, users, product, latestMessage, isRequired } = req.body;
-  console.log(req.body);
   const chat = await Chat.findById(_id);
-  console.log(chat);
   if (chat) {
     chat.users = users || chat.users;
     chat.product = product || chat.product;
