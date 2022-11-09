@@ -25,6 +25,10 @@ import {
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAIL,
   USER_UPDATE_RESET,
+  USER_DETAILS_PRODUCT_CREATOR_REQUEST,
+  USER_DETAILS_PRODUCT_CREATOR_SUCCESS,
+  USER_DETAILS_PRODUCT_CREATOR_FAIL,
+  USER_DETAILS_PRODUCT_CREATOR_RESET,
   //wishList
   USER_ADD_WISHITEM_REQUEST,
   USER_ADD_WISHITEM_SUCCESS,
@@ -160,6 +164,21 @@ export const userUpdateReducer = (state = { user: {} }, action) => {
       return {
         user: {},
       };
+    default:
+      return state;
+  }
+};
+
+export const userDetailsProductCreatorReducer = (state = { userProductCreator: {} }, action) => {
+  switch (action.type) {
+    case USER_DETAILS_PRODUCT_CREATOR_REQUEST:
+      return { ...state, loading: true };
+    case USER_DETAILS_PRODUCT_CREATOR_SUCCESS:
+      return { loading: false, userProductCreator: action.payload };
+    case USER_DETAILS_PRODUCT_CREATOR_FAIL:
+      return { loading: false, error: action.payload };
+    case USER_DETAILS_PRODUCT_CREATOR_RESET:
+      return { userProductCreator: {} };
     default:
       return state;
   }

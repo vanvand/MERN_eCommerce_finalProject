@@ -25,6 +25,10 @@ import {
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAIL,
+  USER_DETAILS_PRODUCT_CREATOR_REQUEST,
+  USER_DETAILS_PRODUCT_CREATOR_SUCCESS,
+  USER_DETAILS_PRODUCT_CREATOR_FAIL,
+  USER_DETAILS_PRODUCT_CREATOR_RESET,
   //wishList
   USER_ADD_WISHITEM_REQUEST,
   USER_ADD_WISHITEM_SUCCESS,
@@ -323,6 +327,43 @@ export const updateUser = (user) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: USER_UPDATE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+// we get userInfo (with token) from getState method
+// in ProfileScreen in our dispatch we pass profile, not an actual id
+export const getUserDetailsProductCreator = (userId) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_DETAILS_PRODUCT_CREATOR_REQUEST,
+    });
+
+    // access to logged in user object
+    // const {
+    //   userLogin: { userInfo },
+    // } = getState();
+
+    // const config = {
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     Authorization: `Bearer ${userInfo.token}`,
+    //   },
+    // };
+
+    const { data } = await axios.get(`/api/users/product-creator/${userId}`);
+
+    dispatch({
+      type: USER_DETAILS_PRODUCT_CREATOR_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_DETAILS_PRODUCT_CREATOR_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
