@@ -6,14 +6,11 @@ import Loader from "../components/Loader"
 import Message from "../components/Message"
 import {listProductDetailsByUserId} from "../actions/productActions"
 
-const UserDetails = () => {
+const UserDetails = ({user}) => {
 
     const [numAdsUser, setNumAdsUser] = useState(0)
 
     const dispatch = useDispatch()
-
-    const userDetailsProductCreator = useSelector((state) => state.userDetailsProductCreator)
-    const { loading: loadingUserDetailsProductCreator, error: errorUserDetailsProductCreator, userProductCreator } = userDetailsProductCreator
 
     const productDetails = useSelector(state => state.productDetails)
     const { loading: loadingProductDetails, error: errorProductDetails, product } = productDetails
@@ -21,8 +18,7 @@ const UserDetails = () => {
     const productDetailsByUserId = useSelector(state => state.productDetailsByUserId)
     const { loading: loadingProductDetailsByUserId, error: errorProductDetailsByUserId, productsUser } = productDetailsByUserId
 
-    const userActiveSinceDate = String(userProductCreator.createdAt).substring(0, 10)
-
+    const userActiveSinceDate = String(user.createdAt).substring(0, 10)
 
     useEffect( () => {
         if(product.user) {
@@ -50,16 +46,12 @@ const UserDetails = () => {
     {loadingProductDetailsByUserId && <Loader />}
     {errorProductDetailsByUserId && <Message variant="danger">{errorProductDetailsByUserId}</Message> }
 
-    {loadingUserDetailsProductCreator 
-      ? <Loader /> 
-      : errorUserDetailsProductCreator ? <Message variant="danger">{errorUserDetailsProductCreator}</Message> 
-      : (
         <Container > 
         <Row >
             <Col md={4} >
                 <Image 
                     style={{"borderRadius": "50%"}}
-                    src={userProductCreator.image}
+                    src={user.image}
                     fluid
                 />
             </Col>
@@ -67,7 +59,7 @@ const UserDetails = () => {
                 className="d-block"
                 style={{margin: "auto 0"}}
             >
-                <div style={{"fontWeight": "bold"}}>{userProductCreator.name}</div>
+                <div style={{"fontWeight": "bold"}}>{user.name}</div>
                 <div style={{"marginTop": "5px", color: "#6c757d"}}>
                     <div>{`Active since: ${userActiveSinceDate}`}</div>
                     <div>{`${numAdsUser} ads online`}</div>
@@ -75,7 +67,6 @@ const UserDetails = () => {
             </Col>
         </Row>
         </Container>
-    )}
     </>
   )
 }

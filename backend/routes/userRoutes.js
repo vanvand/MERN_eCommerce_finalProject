@@ -36,7 +36,7 @@ router.route("/:id")
     .get(protect, getUserById)
     .put(protect, isAdmin, updateUser)
 
-router.route("/product-creator/:userId")
+router.route("/product-creator/:id")
     .get(getProductCreatorUserDetails)
 
      //............ /api/users/........

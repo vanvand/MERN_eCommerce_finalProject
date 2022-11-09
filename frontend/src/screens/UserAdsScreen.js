@@ -119,7 +119,7 @@ export default function UserAdsScreen() {
         <Container>
           <Row className=' flex-md-row  ' md={2}>
             <Col>
-              <UserDetails />
+              <UserDetails user={user}/>
             </Col>
           </Row>
 

@@ -9,13 +9,9 @@ import Message from '../components/Message';
 import Rating from '../components/Rating';
 import UserDetails from '../components/UserDetails';
 
-import { addWishItem, getUserDetails, getUserDetailsProductCreator } from '../actions/userActions';
-import {
-  listProductDetails,
-  createProductReview,
-} from '../actions/productActions';
-import { accessChat, updateRecentChats } from '../actions/chatActions';
-
+import { addWishItem, getUserDetailsProductCreator } from '../actions/userActions';
+import { listProductDetails, createProductReview } from '../actions/productActions';
+import { accessChat } from '../actions/chatActions';
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
 
 const ProductScreen = () => {
@@ -42,6 +38,9 @@ const ProductScreen = () => {
     error: errorUserDetails,
     user,
   } = userDetails;
+
+   const userDetailsProductCreator = useSelector((state) => state.userDetailsProductCreator)
+    const { loading: loadingUserDetailsProductCreator, error: errorUserDetailsProductCreator, userProductCreator } = userDetailsProductCreator
 
   const productReviewCreate = useSelector((state) => state.productReviewCreate);
   const {
@@ -247,7 +246,7 @@ const ProductScreen = () => {
                   </div>
 
                   <div style={{ paddingTop: '3rem' }}>
-                    <UserDetails />
+                    <UserDetails user={userProductCreator}/>
                   </div>
                 </ListGroup.Item>
               </ListGroup>
