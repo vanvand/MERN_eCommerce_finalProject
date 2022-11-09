@@ -76,7 +76,7 @@ const ProductScreen = () => {
   };
 
   const addToWishlist = () => {
-    //console.log("Added to Wishlist")
+    console.log("Added to Wishlist")
     dispatch(addWishItem(params.id));
     if (userInfo) {
       navigate(`/wishlist`);
@@ -95,16 +95,16 @@ const ProductScreen = () => {
     );
   };
 
+  const redirectToLogin = () => {
+    navigate('/login')
+  }
+
   return (
     <>
-      <Link className='btn btn-light my-3' to='/'>
-        Go Back
-      </Link>
-
       {loadingUserDetails && <Loader />}
-      {errorUserDetails && (
-        <Message variant='danger'>{errorUserDetails}</Message>
-      )}
+      {errorUserDetails && <Message variant="danger">{errorUserDetails}</Message>}
+      {loadingUserDetailsProductCreator && <Loader />}
+      {errorUserDetailsProductCreator && <Message variant="danger">{errorUserDetailsProductCreator}</Message>}
 
       {loading ? (
         <Loader />
@@ -158,8 +158,8 @@ const ProductScreen = () => {
             <Col md={4}>
               <ListGroup variant='flush'>
                 <ListGroup.Item>
-                  <i className='fas fa-location-dot'></i> {user.city},{' '}
-                  {user.district}
+                  <i className='fas fa-location-dot'></i> {userProductCreator.city},{' '}
+                  {userProductCreator.district}
                 </ListGroup.Item>
 
                 <ListGroup.Item>
@@ -192,7 +192,7 @@ const ProductScreen = () => {
                   <div className='d-grid gap-2'>
                     {!userInfo && (
                       <Button
-                        onClick={navigate('/login')}
+                        onClick={redirectToLogin}
                         className='btn-dark'
                         style={{ marginTop: '2rem' }}
                         type='button'
