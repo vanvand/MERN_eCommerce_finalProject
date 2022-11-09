@@ -91,7 +91,7 @@ const ChatBody = ({ socket }) => {
         description: currentProduct.description,
         rating: currentProduct.rating,
         numReviews: currentProduct.numReviews,
-        timesRented: currentProduct.timesRented++,
+        timesRented: currentProduct.timesRented,
         availability: false,
         rentedTo: renterInfoRef.current,
       })
