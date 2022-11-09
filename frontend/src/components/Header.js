@@ -111,7 +111,7 @@ const Header = () => {
 
                   <NavDropdown 
                     title={
-                      user.image 
+                      user.image
                       ? <Image 
                         className="userThumbnail" 
                         src={user.image} 
