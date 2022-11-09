@@ -9,13 +9,9 @@ import Message from '../components/Message';
 import Rating from '../components/Rating';
 import UserDetails from '../components/UserDetails';
 
-import { addWishItem, getUserDetails } from '../actions/userActions';
-import {
-  listProductDetails,
-  createProductReview,
-} from '../actions/productActions';
-import { accessChat, updateRecentChats } from '../actions/chatActions';
-
+import { addWishItem, getUserDetailsProductCreator } from '../actions/userActions';
+import { listProductDetails, createProductReview } from '../actions/productActions';
+import { accessChat } from '../actions/chatActions';
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
 
 const ProductScreen = () => {
@@ -43,6 +39,9 @@ const ProductScreen = () => {
     user,
   } = userDetails;
 
+   const userDetailsProductCreator = useSelector((state) => state.userDetailsProductCreator)
+    const { loading: loadingUserDetailsProductCreator, error: errorUserDetailsProductCreator, userProductCreator } = userDetailsProductCreator
+
   const productReviewCreate = useSelector((state) => state.productReviewCreate);
   const {
     loading: loadingProductReview,
@@ -64,7 +63,7 @@ const ProductScreen = () => {
 
   useEffect(() => {
     if (product.user) {
-      dispatch(getUserDetails(product.user));
+      dispatch(getUserDetailsProductCreator(product.user));
     }
   }, [dispatch, product, product.user]);
 
@@ -247,7 +246,7 @@ const ProductScreen = () => {
                   </div>
 
                   <div style={{ paddingTop: '3rem' }}>
-                    <UserDetails />
+                    <UserDetails user={userProductCreator}/>
                   </div>
                 </ListGroup.Item>
               </ListGroup>
@@ -316,6 +315,7 @@ const ProductScreen = () => {
                         disabled={loadingProductReview}
                         type='submit'
                         variant='primary'
+                        style={{marginTop: "1rem"}}
                       >
                         Submit
                       </Button>
@@ -328,14 +328,7 @@ const ProductScreen = () => {
                 </ListGroup.Item>
               </ListGroup>
 
-              <div
-                style={{
-                  margin: '15px 0',
-                  color: '#6c757d',
-                }}
-              >
-                Add-ID: {product._id}
-              </div>
+              
             </Col>
           </Row>
         </>
