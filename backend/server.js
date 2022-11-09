@@ -116,11 +116,8 @@ io.on('connection', (socket) => {
       .emit('message received', receivedMessage);
   });
 
-  socket.on('marked as rented', (renterInfo, productInfo, chat) => {
-    console.log('marked as rented');
-    socket
-      .to(chat._id)
-      .emit('confirmation required', renterInfo, productInfo, chat);
+  socket.on('marked as rented', (chat) => {
+    socket.to(chat._id).emit('confirmation required');
   });
 
   socket.on('confirmation approved', (owner) => {

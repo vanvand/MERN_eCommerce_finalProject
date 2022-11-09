@@ -45,7 +45,7 @@ import {
 import {
   chatReducer,
   recentChatReducer,
-  rentReducer,
+  // rentReducer,
   selectedChatReducer,
 } from './reducers/chatReducers';
 // import { notificationReducer } from './reducers/notificationReducers';
@@ -93,7 +93,7 @@ const reducer = {
   chat: chatReducer,
   recentChat: recentChatReducer,
   selectedChat: selectedChatReducer,
-  rent: rentReducer,
+  // rent: rentReducer,
   searchCreate: searchCreateReducer,
   searchList: searchListReducer,
 };

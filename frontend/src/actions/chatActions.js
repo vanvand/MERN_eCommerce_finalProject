@@ -128,39 +128,6 @@ export const getRecentChats = () => async (dispatch, getState) => {
   }
 };
 
-export const updateRecentChats = () => async (dispatch, getState) => {
-  try {
-    dispatch({ type: UPDATE_RECENT_CHAT_REQUEST });
-
-    const {
-      userLogin: { userInfo },
-    } = getState();
-
-    const config = {
-      headers: {
-        'content-type': 'application/json',
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
-
-    const { data } = await axios.get(`/api/chat`, config);
-    console.log(data);
-
-    dispatch({
-      type: UPDATE_RECENT_CHAT_SUCCESS,
-      payload: data,
-    });
-  } catch (error) {
-    dispatch({
-      type: UPDATE_RECENT_CHAT_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
-};
-
 //Access to chat if possible, if not, creates new chat
 export const accessChat =
   (selectedUserId, recentChat, currentUser, productId) =>
@@ -264,7 +231,6 @@ export const currentChatAction =
 export const updateChat = (chat) => async (dispatch, getState) => {
   try {
     dispatch({ type: UPDATE_CHAT_REQUEST });
-    console.log(chat);
 
     const {
       userLogin: { userInfo },
@@ -278,7 +244,6 @@ export const updateChat = (chat) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.put(`/api/chat`, chat, config);
-    console.log(data);
 
     dispatch({ type: UPDATE_CHAT_SUCCESS, payload: data });
   } catch (error) {

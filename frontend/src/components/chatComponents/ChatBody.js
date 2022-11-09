@@ -14,8 +14,6 @@ import {
   sendMessage,
   updateMessages,
   updateChat,
-  currentChatAction,
-  fetchCurrentMessages,
 } from '../../actions/chatActions';
 import { updateProduct } from '../../actions/productActions';
 
@@ -99,7 +97,7 @@ const ChatBody = ({ socket }) => {
     dispatch(
       updateChat({
         _id: currentChat._id,
-        users: currentChat._users,
+        users: currentChat.users,
         product: currentChat.product,
         latestMessage: currentChat.latestMessage,
         isRequired: false,

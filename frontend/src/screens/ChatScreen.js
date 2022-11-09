@@ -41,8 +41,6 @@ const ChatScreen = () => {
     socket.on('connected', () => {
       console.log(`My Socket Id is: ${socket.id}`);
     });
-
-    dispatch(getRecentChats());
   }, []);
 
   useEffect(() => {
@@ -52,7 +50,6 @@ const ChatScreen = () => {
           renderFirstChat.users[0]._id === userInfo._id
             ? renderFirstChat.users[1]
             : renderFirstChat.users[0];
-        dispatch(getRecentChats());
         dispatch(
           currentChatAction(
             selectedUser,
@@ -61,9 +58,9 @@ const ChatScreen = () => {
           )
         );
       }
+    } else {
+      dispatch(fetchCurrentMessages(currentChat._id, socket));
     }
-
-    dispatch(fetchCurrentMessages(currentChat._id, socket));
   });
 
   return (

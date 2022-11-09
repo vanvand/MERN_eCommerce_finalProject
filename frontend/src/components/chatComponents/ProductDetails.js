@@ -11,10 +11,11 @@ function ProductDetails({ socket }) {
   const { currentUser, currentProduct, currentChat } = selectedChat;
 
   const [rented, setRented] = useState(currentProduct.rentedTo);
-  const [available, setAvailability] = useState(currentChat.isRequired);
+  const [required, setRequired] = useState(currentChat.isRequired);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+  console.log(currentChat);
 
   // useEffect(() => {
   //   setAvailability(currentChat.isRequired);
@@ -32,17 +33,17 @@ function ProductDetails({ socket }) {
       dispatch(
         updateChat({
           _id: currentChat._id,
-          users: currentChat._users,
+          users: currentChat.users,
           product: currentChat.product,
           latestMessage: currentChat.latestMessage,
           isRequired: true,
         })
       );
-      setAvailability(false);
+      setRequired(true);
     } else {
       socket.emit('marked as available', currentUser);
       //cancel all process through socket
-      setAvailability(true);
+      setRequired(false);
     }
   };
 
@@ -78,7 +79,7 @@ function ProductDetails({ socket }) {
                 <i className='px-2 fa-solid fa-rotate'></i>
               )}
 
-              {currentProduct.availability
+              {currentProduct.availability && !required
                 ? 'Mark as rented to UserName'
                 : 'Rented'}
             </Button>
