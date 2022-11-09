@@ -53,7 +53,10 @@ const FaqAskButton = () => {
     <>
       <Row className="align-items-center">
         <Col className="text-right">
-          <Button className="my-3" onClick={createQuestionHandler}>
+          <Button
+            className="my-3 btn-custom-cta"
+            onClick={createQuestionHandler}
+          >
             <i className="fa-solid fa-person-circle-question"></i> ASK Question
           </Button>
         </Col>
