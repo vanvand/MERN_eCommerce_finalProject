@@ -8,7 +8,7 @@ import {
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-function SecondaryAdd() {
+function SecondaryAdd3() {
   return (
     // <Card className="bg-light text-black">
     //   <Card.Img src="../../../uploads/add2.png" alt="Card image" />
@@ -43,4 +43,4 @@ function SecondaryAdd() {
   );
 }
 
-export default SecondaryAdd;
+export default SecondaryAdd3;
