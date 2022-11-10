@@ -78,7 +78,10 @@ const UserDetails = ({user}) => {
               </div>
               <div style={{ marginTop: "5px", color: "#6c757d" }}>
                 <div>{`Active since: ${userActiveSinceDate}`}</div>
-                <div>{`${numAdsUser} ads online`}</div>
+                <div>
+                  {`${numAdsUser} ads online`}{" "}
+{     user._id !== userInfo._id &&             <i class="fa-solid fa-triangle-exclamation"></i>
+}                </div>
               </div>
             </Link>
           </Col>
