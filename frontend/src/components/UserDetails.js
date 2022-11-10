@@ -6,14 +6,11 @@ import Loader from "../components/Loader"
 import Message from "../components/Message"
 import {listProductDetailsByUserId} from "../actions/productActions"
 
-const UserDetails = () => {
+const UserDetails = ({user}) => {
 
     const [numAdsUser, setNumAdsUser] = useState(0)
 
     const dispatch = useDispatch()
-
-    const userDetails = useSelector((state) => state.userDetails)
-    const { loading, error, user } = userDetails
 
     const productDetails = useSelector(state => state.productDetails)
     const { loading: loadingProductDetails, error: errorProductDetails, product } = productDetails
@@ -22,7 +19,6 @@ const UserDetails = () => {
     const { loading: loadingProductDetailsByUserId, error: errorProductDetailsByUserId, productsUser } = productDetailsByUserId
 
     const userActiveSinceDate = String(user.createdAt).substring(0, 10)
-
 
     useEffect( () => {
         if(product.user) {
@@ -50,10 +46,6 @@ const UserDetails = () => {
     {loadingProductDetailsByUserId && <Loader />}
     {errorProductDetailsByUserId && <Message variant="danger">{errorProductDetailsByUserId}</Message> }
 
-    {loading 
-      ? <Loader /> 
-      : error ? <Message variant="danger">{error}</Message> 
-      : (
         <Container > 
         <Row >
             <Col md={4} >
@@ -75,7 +67,6 @@ const UserDetails = () => {
             </Col>
         </Row>
         </Container>
-    )}
     </>
   )
 }

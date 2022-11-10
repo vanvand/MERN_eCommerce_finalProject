@@ -267,6 +267,22 @@ const deleteWishItem = asyncHandler(async (req, res) => {
   }
 });
 
+
+// @desc GET product creator by id
+// @route GET /api/users/product-creator/:userId
+// @access Public
+
+const getProductCreatorUserDetails = asyncHandler(async (req, res) => {
+    const userProductCreator = await User.findById(req.params.id).select("-password")
+    if(userProductCreator) {
+        res.json(userProductCreator)
+    } else {
+        res.status(404)
+        throw new Error("User not found")
+    }
+})
+
+
 export {
   authUser,
   registerUser,
@@ -279,4 +295,5 @@ export {
   addMyWishItem,
   getAllMyWishItems,
   deleteWishItem,
+  getProductCreatorUserDetails
 };
