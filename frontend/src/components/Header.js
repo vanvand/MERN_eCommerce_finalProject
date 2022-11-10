@@ -19,7 +19,11 @@ import Message from './Message';
 import { PRODUCT_CREATE_RESET } from '../constants/productConstants';
 import { logout, getUserDetails } from '../actions/userActions';
 import { listProducts, createProduct } from '../actions/productActions.js';
-import { getRecentChats } from '../actions/chatActions';
+import {
+  getRecentChats,
+  currentChatAction,
+  fetchCurrentMessages,
+} from '../actions/chatActions';
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -45,6 +49,11 @@ const Header = () => {
     success: successCreate,
     product: createdProduct,
   } = productCreate;
+
+  const { recent_chat } = useSelector((state) => state.recentChat);
+
+  const selectedChat = useSelector((state) => state.selectedChat);
+  const { currentChat } = selectedChat;
 
   useEffect(() => {
     dispatch({ type: PRODUCT_CREATE_RESET });
@@ -73,6 +82,24 @@ const Header = () => {
 
   const createProductHandler = () => {
     dispatch(createProduct());
+  };
+
+  const chatHandler = () => {
+    if (recent_chat) {
+      const renderFirstChat = recent_chat[0];
+      let selectedUser =
+        renderFirstChat.users[0]._id === userInfo._id
+          ? renderFirstChat.users[1]
+          : renderFirstChat.users[0];
+      dispatch(
+        currentChatAction(
+          selectedUser,
+          renderFirstChat.product,
+          renderFirstChat
+        )
+      );
+    }
+    navigate('/chat');
   };
 
   return (
@@ -107,7 +134,7 @@ const Header = () => {
                   </Nav.Item>
 
                   <Nav.Item>
-                    <Nav.Link href='/chat' className='icon'>
+                    <Nav.Link href='#' className='icon' onClick={chatHandler}>
                       <i className='fa-regular fa-envelope'></i>
                     </Nav.Link>
                   </Nav.Item>

@@ -31,6 +31,10 @@ const ProductScreen = () => {
 
   const { recent_chat } = useSelector((state) => state.recentChat);
 
+  const selectedChat = useSelector((state) => state.selectedChat);
+  const { currentChat } = selectedChat;
+  // let required;
+
   const userDetails = useSelector((state) => state.userDetails);
   const {
     loading: loadingUserDetails,
@@ -49,6 +53,8 @@ const ProductScreen = () => {
   } = productReviewCreate;
 
   const productDescription = String(product.description);
+
+  console.log(user);
 
   useEffect(() => {
     if (successProductReview) {
@@ -222,6 +228,19 @@ const ProductScreen = () => {
                           type='button'
                           disabled={product.availability === false}
                         >
+                          {/* {product.availability && currentChat.isRequired ? (
+                            <i className='px-2 fa-solid fa-rotate'></i>
+                          ) : !product.availability &&
+                            !currentChat.isRequired ? (
+                            <i className='px-2 fa-solid fa-circle-check'></i>
+                          ) : (
+                            <i className='px-2 fa-solid fa-rotate'></i>
+                          )}
+
+                          {product.availability && !required
+                            ? 'Mark as rented to UserName'
+                            : 'Rented'} */}
+
                           {product.availability ? (
                             <span>
                               <i className='fas fa-message'></i> Request

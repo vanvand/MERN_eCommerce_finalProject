@@ -14,6 +14,7 @@ import {
   sendMessage,
   updateMessages,
   updateChat,
+  fetchCurrentMessages,
 } from '../../actions/chatActions';
 import { updateProduct } from '../../actions/productActions';
 
@@ -74,7 +75,11 @@ const ChatBody = ({ socket }) => {
 
   useEffect(() => {
     // 👇️ scroll to bottom every time messages change
-    lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' });
+    lastMessageRef.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'start',
+    });
   }, [currentChat, messages]);
 
   //Submit approval handler
@@ -173,7 +178,7 @@ const ChatBody = ({ socket }) => {
               {/* <div>{isTyping}</div> */}
               {(confirmRequired || currentChat.isRequired) &&
               currentProduct.user !== userInfo._id ? (
-                <Row className='approval-container'>
+                <Row className='message-row'>
                   <Card.Body className='rent-approval'>
                     <p>
                       {currentUser.name} marked product as rented. Please
