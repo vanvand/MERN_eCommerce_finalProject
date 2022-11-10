@@ -124,7 +124,7 @@ const RegisterScreen = () => {
             </Form.Group>
 
 
-            <Button type="submit" variant="primary">
+            <Button type="submit" className="btn-custom-submit">
                 Register
             </Button>
 

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Row, Col, ListGroup, Button, Form } from 'react-bootstrap';
-import Carousel from 'react-bootstrap/Carousel';
+import { Row, Col, ListGroup, Button, Form, Carousel } from 'react-bootstrap';
 
 import Loader from '../components/Loader';
 import Message from '../components/Message';
@@ -113,6 +112,8 @@ const ProductScreen = () => {
       ) : (
         <>
           <Row>
+
+          {/* Image Slider */}
             <Col md={6}>
               {!product.imageSecond && !product.imageThird ? (
                 <Carousel interval={null}>
@@ -154,16 +155,17 @@ const ProductScreen = () => {
                 </Carousel>
               )}
             </Col>
-
-            <Col md={4}>
-              <ListGroup variant='flush'>
+          
+          {/* Product Info Box */}
+            <Col md={5} className="product-info-col">
+              <ListGroup variant='flush' >
                 <ListGroup.Item>
                   <i className='fas fa-location-dot'></i> {userProductCreator.city},{' '}
                   {userProductCreator.district}
                 </ListGroup.Item>
 
                 <ListGroup.Item>
-                  <h3>{product.name}</h3>
+                  <h4 className="h4-product-screen">{product.name}</h4>
 
                   <div style={{ marginBottom: '0.7rem' }}>
                     <Rating
@@ -200,7 +202,7 @@ const ProductScreen = () => {
                       >
                         {product.availability ? (
                           <span>
-                            <i className='far fa-check'></i> Available for rent
+                            <i className='fas fa-check'></i> Available for rent
                           </span>
                         ) : (
                           <span>
@@ -314,8 +316,7 @@ const ProductScreen = () => {
                       <Button
                         disabled={loadingProductReview}
                         type='submit'
-                        variant='primary'
-                        style={{marginTop: "1rem"}}
+                        className="btn-custom-submit"
                       >
                         Submit
                       </Button>
