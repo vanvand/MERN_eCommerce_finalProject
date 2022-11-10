@@ -12,6 +12,7 @@ const RecentChatList = ({ socket }) => {
   const { userInfo } = userLogin;
 
   const { recent_chat } = useSelector((state) => state.recentChat);
+  console.log(recent_chat);
 
   useEffect(() => {
     socket.on('confirmation required', () => {
