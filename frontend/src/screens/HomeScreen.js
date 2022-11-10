@@ -1,15 +1,14 @@
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Col, Row } from 'react-bootstrap';
+import { Col, Row, Card, Image } from 'react-bootstrap';
 
 import { listProducts } from '../actions/productActions';
 
-import MainAdd from '../components/MainAdd';
 import TopProducts from '../components/TopProducts';
 import MostSearched from '../components/MostSearched';
 import TopCategoryName from '../components/TopCategoryName';
-import BottomAdd from '../components/SecondaryAdd';
+import BannerAds from '../components/BannerAds';
 
 const HomeScreen = () => {
   const params = useParams();
@@ -28,9 +27,18 @@ const HomeScreen = () => {
 
   return (
     <>
+      
       {!keyword ? (
         <>
-          <MainAdd />
+          {/* Hero Banner */}
+          <Row>
+            <Col>
+              <Card className="mb-3" md={4} border="light">
+                <Image src="../../../uploads/banner-hero.png" />
+              </Card>
+            </Col>
+          </Row>
+          
           <TopProducts />
           <MostSearched />
           <TopCategoryName />
@@ -40,14 +48,8 @@ const HomeScreen = () => {
           Go Back
         </Link>
       )}
-      <Row>
-        <Col>
-          <BottomAdd />
-        </Col>
-        <Col>
-          <BottomAdd />
-        </Col>
-      </Row>
+      
+      <BannerAds />
     </>
   );
 };

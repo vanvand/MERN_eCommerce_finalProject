@@ -36,7 +36,7 @@ const SearchBox = () => {
           className="btn-search"
         >
           {/* search icon */}
-          <BsSearch />
+          <BsSearch  style={{ strokeWidth: "1"}} />
         </Button>
 
         <Form.Control

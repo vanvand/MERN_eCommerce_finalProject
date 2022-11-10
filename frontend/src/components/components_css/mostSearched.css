@@ -8,7 +8,9 @@
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
 }
 
-
+.most-searched-terms {
+  padding-bottom: 1.5rem;
+}
 
 .alignStart{flex-grow: 0;}
 
