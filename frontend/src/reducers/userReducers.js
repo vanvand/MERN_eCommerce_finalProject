@@ -192,22 +192,8 @@ export const userDetailsProductCreatorReducer = (state = { userProductCreator: {
 export const userAddWishItemReducer = (state = { wishItems: [] }, action) => {
   switch (action.type) {
     case USER_ADD_WISHITEM_REQUEST:
-      const item = action.payload;
-      const existItem = state.wishItems.filter((x) => x._id !== item._id);
-
-      if (existItem) {
-        return {
-          ...state,
-          wishItems: state.wishItems.map((x) =>
-            x._id === existItem._id ? item : x
-          ),
-        };
-      } else {
         return { ...state, loading: true };
-      }
-
-    //return { ...state, loading: true };
-    case USER_ADD_WISHITEM_SUCCESS:
+        case USER_ADD_WISHITEM_SUCCESS:
       return { loading: false, wishItems: action.payload };
     case USER_ADD_WISHITEM_FAIL:
       return { loading: false, error: action.payload };
@@ -224,6 +210,7 @@ export const userAddWishItemReducer = (state = { wishItems: [] }, action) => {
 export const userWishListReducer = (state = { wishItems: [] }, action) => {
   switch (action.type) {
     case USER_WISHLIST_REQUEST:
+      console.log("stateWash", state);
       return { ...state, loading: true };
     case USER_WISHLIST_SUCCESS:
       return { loading: false, wishItems: action.payload };
