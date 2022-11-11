@@ -13,6 +13,7 @@ function CategoryHeader() {
   const pageNumber = params.pageNumber || 1;
 
   useEffect(() => {
+    console.log('first render');
     // keyword from search functionality
     dispatch(listProducts('', pageNumber));
   }, []);
@@ -27,6 +28,10 @@ function CategoryHeader() {
       })
     ),
   ];
+
+  useEffect(() => {
+    console.log('re rendering');
+  }, [productList]);
 
   const categoryHandler = (category) => {
     console.log('handler');

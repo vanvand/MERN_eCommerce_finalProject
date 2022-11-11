@@ -21,24 +21,24 @@ const HomeScreen = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log('first render');
     // keyword from search functionality
     dispatch(listProducts(keyword, pageNumber));
   }, [dispatch, keyword, pageNumber]);
 
   return (
     <>
-      
       {!keyword ? (
         <>
           {/* Hero Banner */}
           <Row>
             <Col>
-              <Card className="mb-3" md={4} border="light">
-                <Image src="../../../uploads/banner-hero.png" />
+              <Card className='mb-3' md={4} border='light'>
+                <Image src='../../../uploads/banner-hero.png' />
               </Card>
             </Col>
           </Row>
-          
+
           <TopProducts />
           <MostSearched />
           <TopCategoryName />
@@ -48,7 +48,7 @@ const HomeScreen = () => {
           Go Back
         </Link>
       )}
-      
+
       <BannerAds />
     </>
   );
