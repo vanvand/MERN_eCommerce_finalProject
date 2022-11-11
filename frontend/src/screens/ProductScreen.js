@@ -8,8 +8,14 @@ import Message from '../components/Message';
 import Rating from '../components/Rating';
 import UserDetails from '../components/UserDetails';
 
-import { addWishItem, getUserDetailsProductCreator, getUserWishList } from '../actions/userActions';
-import { listProductDetails, createProductReview } from '../actions/productActions';
+import {
+  addWishItem,
+  getUserDetailsProductCreator,
+} from '../actions/userActions';
+import {
+  listProductDetails,
+  createProductReview,
+} from '../actions/productActions';
 import { accessChat } from '../actions/chatActions';
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
 
@@ -22,7 +28,6 @@ const ProductScreen = () => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
   const [showMore, setShowMore] = useState(false);
-  const [addedToWishlist, setAddedToWishlist] = useState(false);
 
   const productDetails = useSelector((state) => state.productDetails);
   const { loading, error, product } = productDetails;
@@ -58,41 +63,7 @@ const ProductScreen = () => {
     success: successProductReview,
   } = productReviewCreate;
 
-  const userAddWishItem = useSelector((state) => state.userAddWishItem);
-  const { success: successUserAddWishItem } = userAddWishItem;
-
-  const userWishList = useSelector((state) => state.userWishList);
-  const { loading: loadingUserWishList, wishItems } = userWishList;
-
   const productDescription = String(product.description);
-
-
-  useEffect(() => {
-    if (product.user) {
-      dispatch(getUserDetailsProductCreator(product.user));
-    }
-  }, [dispatch, product, product.user]);
-
-  // wishlist button toggler
-  useEffect(() => {
-    if (successUserAddWishItem) {
-      setAddedToWishlist(true)
-    }
-  }, [successUserAddWishItem])
-
-  // wishlist button rendering
-  useEffect(() => {
-    dispatch(getUserWishList())
-  }, [dispatch])
-
-  useEffect(() => {
-    if (!loadingUserWishList && user) {
-      const found = wishItems.find((wishlistItem) => wishlistItem._id === product._id )
-      if(found) {setAddedToWishlist(true)}
-      }
-  }, [user, loadingUserWishList, wishItems, wishItems._id, product._id])
-
-
 
   useEffect(() => {
     if (successProductReview) {
@@ -104,6 +75,12 @@ const ProductScreen = () => {
     dispatch(listProductDetails(params.id));
   }, [dispatch, params, successProductReview, productDescription]);
 
+  useEffect(() => {
+    if (product.user) {
+      dispatch(getUserDetailsProductCreator(product.user));
+    }
+  }, [dispatch, product, product.user]);
+
   const requestUserChat = () => {
     let selectedUser = userProductCreator;
     let currentUser = user;
@@ -112,7 +89,13 @@ const ProductScreen = () => {
   };
 
   const addToWishlist = () => {
+    console.log('Added to Wishlist');
     dispatch(addWishItem(params.id));
+    if (userInfo) {
+      navigate(`/wishlist`);
+    } else {
+      navigate(`/login`);
+    }
   };
 
   const submitHandler = (e) => {
@@ -282,29 +265,15 @@ const ProductScreen = () => {
                           )}
                         </Button>
 
-                        {!addedToWishlist ? (
-                          <Button
-                            onClick={addToWishlist}
-                            className='btn-light btn-custom'
-                            type='button'
-                          >
-                            <span>
-                              <i className='fa-regular fa-heart'></i> Add to Wishlist
-                            </span>
-                          </Button>
-                        ) : (
-                          <Button
-                            className='btn-light btn-custom'
-                            type='button'
-                            disabled
-                            style={{border: "1px solid #7F7F7F"}}
-                          >
-                            <span>
-                              <i className='fa-solid fa-heart'></i> Saved to Wishlist
-                            </span>
-                          </Button>
-                        )
-                        }
+                        <Button
+                          onClick={addToWishlist}
+                          className='btn-light btn-custom'
+                          type='button'
+                        >
+                          <span>
+                            <i className='fas fa-heart'></i> Add to Wishlist
+                          </span>
+                        </Button>
                       </>
                     )}
                   </div>

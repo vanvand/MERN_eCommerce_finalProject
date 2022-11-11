@@ -231,7 +231,6 @@ const getTopCategoryName = asyncHandler(async (req, res) => {
   }
 });
 
-
 export {
   getProducts,
   getProductById,
