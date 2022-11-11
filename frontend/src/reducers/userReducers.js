@@ -35,6 +35,9 @@ import {
   USER_DELETE_WISHITEM_REQUEST,
   USER_DELETE_WISHITEM_SUCCESS,
   USER_DELETE_WISHITEM_FAIL,
+  USER_DELETE_RENTED_REQUEST,
+  USER_DELETE_RENTED_SUCCESS,
+  USER_DELETE_RENTED_FAIL,
 } from "../constants/userConstants";
 
 export const userLoginReducer = (state = {}, action) => {
@@ -230,6 +233,22 @@ export const userDeleteWishItemReducer = (
     case USER_DELETE_WISHITEM_SUCCESS:
       return { loading: false, success: true };
     case USER_DELETE_WISHITEM_FAIL:
+      return { loading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+};
+export const userDeleteRentedItemReducer = (
+  state = { rentedItems: [] },
+  action
+) => {
+  switch (action.type) {
+    case USER_DELETE_RENTED_REQUEST:
+      return { loading: true };
+    case USER_DELETE_RENTED_SUCCESS:
+      return { loading: false, success: true };
+    case USER_DELETE_RENTED_FAIL:
       return { loading: false, error: action.payload };
 
     default:

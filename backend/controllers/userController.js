@@ -266,6 +266,23 @@ const deleteWishItem = asyncHandler(async (req, res) => {
     throw new Error("User not found");
   }
 });
+const deleteRentedItem = asyncHandler(async (req, res) => {
+    const userId = req.user._id;
+  if (userId) {
+    User.findByIdAndUpdate(
+      userId, {
+        rentedTo : ''
+      },
+      { new: true },
+      (err, user) => {
+        res.json(user);
+      }
+    )
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
+});
 
 export {
   authUser,
@@ -279,4 +296,5 @@ export {
   addMyWishItem,
   getAllMyWishItems,
   deleteWishItem,
+  deleteRentedItem
 };

@@ -25,6 +25,7 @@ import FaqCreate from './components/FaqCreate';
 import FaqScreen from './screens/FaqScreen';
 import FaqDetails from './components/FaqDetails';
 import UserWishlistScreen from './screens/UserWishlistScreen';
+import UserRentedScreen from './screens/UserRentedScreen';
 import ChatScreen from './screens/ChatScreen';
 
 const App = () => {
@@ -104,6 +105,7 @@ const App = () => {
             
             {/* user Wishlist Screen */}
             <Route path="/wishlist" element={<UserWishlistScreen />} />
+            <Route path="/rented" element={<UserRentedScreen />} />
             
             {/* user Add Screen */}
             <Route path="/useradd" element={<UserAdsScreen />} exact />

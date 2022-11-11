@@ -24,6 +24,7 @@ import {
   userAddWishItemReducer,
   userWishListReducer,
   userDeleteWishItemReducer,
+  userDeleteRentedItemReducer
 } from './reducers/userReducers';
 import {
   orderCreateReducer,
@@ -96,6 +97,7 @@ const reducer = {
   rent: rentReducer,
   searchCreate: searchCreateReducer,
   searchList: searchListReducer,
+  userDeleteRentedItem: userDeleteRentedItemReducer
 };
 
 // from userActions
