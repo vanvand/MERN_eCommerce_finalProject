@@ -1,27 +1,23 @@
 import React, { useEffect } from 'react';
 import { Button, Nav } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams, Link } from 'react-router-dom';
-
-import { listProducts } from '../actions/productActions';
-
 import Message from './Message';
 import Loader from './Loader';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+
+import { listProducts } from '../actions/productActions';
 
 function CategoryHeader() {
   const params = useParams();
   const dispatch = useDispatch();
-  const keyword = params.keyword;
   const pageNumber = params.pageNumber || 1;
 
   useEffect(() => {
     // keyword from search functionality
-    dispatch(listProducts(keyword, pageNumber));
-  }, [dispatch, keyword, pageNumber]);
+    dispatch(listProducts('', pageNumber));
+  }, []);
 
-  const productList = useSelector((state) => {
-    return state.productList;
-  });
+  const productList = useSelector((state) => state.productList);
   const { loading, error, allProductsCategory } = productList;
 
   const categories = [
@@ -31,6 +27,11 @@ function CategoryHeader() {
       })
     ),
   ];
+
+  const categoryHandler = (category) => {
+    console.log('handler');
+    dispatch(listProducts(category, pageNumber));
+  };
 
   return (
     <>
@@ -44,8 +45,9 @@ function CategoryHeader() {
             categories.map((category, index) => (
               <Link
                 key={index}
-                to={`/products/category/${category}`}
                 className='link-container'
+                onClick={() => categoryHandler(category)}
+                to={`/products/category/${category}`}
               >
                 <Button
                   variant='light'

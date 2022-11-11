@@ -52,9 +52,11 @@ const Header = () => {
     dispatch({ type: PRODUCT_CREATE_RESET });
     if (createdProduct) {
       navigate(`/products/${createdProduct._id}/edit`);
-    } else {
-      dispatch(listProducts('', pageNumber));
     }
+    // } else {
+    //   console.log('Is this motherfucker');
+    //   dispatch(listProducts('', pageNumber));
+    // }
   }, [userInfo, dispatch, navigate, successCreate, createdProduct, pageNumber]);
 
   useEffect(() => {
