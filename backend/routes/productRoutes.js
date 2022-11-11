@@ -34,4 +34,5 @@ router.route("/:id")
 router.route("/user/:userId")
     .get(getProductByUserId)
 
+
 export default router
