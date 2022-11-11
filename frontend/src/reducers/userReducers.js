@@ -194,7 +194,7 @@ export const userAddWishItemReducer = (state = { wishItems: [] }, action) => {
     case USER_ADD_WISHITEM_REQUEST:
         return { ...state, loading: true };
         case USER_ADD_WISHITEM_SUCCESS:
-      return { loading: false, wishItems: action.payload };
+      return { loading: false, success: true, wishItems: action.payload };
     case USER_ADD_WISHITEM_FAIL:
       return { loading: false, error: action.payload };
 

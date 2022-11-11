@@ -8,7 +8,7 @@ import Message from '../components/Message';
 import Rating from '../components/Rating';
 import UserDetails from '../components/UserDetails';
 
-import { addWishItem, getUserDetailsProductCreator } from '../actions/userActions';
+import { addWishItem, getUserDetailsProductCreator, getUserWishList } from '../actions/userActions';
 import { listProductDetails, createProductReview } from '../actions/productActions';
 import { accessChat } from '../actions/chatActions';
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
@@ -22,6 +22,7 @@ const ProductScreen = () => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
   const [showMore, setShowMore] = useState(false);
+  const [addedToWishlist, setAddedToWishlist] = useState(false);
 
   const productDetails = useSelector((state) => state.productDetails);
   const { loading, error, product } = productDetails;
@@ -48,6 +49,12 @@ const ProductScreen = () => {
     success: successProductReview,
   } = productReviewCreate;
 
+  const userAddWishItem = useSelector((state) => state.userAddWishItem);
+  const { success: successUserAddWishItem } = userAddWishItem;
+
+  const userWishList = useSelector((state) => state.userWishList);
+  const { wishItems } = userWishList;
+
   const productDescription = String(product.description);
 
   useEffect(() => {
@@ -66,6 +73,31 @@ const ProductScreen = () => {
     }
   }, [dispatch, product, product.user]);
 
+  useEffect(() => {
+    if (successUserAddWishItem) {
+      setAddedToWishlist(true)
+    }
+  }, [successUserAddWishItem])
+
+  useEffect(() => {
+    if (user) {
+      dispatch(getUserWishList())
+    }
+    console.log(wishItems)
+    console.log(product)
+    console.log("first", addedToWishlist)
+    // console.log(wishItems.wishItems)
+  
+    if (wishItems.length > 0) {
+      setAddedToWishlist(true)
+    }
+    // if (wishItems._id === product._id) {
+    //   setAddedToWishlist(true)
+    // }
+    
+    console.log("second", addedToWishlist)
+  }, [user, dispatch, wishItems._id, product._id])
+
   const requestUserChat = () => {
     let selectedUserId = user._id;
     let currentUser = userInfo._id;
@@ -75,13 +107,7 @@ const ProductScreen = () => {
   };
 
   const addToWishlist = () => {
-    console.log("Added to Wishlist")
     dispatch(addWishItem(params.id));
-    if (userInfo) {
-      navigate(`/wishlist`);
-    } else {
-      navigate(`/login`);
-    }
   };
 
   const submitHandler = (e) => {
@@ -234,15 +260,27 @@ const ProductScreen = () => {
                           )}
                         </Button>
 
-                        <Button
-                          onClick={addToWishlist}
-                          className='btn-light btn-custom'
-                          type='button'
-                        >
-                          <span>
-                            <i className='fas fa-heart'></i> Add to Wishlist
-                          </span>
-                        </Button>
+                        {!addedToWishlist ? (
+                          <Button
+                            onClick={addToWishlist}
+                            className='btn-light btn-custom'
+                            type='button'
+                          >
+                            <span>
+                              <i className='fa-regular fa-heart'></i> Add to Wishlist
+                            </span>
+                          </Button>
+                        ) : (
+                          <Button
+                            className='btn-light btn-custom'
+                            type='button'
+                          >
+                            <span>
+                              <i className='fa-solid fa-heart'></i> Saved to Wishlist
+                            </span>
+                          </Button>
+                        )
+                        }
                       </>
                     )}
                   </div>

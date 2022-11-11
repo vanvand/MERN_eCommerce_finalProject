@@ -433,8 +433,8 @@ export const getUserWishList = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`api/users/all/mywish`, config);
-    //console.log("data from getUserWish ", data);
+    const { data } = await axios.get(`/api/users/all/mywish`, config);
+    
     dispatch({
       type: USER_WISHLIST_SUCCESS,
       payload: data,
