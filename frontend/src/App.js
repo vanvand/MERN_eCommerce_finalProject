@@ -17,7 +17,7 @@ import UserEditScreen from './screens/UserEditScreen';
 import ProductListScreen from './screens/ProductListScreen';
 import ProductEditScreen from './screens/ProductEditScreen.js';
 import OrderListScreen from './screens/OrderListScreen';
-import UserAdsScreen from "./screens/UserAdsScreen";
+import UserAdsScreen from './screens/UserAdsScreen';
 import ProductsByCategoryScreen from './screens/ProductsByCategoryScreen';
 import CategoryHeader from './components/CategoryHeader';
 import FaqList from '../src/components/FaqList';
@@ -55,8 +55,8 @@ const App = () => {
               <Route path="" element={<ProductListScreen />} />
             </Route>
 
-            <Route path="/products/:id/edit" element={<ProductEditScreen />} />
-            <Route path="/admin/orderlist" element={<OrderListScreen />} />
+            <Route path='/products/:id/edit' element={<ProductEditScreen />} />
+            <Route path='/admin/orderlist' element={<OrderListScreen />} />
 
             {/* ...........ProductsByCategoryScreen................. */}
             <Route
@@ -77,9 +77,9 @@ const App = () => {
               exact
             />
 
-            <Route path="/" element={<HomeScreen />}>
-              <Route path="search/:keyword" element={<HomeScreen />} />
-              <Route path="page/:pageNumber" element={<HomeScreen />} />
+            <Route path='/' element={<HomeScreen />}>
+              <Route path='search/:keyword' element={<HomeScreen />} />
+              <Route path='page/:pageNumber' element={<HomeScreen />} />
               <Route
                 path="search:keyword/page/:pageNumber"
                 element={<HomeScreen />}
@@ -87,26 +87,26 @@ const App = () => {
             </Route>
 
             {/* Route for help button (faq) */}
-            <Route path="/faq" element={<FaqScreen />} />
-            <Route path="faq/page/:pageNumber" element={<FaqScreen />} />
-            <Route path="/faqList" element={<FaqList />} exact />
-            <Route path="/faqList/:pageNumber" element={<FaqList />} exact />
-            <Route path="/faq/:id/edit" element={<FaqCreate />} />
-            <Route path="/faq/:id" element={<FaqDetails />} />
+            <Route path='/faq' element={<FaqScreen />} />
+            <Route path='faq/page/:pageNumber' element={<FaqScreen />} />
+            <Route path='/faqList' element={<FaqList />} exact />
+            <Route path='/faqList/:pageNumber' element={<FaqList />} exact />
+            <Route path='/faq/:id/edit' element={<FaqCreate />} />
+            <Route path='/faq/:id' element={<FaqDetails />} />
 
             {/* faq search */}
             <Route path="/faq/search/:keyword" element={<FaqScreen />} exact />
             <Route
-              path="/faq/search/:keyword/page/:pageNumber"
+              path='/faq/search/:keyword/page/:pageNumber'
               element={<FaqScreen />}
             />
 
             {/* user Wishlist Screen */}
-            <Route path="/wishlist" element={<UserWishlistScreen />} />
+            <Route path='/wishlist' element={<UserWishlistScreen />} />
 
             {/* user Add Screen */}
-            <Route path="/useradd" element={<UserAdsScreen />} exact />
-            <Route path="/useradd/:userId" element={<UserAdsScreen />} exact />
+            <Route path='/useradd' element={<UserAdsScreen />} exact />
+            <Route path='/useradd/:userId' element={<UserAdsScreen />} exact />
 
             {/* Chat */}
             <Route path="/chat" element={<ChatScreen />} />

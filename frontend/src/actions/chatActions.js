@@ -130,10 +130,12 @@ export const getRecentChats = () => async (dispatch, getState) => {
 
 //Access to chat if possible, if not, creates new chat
 export const accessChat =
-  (selectedUserId, recentChat, currentUser, productId) =>
+  (selectedUser, recentChat, currentUser, product) =>
   async (dispatch, getState) => {
     try {
       dispatch({ type: RECENT_CHAT_REQUEST });
+      let selectedUserId = selectedUser._id;
+      let currentUserId = currentUser._id;
 
       const {
         userLogin: { userInfo },
@@ -148,7 +150,7 @@ export const accessChat =
 
       const { data } = await axios.post(
         `/api/chat`,
-        { selectedUserId, currentUser, productId },
+        { selectedUserId, currentUserId, product },
         config
       );
 
@@ -157,6 +159,7 @@ export const accessChat =
           type: NEW_CREATED_CHAT,
           payload: data,
         });
+        dispatch(currentChatAction(selectedUser, product, data));
         return;
       }
 

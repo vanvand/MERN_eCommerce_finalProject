@@ -19,11 +19,7 @@ import Message from './Message';
 import { PRODUCT_CREATE_RESET } from '../constants/productConstants';
 import { logout, getUserDetails } from '../actions/userActions';
 import { listProducts, createProduct } from '../actions/productActions.js';
-import {
-  getRecentChats,
-  currentChatAction,
-  fetchCurrentMessages,
-} from '../actions/chatActions';
+import { getRecentChats, currentChatAction } from '../actions/chatActions';
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -51,9 +47,6 @@ const Header = () => {
   } = productCreate;
 
   const { recent_chat } = useSelector((state) => state.recentChat);
-
-  const selectedChat = useSelector((state) => state.selectedChat);
-  const { currentChat } = selectedChat;
 
   useEffect(() => {
     dispatch({ type: PRODUCT_CREATE_RESET });

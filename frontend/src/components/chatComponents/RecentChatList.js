@@ -12,13 +12,21 @@ const RecentChatList = ({ socket }) => {
   const { userInfo } = userLogin;
 
   const { recent_chat } = useSelector((state) => state.recentChat);
-  console.log(recent_chat);
+
+  const { messages } = useSelector((state) => state.chat);
 
   useEffect(() => {
+    socket.on('message received', () => {
+      dispatch(getRecentChats());
+    });
     socket.on('confirmation required', () => {
       dispatch(getRecentChats());
     });
   }, [socket]);
+
+  useEffect(() => {
+    dispatch(getRecentChats());
+  }, [messages]);
 
   return (
     <Container className='overflow-auto'>

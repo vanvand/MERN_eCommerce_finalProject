@@ -27,11 +27,8 @@ const ChatScreen = () => {
 
   const selectedChat = useSelector((state) => state.selectedChat);
   const { currentUser, currentChat } = selectedChat;
-  console.log(currentChat);
 
-  //If no currentChat selected, sets latest chat to current
   const { recent_chat } = useSelector((state) => state.recentChat);
-  // const renderFirstChat = recent_chat[0];
 
   useEffect(() => {
     if (!userInfo) {
@@ -43,7 +40,15 @@ const ChatScreen = () => {
       console.log(`My Socket Id is: ${socket.id}`);
     });
 
-    dispatch(fetchCurrentMessages(currentChat._id, socket));
+    if (!recent_chat) {
+      dispatch(getRecentChats());
+    }
+
+    if (currentChat) {
+      dispatch(fetchCurrentMessages(currentChat._id, socket));
+    } else {
+      dispatch(fetchCurrentMessages(recent_chat[0]._id, socket));
+    }
   }, []);
 
   return (
