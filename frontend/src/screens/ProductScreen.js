@@ -72,7 +72,7 @@ const ProductScreen = () => {
       setComment('');
       dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
     }
-    dispatch(listProductDetails(params.id));
+    // dispatch(listProductDetails(params.id));
   }, [dispatch, params, successProductReview, productDescription]);
 
   useEffect(() => {
@@ -130,8 +130,7 @@ const ProductScreen = () => {
       ) : (
         <>
           <Row>
-
-          {/* Image Slider */}
+            {/* Image Slider */}
             <Col md={6}>
               {!product.imageSecond && !product.imageThird ? (
                 <Carousel interval={null}>
@@ -173,17 +172,17 @@ const ProductScreen = () => {
                 </Carousel>
               )}
             </Col>
-          
-          {/* Product Info Box */}
-            <Col md={5} className="product-info-col">
-              <ListGroup variant='flush' >
+
+            {/* Product Info Box */}
+            <Col md={5} className='product-info-col'>
+              <ListGroup variant='flush'>
                 <ListGroup.Item>
                   <i className='fas fa-location-dot'></i>{' '}
                   {userProductCreator.city}, {userProductCreator.district}
                 </ListGroup.Item>
 
                 <ListGroup.Item>
-                  <h4 className="h4-product-screen">{product.name}</h4>
+                  <h4 className='h4-product-screen'>{product.name}</h4>
 
                   <div style={{ marginBottom: '0.7rem' }}>
                     <Rating

@@ -46,7 +46,7 @@ const ChatScreen = () => {
 
     if (currentChat) {
       dispatch(fetchCurrentMessages(currentChat._id, socket));
-    } else {
+    } else if (recent_chat.length > 0) {
       dispatch(fetchCurrentMessages(recent_chat[0]._id, socket));
     }
   }, []);

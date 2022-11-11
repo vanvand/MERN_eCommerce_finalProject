@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { Col, Row } from "react-bootstrap";
-import Product from "../components/Product";
-import Loader from "../components/Loader";
-import Message from "../components/Message";
-import Paginate from "../components/Paginate";
-import { listProducts } from "../actions/productActions";
+import React, { useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Col, Row } from 'react-bootstrap';
+import Product from '../components/Product';
+import Loader from '../components/Loader';
+import Message from '../components/Message';
+import Paginate from '../components/Paginate';
+import { listProducts } from '../actions/productActions';
 
 const ProductsByCategory = () => {
   const params = useParams();
@@ -15,15 +15,12 @@ const ProductsByCategory = () => {
   const pageNumber = params.pageNumber || 1;
   const dispatch = useDispatch();
 
-  const productList = useSelector((state) => {
-    //console.log(state.productList);
-    return state.productList;
-  });
+  const productList = useSelector((state) => state.productList);
   const { loading, error, products, page, pages } = productList;
 
   // console.log("products", products);
   // console.log("productsCategory", productsCategory);
-  console.log("keyword", keyword);
+  console.log('keyword', keyword);
 
   useEffect(() => {
     dispatch(listProducts(keyword, pageNumber));
@@ -38,7 +35,7 @@ const ProductsByCategory = () => {
           <Loader />
         ) : // if error true display error message in HomeScreen component
         error ? (
-          <Message variant="danger">{error}</Message>
+          <Message variant='danger'>{error}</Message>
         ) : (
           <>
             <Row>
@@ -66,7 +63,7 @@ const ProductsByCategory = () => {
                 /*  pass props in from state */
                 pages={pages}
                 page={page}
-                keyword={keyword ? keyword : ""}
+                keyword={keyword ? keyword : ''}
               />
             }
           </>
