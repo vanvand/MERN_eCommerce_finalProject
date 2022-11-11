@@ -1,9 +1,11 @@
 import axios from 'axios';
+import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
 import {
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
   USER_LOGOUT,
+  SIGNOUT_REQUEST,
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
   USER_REGISTER_FAIL,
@@ -95,8 +97,10 @@ export const logout = () => (dispatch) => {
   localStorage.removeItem('cartItems');
   localStorage.removeItem('paymentMethod');
   localStorage.removeItem('shippingAddress');
+  storage.removeItem('persist:root');
 
   dispatch({ type: USER_LOGOUT });
+  dispatch({ type: SIGNOUT_REQUEST });
   // when we logout state of user details and order list is reset > so that different user who log in does not see other details/order items
   dispatch({ type: USER_DETAILS_RESET });
   dispatch({ type: ORDER_LIST_MY_RESET });
@@ -337,40 +341,41 @@ export const updateUser = (user) => async (dispatch, getState) => {
 
 // we get userInfo (with token) from getState method
 // in ProfileScreen in our dispatch we pass profile, not an actual id
-export const getUserDetailsProductCreator = (userId) => async (dispatch, getState) => {
-  try {
-    dispatch({
-      type: USER_DETAILS_PRODUCT_CREATOR_REQUEST,
-    });
+export const getUserDetailsProductCreator =
+  (userId) => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: USER_DETAILS_PRODUCT_CREATOR_REQUEST,
+      });
 
-    // access to logged in user object
-    // const {
-    //   userLogin: { userInfo },
-    // } = getState();
+      // access to logged in user object
+      // const {
+      //   userLogin: { userInfo },
+      // } = getState();
 
-    // const config = {
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     Authorization: `Bearer ${userInfo.token}`,
-    //   },
-    // };
+      // const config = {
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     Authorization: `Bearer ${userInfo.token}`,
+      //   },
+      // };
 
-    const { data } = await axios.get(`/api/users/product-creator/${userId}`);
+      const { data } = await axios.get(`/api/users/product-creator/${userId}`);
 
-    dispatch({
-      type: USER_DETAILS_PRODUCT_CREATOR_SUCCESS,
-      payload: data,
-    });
-  } catch (error) {
-    dispatch({
-      type: USER_DETAILS_PRODUCT_CREATOR_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
-};
+      dispatch({
+        type: USER_DETAILS_PRODUCT_CREATOR_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: USER_DETAILS_PRODUCT_CREATOR_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
 
 //wishList
 // USER_ADD_WISHITEM_REQUEST ,

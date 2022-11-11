@@ -3,6 +3,7 @@ import {
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
   USER_LOGOUT,
+  SIGNOUT_REQUEST,
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
   USER_REGISTER_FAIL,
@@ -39,7 +40,7 @@ import {
   USER_DELETE_WISHITEM_REQUEST,
   USER_DELETE_WISHITEM_SUCCESS,
   USER_DELETE_WISHITEM_FAIL,
-} from "../constants/userConstants";
+} from '../constants/userConstants';
 
 export const userLoginReducer = (state = {}, action) => {
   switch (action.type) {
@@ -50,6 +51,8 @@ export const userLoginReducer = (state = {}, action) => {
     case USER_LOGIN_FAIL:
       return { loading: false, error: action.payload };
     case USER_LOGOUT:
+      return {};
+    case SIGNOUT_REQUEST:
       return {};
     default:
       return state;
@@ -169,7 +172,10 @@ export const userUpdateReducer = (state = { user: {} }, action) => {
   }
 };
 
-export const userDetailsProductCreatorReducer = (state = { userProductCreator: {} }, action) => {
+export const userDetailsProductCreatorReducer = (
+  state = { userProductCreator: {} },
+  action
+) => {
   switch (action.type) {
     case USER_DETAILS_PRODUCT_CREATOR_REQUEST:
       return { ...state, loading: true };

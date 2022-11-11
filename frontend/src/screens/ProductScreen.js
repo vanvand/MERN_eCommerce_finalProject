@@ -32,6 +32,9 @@ const ProductScreen = () => {
 
   const { recent_chat } = useSelector((state) => state.recentChat);
 
+  const selectedChat = useSelector((state) => state.selectedChat);
+  const { currentChat } = selectedChat;
+
   const userDetails = useSelector((state) => state.userDetails);
   const {
     loading: loadingUserDetails,
@@ -39,8 +42,14 @@ const ProductScreen = () => {
     user,
   } = userDetails;
 
-   const userDetailsProductCreator = useSelector((state) => state.userDetailsProductCreator)
-    const { loading: loadingUserDetailsProductCreator, error: errorUserDetailsProductCreator, userProductCreator } = userDetailsProductCreator
+  const userDetailsProductCreator = useSelector(
+    (state) => state.userDetailsProductCreator
+  );
+  const {
+    loading: loadingUserDetailsProductCreator,
+    error: errorUserDetailsProductCreator,
+    userProductCreator,
+  } = userDetailsProductCreator;
 
   const productReviewCreate = useSelector((state) => state.productReviewCreate);
   const {
@@ -96,10 +105,9 @@ const ProductScreen = () => {
   }, [dispatch, params, successProductReview, productDescription]);
 
   const requestUserChat = () => {
-    let selectedUserId = user._id;
-    let currentUser = userInfo._id;
-    let productId = product._id;
-    dispatch(accessChat(selectedUserId, recent_chat, currentUser, productId));
+    let selectedUser = userProductCreator;
+    let currentUser = user;
+    dispatch(accessChat(selectedUser, recent_chat, currentUser, product));
     navigate(`/chat`);
   };
 
@@ -118,15 +126,19 @@ const ProductScreen = () => {
   };
 
   const redirectToLogin = () => {
-    navigate('/login')
-  }
+    navigate('/login');
+  };
 
   return (
     <>
       {loadingUserDetails && <Loader />}
-      {errorUserDetails && <Message variant="danger">{errorUserDetails}</Message>}
+      {errorUserDetails && (
+        <Message variant='danger'>{errorUserDetails}</Message>
+      )}
       {loadingUserDetailsProductCreator && <Loader />}
-      {errorUserDetailsProductCreator && <Message variant="danger">{errorUserDetailsProductCreator}</Message>}
+      {errorUserDetailsProductCreator && (
+        <Message variant='danger'>{errorUserDetailsProductCreator}</Message>
+      )}
 
       {loading ? (
         <Loader />
@@ -183,8 +195,8 @@ const ProductScreen = () => {
             <Col md={5} className="product-info-col">
               <ListGroup variant='flush' >
                 <ListGroup.Item>
-                  <i className='fas fa-location-dot'></i> {userProductCreator.city},{' '}
-                  {userProductCreator.district}
+                  <i className='fas fa-location-dot'></i>{' '}
+                  {userProductCreator.city}, {userProductCreator.district}
                 </ListGroup.Item>
 
                 <ListGroup.Item>
@@ -245,6 +257,19 @@ const ProductScreen = () => {
                           type='button'
                           disabled={product.availability === false}
                         >
+                          {/* {product.availability && currentChat.isRequired ? (
+                            <i className='px-2 fa-solid fa-rotate'></i>
+                          ) : !product.availability &&
+                            !currentChat.isRequired ? (
+                            <i className='px-2 fa-solid fa-circle-check'></i>
+                          ) : (
+                            <i className='px-2 fa-solid fa-rotate'></i>
+                          )}
+
+                          {product.availability && !required
+                            ? 'Mark as rented to UserName'
+                            : 'Rented'} */}
+
                           {product.availability ? (
                             <span>
                               <i className='fas fa-message'></i> Request
@@ -285,7 +310,7 @@ const ProductScreen = () => {
                   </div>
 
                   <div style={{ paddingTop: '3rem' }}>
-                    <UserDetails user={userProductCreator}/>
+                    <UserDetails user={userProductCreator} />
                   </div>
                 </ListGroup.Item>
               </ListGroup>
@@ -353,7 +378,8 @@ const ProductScreen = () => {
                       <Button
                         disabled={loadingProductReview}
                         type='submit'
-                        className="btn-custom-submit"
+                        variant='primary'
+                        style={{ marginTop: '1rem' }}
                       >
                         Submit
                       </Button>
@@ -365,8 +391,6 @@ const ProductScreen = () => {
                   )}
                 </ListGroup.Item>
               </ListGroup>
-
-              
             </Col>
           </Row>
         </>

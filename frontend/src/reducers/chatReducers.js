@@ -128,7 +128,7 @@ export const recentChatReducer = (state = initState, { type, payload }) => {
           if (chat._id !== payload._id) {
             return chat;
           }
-          return { ...chat, ...payload };
+          return { ...chat, isRequired: payload };
         }),
         loading: false,
         error: false,

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Row, Card, Button } from 'react-bootstrap';
 
 import { updateChat } from '../../actions/chatActions';
@@ -15,7 +16,6 @@ function ProductDetails({ socket }) {
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-  console.log(currentChat);
 
   // useEffect(() => {
   //   setAvailability(currentChat.isRequired);
@@ -55,10 +55,16 @@ function ProductDetails({ socket }) {
       >
         <Card.Img style={{ width: '15%' }} src={currentProduct.image} />
         <Card.Body className='px-3'>
-          <h4 className='pb-1'>{currentProduct.name}</h4>
-          <h5 className='pb-1' style={{ color: 'grey' }}>
-            {currentProduct.category}
-          </h5>
+          <Link
+            to={`/product/${currentProduct._id}`}
+            style={{ textDecoration: 'none' }}
+          >
+            <h4 className='pb-1'>{currentProduct.name}</h4>
+            <h5 className='pb-1' style={{ color: 'grey' }}>
+              {currentProduct.category}
+            </h5>
+            {rented && <p>Rented!</p>}
+          </Link>
           {currentProduct.user === userInfo._id && (
             <Button
               key={currentProduct._id}

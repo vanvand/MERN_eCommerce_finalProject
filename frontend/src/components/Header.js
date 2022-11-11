@@ -19,7 +19,7 @@ import Message from './Message';
 import { PRODUCT_CREATE_RESET } from '../constants/productConstants';
 import { logout, getUserDetails } from '../actions/userActions';
 import { listProducts, createProduct } from '../actions/productActions.js';
-import { getRecentChats } from '../actions/chatActions';
+import { getRecentChats, currentChatAction } from '../actions/chatActions';
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -46,6 +46,8 @@ const Header = () => {
     product: createdProduct,
   } = productCreate;
 
+  const { recent_chat } = useSelector((state) => state.recentChat);
+
   useEffect(() => {
     dispatch({ type: PRODUCT_CREATE_RESET });
     if (createdProduct) {
@@ -58,6 +60,7 @@ const Header = () => {
   useEffect(() => {
     if (userInfo) {
       dispatch(getUserDetails(userInfo._id));
+      dispatch(getRecentChats());
     }
   }, [userInfo, dispatch]);
 
@@ -73,6 +76,24 @@ const Header = () => {
 
   const createProductHandler = () => {
     dispatch(createProduct());
+  };
+
+  const chatHandler = () => {
+    if (recent_chat) {
+      const renderFirstChat = recent_chat[0];
+      let selectedUser =
+        renderFirstChat.users[0]._id === userInfo._id
+          ? renderFirstChat.users[1]
+          : renderFirstChat.users[0];
+      dispatch(
+        currentChatAction(
+          selectedUser,
+          renderFirstChat.product,
+          renderFirstChat
+        )
+      );
+    }
+    navigate('/chat');
   };
 
   return (
@@ -107,12 +128,13 @@ const Header = () => {
                   </Nav.Item>
 
                   <Nav.Item>
-                    <Nav.Link href='/chat' className='icon'>
+                    <Nav.Link className='icon' onClick={chatHandler}>
                       <i className='fa-regular fa-envelope'></i>
                     </Nav.Link>
                   </Nav.Item>
 
-                  <NavDropdown className="user-dropdown"
+                  <NavDropdown
+                    className='user-dropdown'
                     title={
                       user.image ? (
                         <Image
@@ -121,8 +143,8 @@ const Header = () => {
                           fluid
                         />
                       ) : (
-                        <span className="icon">
-                        <i className='far fa-user'></i>
+                        <span className='icon'>
+                          <i className='far fa-user'></i>
                         </span>
                       )
                     }
@@ -181,7 +203,7 @@ const Header = () => {
 
               {/* Admin Dashboard */}
               {userInfo && userInfo.isAdmin && (
-                <NavDropdown title='Admin' id='adminmenu' className="btn-admin" >
+                <NavDropdown title='Admin' id='adminmenu' className='btn-admin'>
                   <LinkContainer to='/admin/userlist'>
                     <NavDropdown.Item>Users</NavDropdown.Item>
                   </LinkContainer>

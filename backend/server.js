@@ -111,8 +111,12 @@ io.on('connection', (socket) => {
   });
 
   socket.on('new message', (receivedMessage) => {
+    console.log('new message');
+    console.log(receivedMessage);
     socket
       .to(receivedMessage.chat._id)
+      .to(receivedMessage.chat.users[0]._id)
+      .to(receivedMessage.chat.users[1]._id)
       .emit('message received', receivedMessage);
   });
 
@@ -124,6 +128,10 @@ io.on('connection', (socket) => {
     socket.to(owner).emit('rented');
   });
 
+  socket.on('connect_error', (err) => {
+    console.log(`connect_error due to ${err.message}`);
+  });
+
   // socket.on('typing', (data) => {
   //   socket.to(data.room).emit('typingResponse', data);
   // });
@@ -133,7 +141,11 @@ io.on('connection', (socket) => {
   });
   // after check jwt
   //
-  // socket.on('disconnect', () => {
-  //   socket.disconnect();
+  // socket.on('disconnect', (reason) => {
+  //   console_log('disconnect due to ' + reason);
+  //   if (reason === 'io server disconnect') {
+  //     // disconnect initiated by server. Manually reconnect
+  //     socket.connect();
+  //   }
   // });
 });

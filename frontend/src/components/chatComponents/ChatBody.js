@@ -14,12 +14,12 @@ import {
   sendMessage,
   updateMessages,
   updateChat,
+  getRecentChats,
 } from '../../actions/chatActions';
 import { updateProduct } from '../../actions/productActions';
 
 import '../components_css/chat.css';
 
-import MessageStarter from './MessageStarter';
 import ProductDetails from './ProductDetails';
 
 const ChatBody = ({ socket }) => {
@@ -33,6 +33,7 @@ const ChatBody = ({ socket }) => {
 
   //Messages
   const { messages } = useSelector((state) => state.chat);
+  console.log(messages);
 
   //State for input
   const [text, setText] = useState('');
@@ -59,8 +60,10 @@ const ChatBody = ({ socket }) => {
 
   useEffect(() => {
     socket.on('message received', (receivedMessage) => {
-      let chatId = currentChat || receivedMessage.chat._id;
+      console.log('message received');
+      let chatId = currentChat._id || receivedMessage.chat._id;
       dispatch(updateMessages(chatId));
+      dispatch(getRecentChats());
     });
     // socket.on('typingResponse', (data) => {
     //   setIsTyping(data.text);
@@ -74,7 +77,11 @@ const ChatBody = ({ socket }) => {
 
   useEffect(() => {
     // 👇️ scroll to bottom every time messages change
-    lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' });
+    lastMessageRef.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'start',
+    });
   }, [currentChat, messages]);
 
   //Submit approval handler
@@ -129,73 +136,69 @@ const ChatBody = ({ socket }) => {
   return (
     <>
       <Container fluid>
-        {currentChat && (
-          <>
-            <ProductDetails socket={socket} />
-            {/* <Row md={3} className='chatBody-userDetails'>
+        <ProductDetails socket={socket} />
+        {/* <Row md={3} className='chatBody-userDetails'>
               <Col>
                 
               </Col>
             </Row> */}
-            <Row sm={6} className='message-container'>
-              {messages &&
-                messages.map((message, index) => (
-                  <Row className='message-row' key={index}>
-                    {message.sender._id !== userInfo._id && (
-                      <div className='left-container' key={index}>
-                        <Image
-                          src={message.sender.image}
-                          className='message-avatar'
-                        />
-                        <Card
-                          body
-                          key={index}
-                          style={{ width: '18rem' }}
-                          className='message-left'
-                        >
-                          {message.content}
-                        </Card>
-                      </div>
-                    )}
-
-                    {message.sender._id === userInfo._id && (
-                      <Card
-                        body
-                        key={index}
-                        style={{ width: '18rem' }}
-                        className='message-right'
-                      >
-                        {message.content}
-                      </Card>
-                    )}
-                  </Row>
-                ))}
-              {/* <div>{isTyping}</div> */}
-              {(confirmRequired || currentChat.isRequired) &&
-              currentProduct.user !== userInfo._id ? (
-                <Row className='approval-container'>
-                  <Card.Body className='rent-approval'>
-                    <p>
-                      {currentUser.name} marked product as rented. Please
-                      approve as soon as you picked it up.
-                    </p>
-                    <Button
-                      onClick={handleApproval}
-                      style={{ borderRadius: '5px', width: '70%' }}
+        <Row sm={6} className='message-container'>
+          {messages &&
+            messages.map((message, index) => (
+              <Row className='message-row' key={index}>
+                {message.sender._id !== userInfo._id && (
+                  <div className='left-container' key={index}>
+                    <Image
+                      src={message.sender.image}
+                      className='message-avatar'
+                    />
+                    <Card
+                      body
+                      key={index}
+                      style={{ width: '18rem' }}
+                      className='message-left'
                     >
-                      Approve
-                      <i
-                        className='fa-solid fa-check'
-                        style={{ marginLeft: '.5rem' }}
-                      ></i>
-                    </Button>
-                  </Card.Body>
-                </Row>
-              ) : null}
-              <div ref={lastMessageRef} />
+                      {message.content}
+                    </Card>
+                  </div>
+                )}
+
+                {message.sender._id === userInfo._id && (
+                  <Card
+                    body
+                    key={index}
+                    style={{ width: '18rem' }}
+                    className='message-right'
+                  >
+                    {message.content}
+                  </Card>
+                )}
+              </Row>
+            ))}
+          {/* <div>{isTyping}</div> */}
+          {(confirmRequired || currentChat.isRequired) &&
+          currentProduct.user !== userInfo._id ? (
+            <Row className='message-row'>
+              <Card.Body className='rent-approval'>
+                <p style={{ textAlign: 'center' }}>
+                  {currentUser.name} marked product as rented. Please approve as
+                  soon as you picked it up.
+                </p>
+                <Button
+                  onClick={handleApproval}
+                  style={{ borderRadius: '5px', width: '70%' }}
+                >
+                  Approve
+                  <i
+                    className='fa-solid fa-check'
+                    style={{ marginLeft: '.5rem' }}
+                  ></i>
+                </Button>
+              </Card.Body>
             </Row>
-          </>
-        )}
+          ) : null}
+          <div ref={lastMessageRef} />
+        </Row>
       </Container>
       <Row className='p-2'>
         <InputGroup className='mb-3'>
