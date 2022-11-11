@@ -19,7 +19,7 @@ function MostSearched() {
   return (
     <Container className='most-searched-container'>
       <h3 className='h3-custom'>Most Searched</h3>
-      <Row d-flex='true' flex-row='true'>
+      <Row d-flex='true' flex-row='true' className="most-searched-terms">
         {mostSearch?.map((searched, index) => (
           <Col key={index} className='alignStart'>
             <Badge

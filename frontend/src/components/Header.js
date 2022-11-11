@@ -60,6 +60,7 @@ const Header = () => {
   useEffect(() => {
     if (userInfo) {
       dispatch(getUserDetails(userInfo._id));
+      dispatch(getRecentChats());
     }
   }, [userInfo, dispatch]);
 
@@ -104,7 +105,7 @@ const Header = () => {
       {loadingCreate && <Loader />}
       {errorCreate && <Message variant='danger'>{errorCreate}</Message>}
 
-      <Navbar bg='light' variant='light' expand='lg' collapseOnSelect>
+      <Navbar expand='lg' collapseOnSelect>
         <Container className='d-flex '>
           <LinkContainer to='/'>
             <Navbar.Brand>
@@ -127,12 +128,13 @@ const Header = () => {
                   </Nav.Item>
 
                   <Nav.Item>
-                    <Nav.Link href='#' className='icon' onClick={chatHandler}>
+                    <Nav.Link className='icon' onClick={chatHandler}>
                       <i className='fa-regular fa-envelope'></i>
                     </Nav.Link>
                   </Nav.Item>
 
                   <NavDropdown
+                    className='user-dropdown'
                     title={
                       user.image ? (
                         <Image
@@ -141,7 +143,9 @@ const Header = () => {
                           fluid
                         />
                       ) : (
-                        <i className='far fa-user'></i>
+                        <span className='icon'>
+                          <i className='far fa-user'></i>
+                        </span>
                       )
                     }
                   >
@@ -199,17 +203,13 @@ const Header = () => {
 
               {/* Admin Dashboard */}
               {userInfo && userInfo.isAdmin && (
-                <NavDropdown title='Admin' id='adminmenu'>
+                <NavDropdown title='Admin' id='adminmenu' className='btn-admin'>
                   <LinkContainer to='/admin/userlist'>
                     <NavDropdown.Item>Users</NavDropdown.Item>
                   </LinkContainer>
 
                   <LinkContainer to='/admin/productlist'>
                     <NavDropdown.Item>Products</NavDropdown.Item>
-                  </LinkContainer>
-
-                  <LinkContainer to='/admin/orderlist'>
-                    <NavDropdown.Item>Orders</NavDropdown.Item>
                   </LinkContainer>
                 </NavDropdown>
               )}
