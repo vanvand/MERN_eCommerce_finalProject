@@ -115,6 +115,8 @@ io.on('connection', (socket) => {
     console.log(receivedMessage);
     socket
       .to(receivedMessage.chat._id)
+      .to(receivedMessage.chat.users[0]._id)
+      .to(receivedMessage.chat.users[1]._id)
       .emit('message received', receivedMessage);
   });
 

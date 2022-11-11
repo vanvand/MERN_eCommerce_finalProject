@@ -14,6 +14,7 @@ import {
   sendMessage,
   updateMessages,
   updateChat,
+  getRecentChats,
 } from '../../actions/chatActions';
 import { updateProduct } from '../../actions/productActions';
 
@@ -32,6 +33,7 @@ const ChatBody = ({ socket }) => {
 
   //Messages
   const { messages } = useSelector((state) => state.chat);
+  console.log(messages);
 
   //State for input
   const [text, setText] = useState('');
@@ -61,6 +63,7 @@ const ChatBody = ({ socket }) => {
       console.log('message received');
       let chatId = currentChat._id || receivedMessage.chat._id;
       dispatch(updateMessages(chatId));
+      dispatch(getRecentChats());
     });
     // socket.on('typingResponse', (data) => {
     //   setIsTyping(data.text);
