@@ -17,7 +17,7 @@ import UserEditScreen from './screens/UserEditScreen';
 import ProductListScreen from './screens/ProductListScreen';
 import ProductEditScreen from './screens/ProductEditScreen.js';
 import OrderListScreen from './screens/OrderListScreen';
-import UserAdsScreen from "./screens/UserAdsScreen";
+import UserAdsScreen from './screens/UserAdsScreen';
 import ProductsByCategoryScreen from './screens/ProductsByCategoryScreen';
 import CategoryHeader from './components/CategoryHeader';
 import FaqList from '../src/components/FaqList';
@@ -31,7 +31,7 @@ const App = () => {
   return (
     <>
       <Header />
-      <main >
+      <main>
         <Container>
           <CategoryHeader />
           <Routes>
@@ -53,7 +53,6 @@ const App = () => {
               <Route path=':pageNumber' element={<ProductListScreen />} />
               <Route path='' element={<ProductListScreen />} />
             </Route>
-
 
             <Route path='/products/:id/edit' element={<ProductEditScreen />} />
             <Route path='/admin/orderlist' element={<OrderListScreen />} />
@@ -77,7 +76,6 @@ const App = () => {
               exact
             />
 
-
             <Route path='/' element={<HomeScreen />}>
               <Route path='search/:keyword' element={<HomeScreen />} />
               <Route path='page/:pageNumber' element={<HomeScreen />} />
@@ -95,23 +93,22 @@ const App = () => {
             <Route path='/faq/:id/edit' element={<FaqCreate />} />
             <Route path='/faq/:id' element={<FaqDetails />} />
 
-
             {/* faq search */}
             <Route path='/faq/search/:keyword' element={<FaqScreen />} exact />
             <Route
               path='/faq/search/:keyword/page/:pageNumber'
-              element={<FaqScreen />} />
-            
+              element={<FaqScreen />}
+            />
+
             {/* user Wishlist Screen */}
-            <Route path="/wishlist" element={<UserWishlistScreen />} />
-            
+            <Route path='/wishlist' element={<UserWishlistScreen />} />
+
             {/* user Add Screen */}
-            <Route path="/useradd" element={<UserAdsScreen />} exact />
-            <Route path="/useradd/:userId" element={<UserAdsScreen />} exact />
+            <Route path='/useradd' element={<UserAdsScreen />} exact />
+            <Route path='/useradd/:userId' element={<UserAdsScreen />} exact />
 
             {/* Chat */}
             <Route path='/chat' element={<ChatScreen />} />
-
           </Routes>
         </Container>
       </main>

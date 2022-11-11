@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler';
 
 import User from '../models/userModel.js';
 import Chat from '../models/chatModel.js';
+import Product from '../models/productModel.js';
 
 // @desc GET chats by id
 // @route GET /api/chat/
@@ -31,7 +32,7 @@ const getChat = asyncHandler(async (req, res) => {
 // @access Private
 const createChat = asyncHandler(async (req, res) => {
   try {
-    const { selectedUserId, productId } = req.body;
+    const { selectedUserId, product } = req.body;
     let chat = await Chat.find({
       $and: [
         {
@@ -40,7 +41,7 @@ const createChat = asyncHandler(async (req, res) => {
         {
           users: { $elemMatch: { $eq: selectedUserId } },
         },
-        { product: productId },
+        { product },
       ],
     })
       .populate('users', '-password')
@@ -56,15 +57,13 @@ const createChat = asyncHandler(async (req, res) => {
     } else {
       let chatData = {
         users: [req.user._id, selectedUserId],
-        product: productId,
+        product: product,
       };
-
       try {
         const createdChat = await Chat.create(chatData);
-        const FullChat = await Chat.findOne({ _id: createdChat._id }).populate(
-          'users',
-          '-password'
-        );
+        const FullChat = await Chat.findOne({ _id: createdChat._id })
+          .populate('users', '-password')
+          .populate('product');
         return res.status(200).send(FullChat);
       } catch (error) {
         return res.status(400).send(error.message);
@@ -75,32 +74,9 @@ const createChat = asyncHandler(async (req, res) => {
   }
 });
 
-// router.put('/rename',
-// const updateChat = asyncHandler(async (req, res) => {
-//   try {
-//     const { chatId, isRequired } = req.body;
-
-//     const updatedChat = await Chat.findByIdAndUpdate(
-//       chatId,
-//       {
-//         isRequired: isRequired,
-//       },
-//       {
-//         new: true,
-//       }
-//     )
-//       .populate('users', '-password')
-
-//     if (!updatedChat) {
-//       return res.status(404).send('Chat Not Found');
-//     } else {
-//       res.json(updatedChat);
-//     }
-//   } catch (error) {
-//     return res.status(400).send(error.message);
-//   }
-// });
-
+// @desc PUT update chat
+// @route PUT /api/chat
+// @access Private
 const updateChat = asyncHandler(async (req, res) => {
   const { _id, users, product, latestMessage, isRequired } = req.body;
   const chat = await Chat.findById(_id);

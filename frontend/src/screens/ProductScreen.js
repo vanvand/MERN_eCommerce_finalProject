@@ -9,8 +9,14 @@ import Message from '../components/Message';
 import Rating from '../components/Rating';
 import UserDetails from '../components/UserDetails';
 
-import { addWishItem, getUserDetailsProductCreator } from '../actions/userActions';
-import { listProductDetails, createProductReview } from '../actions/productActions';
+import {
+  addWishItem,
+  getUserDetailsProductCreator,
+} from '../actions/userActions';
+import {
+  listProductDetails,
+  createProductReview,
+} from '../actions/productActions';
 import { accessChat } from '../actions/chatActions';
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
 
@@ -34,7 +40,6 @@ const ProductScreen = () => {
 
   const selectedChat = useSelector((state) => state.selectedChat);
   const { currentChat } = selectedChat;
-  // let required;
 
   const userDetails = useSelector((state) => state.userDetails);
   const {
@@ -43,8 +48,14 @@ const ProductScreen = () => {
     user,
   } = userDetails;
 
-   const userDetailsProductCreator = useSelector((state) => state.userDetailsProductCreator)
-    const { loading: loadingUserDetailsProductCreator, error: errorUserDetailsProductCreator, userProductCreator } = userDetailsProductCreator
+  const userDetailsProductCreator = useSelector(
+    (state) => state.userDetailsProductCreator
+  );
+  const {
+    loading: loadingUserDetailsProductCreator,
+    error: errorUserDetailsProductCreator,
+    userProductCreator,
+  } = userDetailsProductCreator;
 
   const productReviewCreate = useSelector((state) => state.productReviewCreate);
   const {
@@ -54,8 +65,6 @@ const ProductScreen = () => {
   } = productReviewCreate;
 
   const productDescription = String(product.description);
-
-  console.log(user);
 
   useEffect(() => {
     if (successProductReview) {
@@ -74,15 +83,14 @@ const ProductScreen = () => {
   }, [dispatch, product, product.user]);
 
   const requestUserChat = () => {
-    let selectedUserId = user._id;
-    let currentUser = userInfo._id;
-    let productId = product._id;
-    dispatch(accessChat(selectedUserId, recent_chat, currentUser, productId));
+    let selectedUser = userProductCreator;
+    let currentUser = user;
+    dispatch(accessChat(selectedUser, recent_chat, currentUser, product));
     navigate(`/chat`);
   };
 
   const addToWishlist = () => {
-    console.log("Added to Wishlist")
+    console.log('Added to Wishlist');
     dispatch(addWishItem(params.id));
     if (userInfo) {
       navigate(`/wishlist`);
@@ -102,15 +110,19 @@ const ProductScreen = () => {
   };
 
   const redirectToLogin = () => {
-    navigate('/login')
-  }
+    navigate('/login');
+  };
 
   return (
     <>
       {loadingUserDetails && <Loader />}
-      {errorUserDetails && <Message variant="danger">{errorUserDetails}</Message>}
+      {errorUserDetails && (
+        <Message variant='danger'>{errorUserDetails}</Message>
+      )}
       {loadingUserDetailsProductCreator && <Loader />}
-      {errorUserDetailsProductCreator && <Message variant="danger">{errorUserDetailsProductCreator}</Message>}
+      {errorUserDetailsProductCreator && (
+        <Message variant='danger'>{errorUserDetailsProductCreator}</Message>
+      )}
 
       {loading ? (
         <Loader />
@@ -164,8 +176,8 @@ const ProductScreen = () => {
             <Col md={4}>
               <ListGroup variant='flush'>
                 <ListGroup.Item>
-                  <i className='fas fa-location-dot'></i> {userProductCreator.city},{' '}
-                  {userProductCreator.district}
+                  <i className='fas fa-location-dot'></i>{' '}
+                  {userProductCreator.city}, {userProductCreator.district}
                 </ListGroup.Item>
 
                 <ListGroup.Item>
@@ -265,7 +277,7 @@ const ProductScreen = () => {
                   </div>
 
                   <div style={{ paddingTop: '3rem' }}>
-                    <UserDetails user={userProductCreator}/>
+                    <UserDetails user={userProductCreator} />
                   </div>
                 </ListGroup.Item>
               </ListGroup>
@@ -334,7 +346,7 @@ const ProductScreen = () => {
                         disabled={loadingProductReview}
                         type='submit'
                         variant='primary'
-                        style={{marginTop: "1rem"}}
+                        style={{ marginTop: '1rem' }}
                       >
                         Submit
                       </Button>
@@ -346,8 +358,6 @@ const ProductScreen = () => {
                   )}
                 </ListGroup.Item>
               </ListGroup>
-
-              
             </Col>
           </Row>
         </>
