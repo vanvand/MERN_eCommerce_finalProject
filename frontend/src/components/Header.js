@@ -104,7 +104,7 @@ const Header = () => {
       {loadingCreate && <Loader />}
       {errorCreate && <Message variant='danger'>{errorCreate}</Message>}
 
-      <Navbar bg='light' variant='light' expand='lg' collapseOnSelect>
+      <Navbar expand='lg' collapseOnSelect>
         <Container className='d-flex '>
           <LinkContainer to='/'>
             <Navbar.Brand>
@@ -132,7 +132,7 @@ const Header = () => {
                     </Nav.Link>
                   </Nav.Item>
 
-                  <NavDropdown
+                  <NavDropdown className="user-dropdown"
                     title={
                       user.image ? (
                         <Image
@@ -141,7 +141,9 @@ const Header = () => {
                           fluid
                         />
                       ) : (
+                        <span className="icon">
                         <i className='far fa-user'></i>
+                        </span>
                       )
                     }
                   >
@@ -199,17 +201,13 @@ const Header = () => {
 
               {/* Admin Dashboard */}
               {userInfo && userInfo.isAdmin && (
-                <NavDropdown title='Admin' id='adminmenu'>
+                <NavDropdown title='Admin' id='adminmenu' className="btn-admin" >
                   <LinkContainer to='/admin/userlist'>
                     <NavDropdown.Item>Users</NavDropdown.Item>
                   </LinkContainer>
 
                   <LinkContainer to='/admin/productlist'>
                     <NavDropdown.Item>Products</NavDropdown.Item>
-                  </LinkContainer>
-
-                  <LinkContainer to='/admin/orderlist'>
-                    <NavDropdown.Item>Orders</NavDropdown.Item>
                   </LinkContainer>
                 </NavDropdown>
               )}

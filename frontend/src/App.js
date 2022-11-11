@@ -26,6 +26,7 @@ import FaqScreen from './screens/FaqScreen';
 import FaqDetails from './components/FaqDetails';
 import UserWishlistScreen from './screens/UserWishlistScreen';
 import ChatScreen from './screens/ChatScreen';
+import UserAdsScreenPublic from './screens/UserAdsScreenPublic';
 
 const App = () => {
   return (
@@ -35,23 +36,23 @@ const App = () => {
         <Container>
           <CategoryHeader />
           <Routes>
-            <Route path='/login' element={<LoginScreen />} />
-            <Route path='/register' element={<RegisterScreen />} />
-            <Route path='/profile' element={<ProfileScreen />} />
-            <Route path='/product/:id' element={<ProductScreen />} />
-            <Route path='/cart'>
-              <Route path=':id' element={<CartScreen />} />
-              <Route path='' element={<CartScreen />} />
+            <Route path="/login" element={<LoginScreen />} />
+            <Route path="/register" element={<RegisterScreen />} />
+            <Route path="/profile" element={<ProfileScreen />} />
+            <Route path="/product/:id" element={<ProductScreen />} />
+            <Route path="/cart">
+              <Route path=":id" element={<CartScreen />} />
+              <Route path="" element={<CartScreen />} />
             </Route>
-            <Route path='/shipping' element={<ShippingScreen />} />
-            <Route path='/payment' element={<PaymentScreen />} />
-            <Route path='/placeorder' element={<PlaceOrderScreen />} />
-            <Route path='/orders/:id' element={<OrderScreen />} />
-            <Route path='/admin/userlist' element={<UserListScreen />} />
-            <Route path='/admin/users/:id/edit' element={<UserEditScreen />} />
-            <Route path='/admin/productlist' element={<ProductListScreen />}>
-              <Route path=':pageNumber' element={<ProductListScreen />} />
-              <Route path='' element={<ProductListScreen />} />
+            <Route path="/shipping" element={<ShippingScreen />} />
+            <Route path="/payment" element={<PaymentScreen />} />
+            <Route path="/placeorder" element={<PlaceOrderScreen />} />
+            <Route path="/orders/:id" element={<OrderScreen />} />
+            <Route path="/admin/userlist" element={<UserListScreen />} />
+            <Route path="/admin/users/:id/edit" element={<UserEditScreen />} />
+            <Route path="/admin/productlist" element={<ProductListScreen />}>
+              <Route path=":pageNumber" element={<ProductListScreen />} />
+              <Route path="" element={<ProductListScreen />} />
             </Route>
 
             <Route path='/products/:id/edit' element={<ProductEditScreen />} />
@@ -59,19 +60,19 @@ const App = () => {
 
             {/* ...........ProductsByCategoryScreen................. */}
             <Route
-              path='/productssearch/:keyword'
+              path="/productssearch/:keyword"
               element={<ProductsByCategoryScreen />}
             />
             <Route
-              path='/productssearch/:keyword/:pageNumber'
+              path="/productssearch/:keyword/:pageNumber"
               element={<ProductsByCategoryScreen />}
             />
             <Route
-              path='/products/category/:keyword/page/:pageNumber'
+              path="/products/category/:keyword/page/:pageNumber"
               element={<ProductsByCategoryScreen />}
             />
             <Route
-              path='/products/category/:keyword'
+              path="/products/category/:keyword"
               element={<ProductsByCategoryScreen />}
               exact
             />
@@ -80,7 +81,7 @@ const App = () => {
               <Route path='search/:keyword' element={<HomeScreen />} />
               <Route path='page/:pageNumber' element={<HomeScreen />} />
               <Route
-                path='search:keyword/page/:pageNumber'
+                path="search:keyword/page/:pageNumber"
                 element={<HomeScreen />}
               />
             </Route>
@@ -94,7 +95,7 @@ const App = () => {
             <Route path='/faq/:id' element={<FaqDetails />} />
 
             {/* faq search */}
-            <Route path='/faq/search/:keyword' element={<FaqScreen />} exact />
+            <Route path="/faq/search/:keyword" element={<FaqScreen />} exact />
             <Route
               path='/faq/search/:keyword/page/:pageNumber'
               element={<FaqScreen />}
@@ -108,7 +109,13 @@ const App = () => {
             <Route path='/useradd/:userId' element={<UserAdsScreen />} exact />
 
             {/* Chat */}
-            <Route path='/chat' element={<ChatScreen />} />
+            <Route path="/chat" element={<ChatScreen />} />
+
+            {/* userAdsScreenPublic */}
+            <Route
+              path="/useradspublic/:id"
+              element={<UserAdsScreenPublic />}
+            />
           </Routes>
         </Container>
       </main>

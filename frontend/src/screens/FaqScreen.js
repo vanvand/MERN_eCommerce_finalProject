@@ -1,17 +1,13 @@
 import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Row,
-  Col,
- 
-} from "react-bootstrap";
-import Loader from "../components/Loader";
-import Message from "../components/Message";
+import { Row, Col, Card, Image} from "react-bootstrap";
 import { listFaqs } from "../actions/faqActions";
 
+import Loader from "../components/Loader";
+import Message from "../components/Message";
+import BannerAds from '../components/BannerAds';
 import Faq from "../components/Faq";
-import BottomAdd from "../components/SecondaryAdd";
 import Paginate from "../components/Paginate";
 import FaqAskButton from "../components/FaqAskButton";
 import FaqSearchBox from '../components/FaqSearchBox'
@@ -61,7 +57,7 @@ const FaqScreen = () => {
         ) : (
           // if loading false and no error show faq
           <>
-            <Row>
+            <Row style={{marginBottom: "3rem"}}>
               {faqs.map((faq) => (
                 <Col key={faq._id} sm={12} md={6} lg={4} xl={3}>
                   {/* pass faqs as props to faq component */}
@@ -70,14 +66,7 @@ const FaqScreen = () => {
               ))}
             </Row>
 
-            <Row>
-              <Col>
-                <BottomAdd />
-              </Col>
-              <Col>
-                <BottomAdd />
-              </Col>
-            </Row>
+            <BannerAds />
 
             <Paginate
               /*  pass props in from state */

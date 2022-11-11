@@ -6,8 +6,8 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 function CategoryHeader() {
+  
   const productList = useSelector((state) => {
-    //console.log("state.productList", state.productList);
     return state.productList;
   });
   const { loading, error, allProductsCategory } = productList;
