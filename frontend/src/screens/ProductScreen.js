@@ -53,9 +53,37 @@ const ProductScreen = () => {
   const { success: successUserAddWishItem } = userAddWishItem;
 
   const userWishList = useSelector((state) => state.userWishList);
-  const { wishItems } = userWishList;
+  const { loading: loadingUserWishList, wishItems } = userWishList;
 
   const productDescription = String(product.description);
+
+
+  useEffect(() => {
+    if (product.user) {
+      dispatch(getUserDetailsProductCreator(product.user));
+    }
+  }, [dispatch, product, product.user]);
+
+  // wishlist button toggler
+  useEffect(() => {
+    if (successUserAddWishItem) {
+      setAddedToWishlist(true)
+    }
+  }, [successUserAddWishItem])
+
+  // wishlist button rendering
+  useEffect(() => {
+    dispatch(getUserWishList())
+  }, [dispatch])
+
+  useEffect(() => {
+    if (!loadingUserWishList && user) {
+      const found = wishItems.find((wishlistItem) => wishlistItem._id === product._id )
+      if(found) {setAddedToWishlist(true)}
+      }
+  }, [user, loadingUserWishList, wishItems, wishItems._id, product._id])
+
+
 
   useEffect(() => {
     if (successProductReview) {
@@ -66,37 +94,6 @@ const ProductScreen = () => {
     }
     dispatch(listProductDetails(params.id));
   }, [dispatch, params, successProductReview, productDescription]);
-
-  useEffect(() => {
-    if (product.user) {
-      dispatch(getUserDetailsProductCreator(product.user));
-    }
-  }, [dispatch, product, product.user]);
-
-  useEffect(() => {
-    if (successUserAddWishItem) {
-      setAddedToWishlist(true)
-    }
-  }, [successUserAddWishItem])
-
-  useEffect(() => {
-    if (user) {
-      dispatch(getUserWishList())
-    }
-    console.log(wishItems)
-    console.log(product)
-    console.log("first", addedToWishlist)
-    // console.log(wishItems.wishItems)
-  
-    if (wishItems.length > 0) {
-      setAddedToWishlist(true)
-    }
-    // if (wishItems._id === product._id) {
-    //   setAddedToWishlist(true)
-    // }
-    
-    console.log("second", addedToWishlist)
-  }, [user, dispatch, wishItems._id, product._id])
 
   const requestUserChat = () => {
     let selectedUserId = user._id;
@@ -274,6 +271,8 @@ const ProductScreen = () => {
                           <Button
                             className='btn-light btn-custom'
                             type='button'
+                            disabled
+                            style={{border: "1px solid #7F7F7F"}}
                           >
                             <span>
                               <i className='fa-solid fa-heart'></i> Saved to Wishlist
