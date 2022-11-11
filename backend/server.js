@@ -111,20 +111,23 @@ io.on('connection', (socket) => {
   });
 
   socket.on('new message', (receivedMessage) => {
+    console.log('new message');
+    console.log(receivedMessage);
     socket
       .to(receivedMessage.chat._id)
       .emit('message received', receivedMessage);
   });
 
-  socket.on('marked as rented', (renterInfo, productInfo, chat) => {
-    console.log('marked as rented');
-    socket
-      .to(chat._id)
-      .emit('confirmation required', renterInfo, productInfo, chat);
+  socket.on('marked as rented', (chat) => {
+    socket.to(chat._id).emit('confirmation required');
   });
 
   socket.on('confirmation approved', (owner) => {
     socket.to(owner).emit('rented');
+  });
+
+  socket.on('connect_error', (err) => {
+    console.log(`connect_error due to ${err.message}`);
   });
 
   // socket.on('typing', (data) => {
@@ -136,7 +139,11 @@ io.on('connection', (socket) => {
   });
   // after check jwt
   //
-  // socket.on('disconnect', () => {
-  //   socket.disconnect();
+  // socket.on('disconnect', (reason) => {
+  //   console_log('disconnect due to ' + reason);
+  //   if (reason === 'io server disconnect') {
+  //     // disconnect initiated by server. Manually reconnect
+  //     socket.connect();
+  //   }
   // });
 });

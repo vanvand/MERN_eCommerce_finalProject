@@ -3,6 +3,7 @@ import {
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
   USER_LOGOUT,
+  SIGNOUT_REQUEST,
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
   USER_REGISTER_FAIL,
@@ -25,6 +26,10 @@ import {
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAIL,
   USER_UPDATE_RESET,
+  USER_DETAILS_PRODUCT_CREATOR_REQUEST,
+  USER_DETAILS_PRODUCT_CREATOR_SUCCESS,
+  USER_DETAILS_PRODUCT_CREATOR_FAIL,
+  USER_DETAILS_PRODUCT_CREATOR_RESET,
   //wishList
   USER_ADD_WISHITEM_REQUEST,
   USER_ADD_WISHITEM_SUCCESS,
@@ -49,6 +54,8 @@ export const userLoginReducer = (state = {}, action) => {
     case USER_LOGIN_FAIL:
       return { loading: false, error: action.payload };
     case USER_LOGOUT:
+      return {};
+    case SIGNOUT_REQUEST:
       return {};
     default:
       return state;
@@ -168,6 +175,24 @@ export const userUpdateReducer = (state = { user: {} }, action) => {
   }
 };
 
+export const userDetailsProductCreatorReducer = (
+  state = { userProductCreator: {} },
+  action
+) => {
+  switch (action.type) {
+    case USER_DETAILS_PRODUCT_CREATOR_REQUEST:
+      return { ...state, loading: true };
+    case USER_DETAILS_PRODUCT_CREATOR_SUCCESS:
+      return { loading: false, userProductCreator: action.payload };
+    case USER_DETAILS_PRODUCT_CREATOR_FAIL:
+      return { loading: false, error: action.payload };
+    case USER_DETAILS_PRODUCT_CREATOR_RESET:
+      return { userProductCreator: {} };
+    default:
+      return state;
+  }
+};
+
 //wishList
 // USER_ADD_WISHITEM_REQUEST ,
 // USER_ADD_WISHITEM_SUCCESS ,
@@ -176,22 +201,8 @@ export const userUpdateReducer = (state = { user: {} }, action) => {
 export const userAddWishItemReducer = (state = { wishItems: [] }, action) => {
   switch (action.type) {
     case USER_ADD_WISHITEM_REQUEST:
-      const item = action.payload;
-      const existItem = state.wishItems.filter((x) => x._id !== item._id);
-
-      if (existItem) {
-        return {
-          ...state,
-          wishItems: state.wishItems.map((x) =>
-            x._id === existItem._id ? item : x
-          ),
-        };
-      } else {
         return { ...state, loading: true };
-      }
-
-    //return { ...state, loading: true };
-    case USER_ADD_WISHITEM_SUCCESS:
+        case USER_ADD_WISHITEM_SUCCESS:
       return { loading: false, wishItems: action.payload };
     case USER_ADD_WISHITEM_FAIL:
       return { loading: false, error: action.payload };
@@ -208,6 +219,7 @@ export const userAddWishItemReducer = (state = { wishItems: [] }, action) => {
 export const userWishListReducer = (state = { wishItems: [] }, action) => {
   switch (action.type) {
     case USER_WISHLIST_REQUEST:
+      console.log("stateWash", state);
       return { ...state, loading: true };
     case USER_WISHLIST_SUCCESS:
       return { loading: false, wishItems: action.payload };

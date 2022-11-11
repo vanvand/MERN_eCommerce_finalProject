@@ -1,13 +1,11 @@
 import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Button, Card, Col, Row } from "react-bootstrap";
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
+import { Button, Card, Col, Row, OverlayTrigger, Tooltip} from "react-bootstrap";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
-import { useDispatch, useSelector } from "react-redux";
-import { deleteWishItem, getUserWishList } from "../actions/userActions";
-import { getUserDetails } from "../actions/userActions";
+import BannerAds from '../components/BannerAds';
+import { deleteWishItem, getUserWishList, getUserDetailsProductCreator } from "../actions/userActions";
 
 const UserWishlistScreen = () => {
   const navigate = useNavigate();
@@ -30,8 +28,8 @@ const UserWishlistScreen = () => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const userDetails = useSelector((state) => state.userDetails);
-  const { user } = userDetails;
+  const userDetailsProductCreator = useSelector((state) => state.userDetailsProductCreator)
+  const { loading: loadingUserDetailsProductCreator, error: errorUserDetailsProductCreator, userProductCreator } = userDetailsProductCreator
 
   useEffect(() => {
     if (!userInfo) {
@@ -44,7 +42,7 @@ const UserWishlistScreen = () => {
   useEffect(() => {
     if (wishItems) {
       wishItems.map((product) => {
-        return dispatch(getUserDetails(product.user));
+        return dispatch(getUserDetailsProductCreator(product.user));
       });
     }
   }, [dispatch, wishItems]);
@@ -64,6 +62,9 @@ const UserWishlistScreen = () => {
 
   return (
     <>
+    {loadingUserDetailsProductCreator && <Loader />}
+    {errorUserDetailsProductCreator && <Message variant="danger">{errorUserDetailsProductCreator}</Message>}
+
       <h2 style={{marginTop: "1rem"}}>
         My Wish List</h2>
    
@@ -106,8 +107,8 @@ const UserWishlistScreen = () => {
         
                     <Card.Body>
                       <Card.Text as="h6" className="card-text-custom">
-                        <i className="fas fa-location-dot card-text-custom"></i> {user.city},{" "}
-                        {user.district}
+                        <i className="fas fa-location-dot card-text-custom"></i> {userProductCreator.city},{" "}
+                        {userProductCreator.district}
                       </Card.Text>
 
                     <Card.Title as="h6" className="card-title-custom">
@@ -142,6 +143,7 @@ const UserWishlistScreen = () => {
         
         )}
        
+      <BannerAds />
      </>
   )};
 

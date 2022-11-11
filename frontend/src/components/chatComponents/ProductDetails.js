@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Row, Card, Button } from 'react-bootstrap';
 
 import { updateChat } from '../../actions/chatActions';
@@ -11,7 +12,7 @@ function ProductDetails({ socket }) {
   const { currentUser, currentProduct, currentChat } = selectedChat;
 
   const [rented, setRented] = useState(currentProduct.rentedTo);
-  const [available, setAvailability] = useState(currentChat.isRequired);
+  const [required, setRequired] = useState(currentChat.isRequired);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -32,17 +33,17 @@ function ProductDetails({ socket }) {
       dispatch(
         updateChat({
           _id: currentChat._id,
-          users: currentChat._users,
+          users: currentChat.users,
           product: currentChat.product,
           latestMessage: currentChat.latestMessage,
           isRequired: true,
         })
       );
-      setAvailability(false);
+      setRequired(true);
     } else {
       socket.emit('marked as available', currentUser);
       //cancel all process through socket
-      setAvailability(true);
+      setRequired(false);
     }
   };
 
@@ -54,10 +55,16 @@ function ProductDetails({ socket }) {
       >
         <Card.Img style={{ width: '15%' }} src={currentProduct.image} />
         <Card.Body className='px-3'>
-          <h4 className='pb-1'>{currentProduct.name}</h4>
-          <h5 className='pb-1' style={{ color: 'grey' }}>
-            {currentProduct.category}
-          </h5>
+          <Link
+            to={`/product/${currentProduct._id}`}
+            style={{ textDecoration: 'none' }}
+          >
+            <h4 className='pb-1'>{currentProduct.name}</h4>
+            <h5 className='pb-1' style={{ color: 'grey' }}>
+              {currentProduct.category}
+            </h5>
+            {rented && <p>Rented!</p>}
+          </Link>
           {currentProduct.user === userInfo._id && (
             <Button
               key={currentProduct._id}
@@ -78,7 +85,7 @@ function ProductDetails({ socket }) {
                 <i className='px-2 fa-solid fa-rotate'></i>
               )}
 
-              {currentProduct.availability
+              {currentProduct.availability && !required
                 ? 'Mark as rented to UserName'
                 : 'Rented'}
             </Button>

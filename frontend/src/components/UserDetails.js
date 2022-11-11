@@ -5,15 +5,13 @@ import Image from "react-bootstrap/Image";
 import Loader from "../components/Loader"
 import Message from "../components/Message"
 import {listProductDetailsByUserId} from "../actions/productActions"
+import { Link } from 'react-router-dom';
 
-const UserDetails = () => {
+const UserDetails = ({user}) => {
 
     const [numAdsUser, setNumAdsUser] = useState(0)
 
     const dispatch = useDispatch()
-
-    const userDetails = useSelector((state) => state.userDetails)
-    const { loading, error, user } = userDetails
 
     const productDetails = useSelector(state => state.productDetails)
     const { loading: loadingProductDetails, error: errorProductDetails, product } = productDetails
@@ -23,6 +21,8 @@ const UserDetails = () => {
 
     const userActiveSinceDate = String(user.createdAt).substring(0, 10)
 
+      const userLogin = useSelector((state) => state.userLogin);
+      const { userInfo } = userLogin;
 
     useEffect( () => {
         if(product.user) {
@@ -45,39 +45,50 @@ const UserDetails = () => {
 
   return (
     <>
-    {loadingProductDetails && <Loader />}
-    {errorProductDetails && <Message variant="danger">{errorProductDetails}</Message> }
-    {loadingProductDetailsByUserId && <Loader />}
-    {errorProductDetailsByUserId && <Message variant="danger">{errorProductDetailsByUserId}</Message> }
+      {loadingProductDetails && <Loader />}
+      {errorProductDetails && (
+        <Message variant="danger">{errorProductDetails}</Message>
+      )}
+      {loadingProductDetailsByUserId && <Loader />}
+      {errorProductDetailsByUserId && (
+        <Message variant="danger">{errorProductDetailsByUserId}</Message>
+      )}
 
-    {loading 
-      ? <Loader /> 
-      : error ? <Message variant="danger">{error}</Message> 
-      : (
-        <Container > 
-        <Row >
-            <Col md={4} >
-                <Image 
-                    style={{"borderRadius": "50%"}}
-                    src={user.image}
-                    fluid
-                />
-            </Col>
-            <Col md={8} 
-                className="d-block"
-                style={{margin: "auto 0"}}
+      <Container>
+        <Row>
+          <Col md={4}>
+            <Image style={{ borderRadius: "50%" }} src={user.image} fluid />
+          </Col>
+          <Col md={8} className="d-block" style={{ margin: "auto 0" }}>
+            <Link
+              className="card-link-custom"
+              to={
+                user._id === userInfo._id
+                  ? `/useradd`
+                  : `/useradspublic/${user._id}`
+              }
             >
-                <div style={{"fontWeight": "bold"}}>{user.name}</div>
-                <div style={{"marginTop": "5px", color: "#6c757d"}}>
-                    <div>{`Active since: ${userActiveSinceDate}`}</div>
-                    <div>{`${numAdsUser} ads online`}</div>
-                </div>
-            </Col>
+              <div style={{ fontWeight: "bold" }}>
+                {user.name}{" "}
+                {user._id === userInfo._id && (
+                  <Link to={"/profile"}>
+                    <i className="fas fa-edit"></i>
+                  </Link>
+                )}
+              </div>
+              <div style={{ marginTop: "5px", color: "#6c757d" }}>
+                <div>{`Active since: ${userActiveSinceDate}`}</div>
+                <div>
+                  {`${numAdsUser} ads online`}{" "}
+{     user._id !== userInfo._id &&             <i class="fa-solid fa-triangle-exclamation"></i>
+}                </div>
+              </div>
+            </Link>
+          </Col>
         </Row>
-        </Container>
-    )}
+      </Container>
     </>
-  )
+  );
 }
 
 export default UserDetails

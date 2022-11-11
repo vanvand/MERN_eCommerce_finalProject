@@ -1,4 +1,15 @@
+import { combineReducers } from 'redux';
 import { configureStore } from '@reduxjs/toolkit';
+import {
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist';
+import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
 import thunk from 'redux-thunk';
 
 import {
@@ -21,6 +32,7 @@ import {
   userListReducer,
   userDeleteReducer,
   userUpdateReducer,
+  userDetailsProductCreatorReducer,
   userAddWishItemReducer,
   userWishListReducer,
   userDeleteWishItemReducer,
@@ -46,7 +58,6 @@ import {
 import {
   chatReducer,
   recentChatReducer,
-  rentReducer,
   selectedChatReducer,
 } from './reducers/chatReducers';
 // import { notificationReducer } from './reducers/notificationReducers';
@@ -57,7 +68,7 @@ import {
 } from './reducers/MostSearchReducers';
 
 // create constants and reducer > as soon as added here state is visible in browser inspect tool/redux
-const reducer = {
+const appReducer = combineReducers({
   productList: productListReducer,
   productDetails: productDetailReducer,
   productDetailsByUserId: productDetailByUserIdReducer,
@@ -75,6 +86,7 @@ const reducer = {
   userList: userListReducer,
   userDelete: userDeleteReducer,
   userUpdate: userUpdateReducer,
+  userDetailsProductCreator: userDetailsProductCreatorReducer,
   userAddWishItem: userAddWishItemReducer,
   userWishList: userWishListReducer,
   userDeleteWishItem: userDeleteWishItemReducer,
@@ -94,11 +106,24 @@ const reducer = {
   chat: chatReducer,
   recentChat: recentChatReducer,
   selectedChat: selectedChatReducer,
-  rent: rentReducer,
   searchCreate: searchCreateReducer,
   searchList: searchListReducer,
   userDeleteRentedItem: userDeleteRentedItemReducer
-};
+});
+
+// const rootReducer = (state, action) => {
+//   if (action.type === 'USER_LOGOUT') {
+//     return appReducer(undefined, action);
+//   }
+//   if (action.type === 'SIGNOUT_REQUEST') {
+//     // for all keys defined in your persistConfig(s)
+//     storage.removeItem('persist:root');
+//     // storage.removeItem('persist:otherKey')
+
+//     return appReducer(undefined, action);
+//   }
+//   return appReducer(state, action);
+// };
 
 // from userActions
 const userInfoFromStorage = localStorage.getItem('userInfo')
@@ -109,10 +134,23 @@ const preloadedState = {
   userLogin: { userInfo: userInfoFromStorage },
 };
 
+const persistConfig = {
+  key: 'root',
+  version: 1,
+  storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, appReducer);
+
 const store = configureStore({
-  reducer,
+  reducer: persistedReducer,
   preloadedState,
-  middleware: [thunk],
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
 });
 
 export default store;

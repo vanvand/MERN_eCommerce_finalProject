@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Row, Col, ListGroup, Button, Form } from 'react-bootstrap';
-import Carousel from 'react-bootstrap/Carousel';
+import { Row, Col, ListGroup, Button, Form, Carousel } from 'react-bootstrap';
 
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import Rating from '../components/Rating';
 import UserDetails from '../components/UserDetails';
 
-import { addWishItem, getUserDetails } from '../actions/userActions';
+import {
+  addWishItem,
+  getUserDetailsProductCreator,
+} from '../actions/userActions';
 import {
   listProductDetails,
   createProductReview,
 } from '../actions/productActions';
-import { accessChat, updateRecentChats } from '../actions/chatActions';
-
+import { accessChat } from '../actions/chatActions';
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
 
 const ProductScreen = () => {
@@ -36,12 +37,24 @@ const ProductScreen = () => {
 
   const { recent_chat } = useSelector((state) => state.recentChat);
 
+  const selectedChat = useSelector((state) => state.selectedChat);
+  const { currentChat } = selectedChat;
+
   const userDetails = useSelector((state) => state.userDetails);
   const {
     loading: loadingUserDetails,
     error: errorUserDetails,
     user,
   } = userDetails;
+
+  const userDetailsProductCreator = useSelector(
+    (state) => state.userDetailsProductCreator
+  );
+  const {
+    loading: loadingUserDetailsProductCreator,
+    error: errorUserDetailsProductCreator,
+    userProductCreator,
+  } = userDetailsProductCreator;
 
   const productReviewCreate = useSelector((state) => state.productReviewCreate);
   const {
@@ -64,20 +77,19 @@ const ProductScreen = () => {
 
   useEffect(() => {
     if (product.user) {
-      dispatch(getUserDetails(product.user));
+      dispatch(getUserDetailsProductCreator(product.user));
     }
   }, [dispatch, product, product.user]);
 
   const requestUserChat = () => {
-    let selectedUserId = user._id;
-    let currentUser = userInfo._id;
-    let productId = product._id;
-    dispatch(accessChat(selectedUserId, recent_chat, currentUser, productId));
+    let selectedUser = userProductCreator;
+    let currentUser = user;
+    dispatch(accessChat(selectedUser, recent_chat, currentUser, product));
     navigate(`/chat`);
   };
 
   const addToWishlist = () => {
-    //console.log("Added to Wishlist")
+    console.log('Added to Wishlist');
     dispatch(addWishItem(params.id));
     if (userInfo) {
       navigate(`/wishlist`);
@@ -96,15 +108,19 @@ const ProductScreen = () => {
     );
   };
 
+  const redirectToLogin = () => {
+    navigate('/login');
+  };
+
   return (
     <>
-      <Link className='btn btn-light my-3' to='/'>
-        Go Back
-      </Link>
-
       {loadingUserDetails && <Loader />}
       {errorUserDetails && (
         <Message variant='danger'>{errorUserDetails}</Message>
+      )}
+      {loadingUserDetailsProductCreator && <Loader />}
+      {errorUserDetailsProductCreator && (
+        <Message variant='danger'>{errorUserDetailsProductCreator}</Message>
       )}
 
       {loading ? (
@@ -114,6 +130,8 @@ const ProductScreen = () => {
       ) : (
         <>
           <Row>
+
+          {/* Image Slider */}
             <Col md={6}>
               {!product.imageSecond && !product.imageThird ? (
                 <Carousel interval={null}>
@@ -155,16 +173,17 @@ const ProductScreen = () => {
                 </Carousel>
               )}
             </Col>
-
-            <Col md={4}>
-              <ListGroup variant='flush'>
+          
+          {/* Product Info Box */}
+            <Col md={5} className="product-info-col">
+              <ListGroup variant='flush' >
                 <ListGroup.Item>
-                  <i className='fas fa-location-dot'></i> {user.city},{' '}
-                  {user.district}
+                  <i className='fas fa-location-dot'></i>{' '}
+                  {userProductCreator.city}, {userProductCreator.district}
                 </ListGroup.Item>
 
                 <ListGroup.Item>
-                  <h3>{product.name}</h3>
+                  <h4 className="h4-product-screen">{product.name}</h4>
 
                   <div style={{ marginBottom: '0.7rem' }}>
                     <Rating
@@ -193,7 +212,7 @@ const ProductScreen = () => {
                   <div className='d-grid gap-2'>
                     {!userInfo && (
                       <Button
-                        onClick={navigate('/login')}
+                        onClick={redirectToLogin}
                         className='btn-dark'
                         style={{ marginTop: '2rem' }}
                         type='button'
@@ -201,7 +220,7 @@ const ProductScreen = () => {
                       >
                         {product.availability ? (
                           <span>
-                            <i className='far fa-check'></i> Available for rent
+                            <i className='fas fa-check'></i> Available for rent
                           </span>
                         ) : (
                           <span>
@@ -221,6 +240,19 @@ const ProductScreen = () => {
                           type='button'
                           disabled={product.availability === false}
                         >
+                          {/* {product.availability && currentChat.isRequired ? (
+                            <i className='px-2 fa-solid fa-rotate'></i>
+                          ) : !product.availability &&
+                            !currentChat.isRequired ? (
+                            <i className='px-2 fa-solid fa-circle-check'></i>
+                          ) : (
+                            <i className='px-2 fa-solid fa-rotate'></i>
+                          )}
+
+                          {product.availability && !required
+                            ? 'Mark as rented to UserName'
+                            : 'Rented'} */}
+
                           {product.availability ? (
                             <span>
                               <i className='fas fa-message'></i> Request
@@ -247,7 +279,7 @@ const ProductScreen = () => {
                   </div>
 
                   <div style={{ paddingTop: '3rem' }}>
-                    <UserDetails />
+                    <UserDetails user={userProductCreator} />
                   </div>
                 </ListGroup.Item>
               </ListGroup>
@@ -316,6 +348,7 @@ const ProductScreen = () => {
                         disabled={loadingProductReview}
                         type='submit'
                         variant='primary'
+                        style={{ marginTop: '1rem' }}
                       >
                         Submit
                       </Button>
@@ -327,15 +360,6 @@ const ProductScreen = () => {
                   )}
                 </ListGroup.Item>
               </ListGroup>
-
-              <div
-                style={{
-                  margin: '15px 0',
-                  color: '#6c757d',
-                }}
-              >
-                Add-ID: {product._id}
-              </div>
             </Col>
           </Row>
         </>

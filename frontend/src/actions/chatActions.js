@@ -128,45 +128,14 @@ export const getRecentChats = () => async (dispatch, getState) => {
   }
 };
 
-export const updateRecentChats = () => async (dispatch, getState) => {
-  try {
-    dispatch({ type: UPDATE_RECENT_CHAT_REQUEST });
-
-    const {
-      userLogin: { userInfo },
-    } = getState();
-
-    const config = {
-      headers: {
-        'content-type': 'application/json',
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
-
-    const { data } = await axios.get(`/api/chat`, config);
-    console.log(data);
-
-    dispatch({
-      type: UPDATE_RECENT_CHAT_SUCCESS,
-      payload: data,
-    });
-  } catch (error) {
-    dispatch({
-      type: UPDATE_RECENT_CHAT_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
-};
-
 //Access to chat if possible, if not, creates new chat
 export const accessChat =
-  (selectedUserId, recentChat, currentUser, productId) =>
+  (selectedUser, recentChat, currentUser, product) =>
   async (dispatch, getState) => {
     try {
       dispatch({ type: RECENT_CHAT_REQUEST });
+      let selectedUserId = selectedUser._id;
+      let currentUserId = currentUser._id;
 
       const {
         userLogin: { userInfo },
@@ -181,7 +150,7 @@ export const accessChat =
 
       const { data } = await axios.post(
         `/api/chat`,
-        { selectedUserId, currentUser, productId },
+        { selectedUserId, currentUserId, product },
         config
       );
 
@@ -190,6 +159,7 @@ export const accessChat =
           type: NEW_CREATED_CHAT,
           payload: data,
         });
+        dispatch(currentChatAction(selectedUser, product, data));
         return;
       }
 
@@ -264,7 +234,6 @@ export const currentChatAction =
 export const updateChat = (chat) => async (dispatch, getState) => {
   try {
     dispatch({ type: UPDATE_CHAT_REQUEST });
-    console.log(chat);
 
     const {
       userLogin: { userInfo },
@@ -278,7 +247,6 @@ export const updateChat = (chat) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.put(`/api/chat`, chat, config);
-    console.log(data);
 
     dispatch({ type: UPDATE_CHAT_SUCCESS, payload: data });
   } catch (error) {

@@ -1,6 +1,6 @@
 /* CHAT SCREEN */
 .chat-container {
-    height: 65vh;
+    height: 73.9vh;
     overflow: visible;
 }
 
@@ -55,29 +55,34 @@
 .message-container {
     display: flex;
     height: 100%;
-    min-height: 27rem;
-    max-height: 27rem;
+    min-height: 32.5rem;
+    max-height: 32.5rem;
     overflow: scroll;
-    padding: 1rem 0;
+    padding: 1.5rem 0 1rem 0;
 }
 
 .message-row {
     width: 100% !important;
-    height: 4.5rem !important;
     display: flex !important;
     flex-direction: column !important;
+    box-sizing: content-box !important;
+    margin: .75rem 0;
+    padding: 0 !important;
 }
 
 .left-container {
     display: flex;
+    margin-left: .5rem;
 }
 
 .message-right {
-    background-color: rgb(231, 229, 229) !important;
     align-self: flex-end;
+    height: 3rem;
     border-radius: 5px;
     padding-left: .5rem;
-    height: 3rem;
+    padding-right: .75rem;
+    margin-right: 1.25rem;
+    background-color: rgb(231, 229, 229) !important;
 }
 
 .message-left {
@@ -86,12 +91,6 @@
     display: inline-block;
     margin-left: .75rem;
     padding-left: .75rem;
-}
-
-.rent-approval {
-    align-self: flex-end;
-    border-radius: 5px;
-    margin-right: 1rem;
 }
 
 .card-body {
@@ -111,21 +110,19 @@
     line-height: 1.2rem;
 }
 
-.approval-container {
-    width: 100% !important;
-    /* height: 4.5rem !important; */
-    display: flex !important;
-    flex-direction: column !important;
-}
-
 .rent-approval {
+    height: auto;
+    width: 31.5% !important;
+    box-sizing: content-box !important;
     display: flex;
     flex-direction: column;
     justify-content: center !important;
+    align-items: center !important;
     align-self: flex-end;
-    width:30% !important;
     border:1px solid rgb(190, 190, 190);
-    padding: 0 1rem !important;
+    padding: .5rem !important;
+    border-radius: 5px;
+    margin-right: 1.25rem;
 }
 
 /* RECENT CHAT LIST */

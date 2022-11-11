@@ -12,7 +12,7 @@ import {
   addMyWishItem,
   getAllMyWishItems,
   deleteWishItem,
-  deleteRentedItem
+  getProductCreatorUserDetails
 } from "../controllers/userController.js";
 import { 
     protect, 
@@ -36,6 +36,8 @@ router.route("/:id")
     .get(protect, getUserById)
     .put(protect, isAdmin, updateUser)
 
+router.route("/product-creator/:id")
+    .get(getProductCreatorUserDetails)
 
      //............ /api/users/........
     router.route("/all/mywish").get(protect, getAllMyWishItems);

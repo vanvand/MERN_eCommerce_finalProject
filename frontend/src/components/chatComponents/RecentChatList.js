@@ -4,7 +4,7 @@ import { Container } from 'react-bootstrap';
 
 import UserInboxComponent from './UserInboxComponent';
 
-import { updateRecentChats } from '../../actions/chatActions';
+import { getRecentChats } from '../../actions/chatActions';
 
 const RecentChatList = ({ socket }) => {
   const dispatch = useDispatch();
@@ -13,12 +13,20 @@ const RecentChatList = ({ socket }) => {
 
   const { recent_chat } = useSelector((state) => state.recentChat);
 
+  const { messages } = useSelector((state) => state.chat);
+
   useEffect(() => {
-    socket.on('confirmation required', (renterInfo, productInfo, chat) => {
-      console.log('REQUIRED LIST');
-      dispatch(updateRecentChats());
+    socket.on('message received', () => {
+      dispatch(getRecentChats());
+    });
+    socket.on('confirmation required', () => {
+      dispatch(getRecentChats());
     });
   }, [socket]);
+
+  useEffect(() => {
+    dispatch(getRecentChats());
+  }, [messages]);
 
   return (
     <Container className='overflow-auto'>

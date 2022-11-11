@@ -1,9 +1,10 @@
 :root {
-  --txt-color: black;
+  --txt-color: #000000;
   --txt-color-dark: #353535;
   --txt-color-medium: #7F7F7F;
   --txt-color-light: #F2F2F2;
   --txt-color-highlight: #EE6C87;
+  --txt-color-highlight-blue: #224AFB;
 }
 
 *,
@@ -33,19 +34,6 @@ h2 {
   padding: 0.5rem 0;
 }
 
-.rating span {
-  margin: 0.1rem;
-}
-
-/* carousel */
-.carousel img {
-  height: 500px;
-  margin: 40px 0;
-  margin-left: auto;
-  margin-right: auto;
-  object-fit: cover;
-}
-
 /* #################################################### */
 /* custom buttons */
 .btn-custom {
@@ -54,31 +42,80 @@ h2 {
 } 
 
 .btn-custom-cta {
-  background-color: var(--txt-color-medium);
+  background-color: var(--txt-color);
   border-radius: 10px;
   font-size: 12px
 }
 
 .btn-custom-cta-light {
   background-color: white;
-  border: 1px solid var(--txt-color-medium);
-  color: var(--txt-color-medium);
+  border: 2px solid var(--txt-color);
+  color: var(--txt-color);
   border-radius: 10px;
-  font-size: 12px
+  font-size: 12px;
 }
 
-.btn-custom-cta:hover {
-  outline: none;
-  border: none;
-  background-color: var(--txt-color-dark);
+.btn-custom-submit {
+  background-color: var(--txt-color);
+  font-size: 14px;
+  margin-top: 1.25rem;
 }
+
+.btn-custom-cta:hover{
+  background-color: var(--txt-color-highlight-blue) !important;
+}
+
+.btn-custom-cta-light:hover {
+  background-color: var(--txt-color-highlight-blue) !important;
+  border: 2px solid var(--txt-color-highlight-blue) !important;
+  color: white !important
+}
+
+.btn-custom-submit:hover{
+  background-color: var(--txt-color-highlight-blue) !important;
+}
+
+/* #################################################### */
+/* ProductScreen */
+.carousel img {
+  height: 500px;
+  margin: 40px 0;
+  margin-left: auto;
+  margin-right: auto;
+  object-fit: cover;
+}
+
+.product-info-col {
+  margin-top: 2rem
+}
+
+.h4-product-screen {
+  padding: 1rem 0
+}
+
+.rating span {
+  margin: 0.1rem;
+}
+
+.btn-admin {
+  background-color: white;
+  border: 2px solid var(--txt-color-light);
+  border-radius: 10px;
+  font-size: 12px;
+}
+
+.btn-admin:hover {
+  border: 2px solid var(--txt-color)
+}
+
 
 /* #################################################### */
 /* Header */
 .navbar {
   padding: 0.5rem 1rem;
   position: relative;
-  z-Index: 1000
+  z-Index: 1000;
+  border-bottom: 1px solid var(--txt-color) 
 }
 
 .navbar-Collapse {
@@ -93,11 +130,11 @@ h2 {
 }
 
 .icon > i{
-  font-size: 25px;
-  color: var(--txt-color-medium)
+  font-size: 22px;
+  color: var(--txt-color)
 }
 .icon:hover > i {
-   color: var(--txt-color-dark);
+   color: var(--txt-color-highlight-blue);
 }
 
 .userThumbnail {
@@ -105,10 +142,14 @@ h2 {
   width: 40px
 }
 
-.fa-user {
-  font-size: 25px;
-  color: var(--txt-color-medium)
+.user-dropdown .nav-link {
+  color: var(--txt-color)
 }
+
+.user-dropdown .nav-link:hover {
+  color: var(--txt-color-highlight-blue);
+}
+
 
 /* #################################################### */
 /* CategoryHeader */
@@ -117,7 +158,8 @@ h2 {
   position: sticky;
   top: 0px;
   z-index: 100;
-  border-bottom: 1px solid var(--txt-color-light);
+  /* border-bottom: 1px solid var(--txt-color); */
+  padding: 0.25rem 0
 }
 
 .link-container{
@@ -125,13 +167,14 @@ h2 {
 }
 
 .btn-category-nav {
-  color: var(--txt-color-medium);
+  color: var(--txt-color);
   text-transform: capitalize; 
+  font-size: 16px
 }
 
 .btn-category-nav:hover {
-  background-color: var(--txt-color-light) !important;
-  color: var(--txt-color-dark);
+  background-color: white !important;
+  color: var(--txt-color-highlight-blue) !important;
 }
 
 
@@ -139,7 +182,7 @@ h2 {
 /* SearchBox */
 .search {
   border-radius: 30px;
-  border: 1px solid var(--txt-color-medium);
+  border: 2px solid var(--txt-color);
   margin-right: 1rem;
 }
 
@@ -155,7 +198,8 @@ h2 {
 }
 
 .btn-search {
-  padding: 0 1rem
+  padding: 0 1rem;
+  color: var(--txt-color);
 }
 
 
@@ -170,6 +214,11 @@ h2 {
     object-fit: cover;
 }
 
+/* location */
+.card h6:first-child {
+  color: var(--txt-color-medium)
+}
+
 .card-title-custom{    
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -177,9 +226,6 @@ h2 {
     font-weight: bold;
 }
 
-.card h6:first-child {
-  color: var(--txt-color-medium)
-}
 
 /* #################################################### */
 /* Footer */
@@ -197,8 +243,9 @@ h2 {
 }
 
 .footer-claim {
-  color: var(--txt-color-highlight);
-  padding-bottom: 2.5rem
+  color: var(--txt-color-dark);
+  padding-bottom: 2.5rem;
+  font-weight: bold;
 }
 
 .footer-links {
@@ -218,7 +265,7 @@ h2 {
 
 .footer-links .list-group-item:hover {
   background-color: transparent;
-  color: var(--txt-color-highlight);
+  color: var(--txt-color-highlight-blue);
 }
 
 .newsletter-form .form-control {
@@ -231,7 +278,11 @@ h2 {
 
 .social-media-links i {
   font-size: 24px;
-  color: var(--txt-color-highlight);
+  color: var(--txt-color-dark);
+}
+
+.social-media-links i:hover {
+  color: var(--txt-color-highlight-blue);
 }
 
 .copyright-container {
@@ -245,9 +296,10 @@ h2 {
   position: absolute;
   top: 115px;
   right: 0px;
-  background-color: var(--txt-color-medium);
   color: white;
+  background-color: rgba(0, 0, 0, 0.7)
 }
+
 
 .btn-wishlist-remove {
   width: 20%;
@@ -255,6 +307,6 @@ h2 {
   position: absolute;
   top: 0px;
   right: 0px;
-  background-color: var(--txt-color-medium);
+  background-color: var(--txt-color);
   color: white;
 }
