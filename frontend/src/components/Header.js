@@ -81,7 +81,7 @@ const Header = () => {
   };
 
   const chatHandler = () => {
-    if (recent_chat) {
+    if (recent_chat.length > 0) {
       const renderFirstChat = recent_chat[0];
       let selectedUser =
         renderFirstChat.users[0]._id === userInfo._id

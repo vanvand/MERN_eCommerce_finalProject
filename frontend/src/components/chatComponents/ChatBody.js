@@ -135,88 +135,94 @@ const ChatBody = ({ socket }) => {
 
   return (
     <>
-      <Container fluid>
-        <ProductDetails socket={socket} />
-        {/* <Row md={3} className='chatBody-userDetails'>
+      {currentChat ? (
+        <>
+          <Container fluid>
+            <ProductDetails socket={socket} />
+            {/* <Row md={3} className='chatBody-userDetails'>
               <Col>
                 
               </Col>
             </Row> */}
-        <Row sm={6} className='message-container'>
-          {messages &&
-            messages.map((message, index) => (
-              <Row className='message-row' key={index}>
-                {message.sender._id !== userInfo._id && (
-                  <div className='left-container' key={index}>
-                    <Image
-                      src={message.sender.image}
-                      className='message-avatar'
-                    />
-                    <Card
-                      body
-                      key={index}
-                      style={{ width: '18rem' }}
-                      className='message-left'
-                    >
-                      {message.content}
-                    </Card>
-                  </div>
-                )}
+            <Row sm={6} className='message-container'>
+              {messages &&
+                messages.map((message, index) => (
+                  <Row className='message-row' key={index}>
+                    {message.sender._id !== userInfo._id && (
+                      <div className='left-container' key={index}>
+                        <Image
+                          src={message.sender.image}
+                          className='message-avatar'
+                        />
+                        <Card
+                          body
+                          key={index}
+                          style={{ width: '18rem' }}
+                          className='message-left'
+                        >
+                          {message.content}
+                        </Card>
+                      </div>
+                    )}
 
-                {message.sender._id === userInfo._id && (
-                  <Card
-                    body
-                    key={index}
-                    style={{ width: '18rem' }}
-                    className='message-right'
-                  >
-                    {message.content}
-                  </Card>
-                )}
-              </Row>
-            ))}
-          {/* <div>{isTyping}</div> */}
-          {(confirmRequired || currentChat.isRequired) &&
-          currentProduct.user !== userInfo._id ? (
-            <Row className='message-row'>
-              <Card.Body className='rent-approval'>
-                <p style={{ textAlign: 'center' }}>
-                  {currentUser.name} marked product as rented. Please approve as
-                  soon as you picked it up.
-                </p>
-                <Button
-                  onClick={handleApproval}
-                  style={{ borderRadius: '5px', width: '70%' }}
-                >
-                  Approve
-                  <i
-                    className='fa-solid fa-check'
-                    style={{ marginLeft: '.5rem' }}
-                  ></i>
-                </Button>
-              </Card.Body>
+                    {message.sender._id === userInfo._id && (
+                      <Card
+                        body
+                        key={index}
+                        style={{ width: '18rem' }}
+                        className='message-right'
+                      >
+                        {message.content}
+                      </Card>
+                    )}
+                  </Row>
+                ))}
+              {/* <div>{isTyping}</div> */}
+              {(confirmRequired || currentChat.isRequired) &&
+              currentProduct.user !== userInfo._id ? (
+                <Row className='message-row'>
+                  <Card.Body className='rent-approval'>
+                    <p style={{ textAlign: 'center' }}>
+                      {currentUser.name} marked product as rented. Please
+                      approve as soon as you picked it up.
+                    </p>
+                    <Button
+                      onClick={handleApproval}
+                      style={{ borderRadius: '5px', width: '70%' }}
+                    >
+                      Approve
+                      <i
+                        className='fa-solid fa-check'
+                        style={{ marginLeft: '.5rem' }}
+                      ></i>
+                    </Button>
+                  </Card.Body>
+                </Row>
+              ) : null}
+              <div ref={lastMessageRef} />
             </Row>
-          ) : null}
-          <div ref={lastMessageRef} />
-        </Row>
-      </Container>
-      <Row className='p-2'>
-        <InputGroup className='mb-3'>
-          <Form.Control
-            placeholder='Your Message'
-            aria-label='Your Message'
-            aria-describedby='basic-addon2'
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            onKeyPress={(e) => handleOnEnter(e)}
-            // onKeyDown={(e) => handleTyping(e.target.value)}
-            disabled={currentChat === null}
-          />
-          <Button id='basic-addon2' onClick={handleOnClick}>
-            <i className='fa-regular fa-paper-plane'></i>
-          </Button>
-        </InputGroup>
-      </Row>
+          </Container>
+          <Row className='p-2'>
+            <InputGroup className='mb-3'>
+              <Form.Control
+                placeholder='Your Message'
+                aria-label='Your Message'
+                aria-describedby='basic-addon2'
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                onKeyPress={(e) => handleOnEnter(e)}
+                // onKeyDown={(e) => handleTyping(e.target.value)}
+                disabled={currentChat === null}
+              />
+              <Button id='basic-addon2' onClick={handleOnClick}>
+                <i className='fa-regular fa-paper-plane'></i>
+              </Button>
+            </InputGroup>
+          </Row>
+        </>
+      ) : (
+        <p>.</p>
+      )}
     </>
   );
 };
