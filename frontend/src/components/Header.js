@@ -61,6 +61,8 @@ const Header = () => {
 
   useEffect(() => {
     if (userInfo) {
+      console.log('first render');
+      dispatch(listProducts('', pageNumber));
       dispatch(getUserDetails(userInfo._id));
       dispatch(getRecentChats());
     }
