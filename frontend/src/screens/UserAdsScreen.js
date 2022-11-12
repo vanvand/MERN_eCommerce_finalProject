@@ -54,7 +54,7 @@ export default function UserAdsScreen() {
     if (!user || !user.name) {
       dispatch(getUserDetails(userInfo._id));
     }
-  }, [dispatch, user, userInfo]); 
+  }, [dispatch, user, userInfo]);
 
   const deleteHandler = (productId) => {
     if (window.confirm('Are you sure?')) {
@@ -203,7 +203,7 @@ export default function UserAdsScreen() {
                             <Button
                               variant="dark"
                               className="btn-sm mb-1 btn-custom-cta"
-                              onClick={() => availabilityHandeler(product._id)}
+                              disabled
                             >
                               <i className="fa-solid fa-signal"></i> Online
                             </Button>
