@@ -64,36 +64,49 @@ const UserDetails = ({ user }) => {
       )}
 
       <Container>
-        <Row>
-          <Col md={4}>
-            <Image style={{ borderRadius: "50%" }} src={user.image} fluid />
-          </Col>
-          <Col md={8} className="d-block" style={{ margin: "auto 0" }}>
-            <Link
-              className="card-link-custom"
-              to={
-                user._id === userInfo._id
-                  ? `/useradd`
-                  : `/useradspublic/${user._id}`
-              }
-            >
-              <div style={{ fontWeight: "bold" }}>
-                {user.name}{" "}
-                {user._id === userInfo._id && (
-                  <Link to={"/profile"}>
-                    <i className="fas fa-edit"></i>
-                  </Link>
-                )}
-              </div>
+        {userInfo ? (
+          <Row>
+            <Col md={4}>
+              <Image style={{ borderRadius: "50%" }} src={user.image} fluid />
+            </Col>
+            <Col md={8} className="d-block" style={{ margin: "auto 0" }}>
+              <Link
+                className="card-link-custom"
+                to={
+                  user._id === userInfo._id
+                    ? `/useradd`
+                    : `/useradspublic/${user._id}`
+                }
+              >
+                <div style={{ fontWeight: "bold" }}>
+                  {user.name}{" "}
+                  {user._id === userInfo._id && (
+                    <Link to={"/profile"}>
+                      <i className="fas fa-edit"></i>
+                    </Link>
+                  )}
+                </div>
+                <div style={{ marginTop: "5px", color: "#6c757d" }}>
+                  <div>{`Active since: ${userActiveSinceDate}`}</div>
+                  <div>{`${numAdsUser} ads online`} </div>
+                </div>
+              </Link>
+            </Col>
+          </Row>
+        ) : (
+          <Row>
+            <Col md={4}>
+              <Image style={{ borderRadius: "50%" }} src={user.image} fluid />
+            </Col>
+            <Col md={8} className="d-block" style={{ margin: "auto 0" }}>
+              <div style={{ fontWeight: "bold" }}>{user.name}</div>
               <div style={{ marginTop: "5px", color: "#6c757d" }}>
                 <div>{`Active since: ${userActiveSinceDate}`}</div>
-                <div>
-                  {`${numAdsUser} ads online`}{" "}
-                </div>
+                <div>{`${numAdsUser} ads online`}</div>
               </div>
-            </Link>
-          </Col>
-        </Row>
+            </Col>
+          </Row>
+        )}
       </Container>
     </>
   );
