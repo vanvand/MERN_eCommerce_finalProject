@@ -45,5 +45,8 @@ router.route("/product-creator/:id")
       .route("/mywish/:productId")
       .get(protect, addMyWishItem)
       .delete(protect, deleteWishItem);
+    router
+      .route("/myrented/:productId")
+      .delete(protect, deleteRentedItem);
 
 export default router

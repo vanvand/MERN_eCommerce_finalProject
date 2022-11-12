@@ -36,6 +36,7 @@ import {
   userAddWishItemReducer,
   userWishListReducer,
   userDeleteWishItemReducer,
+  userDeleteRentedItemReducer
 } from './reducers/userReducers';
 import {
   orderCreateReducer,
@@ -107,6 +108,7 @@ const appReducer = combineReducers({
   selectedChat: selectedChatReducer,
   searchCreate: searchCreateReducer,
   searchList: searchListReducer,
+  userDeleteRentedItem: userDeleteRentedItemReducer
 });
 
 // const rootReducer = (state, action) => {
