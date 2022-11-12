@@ -119,7 +119,7 @@ export default function UserAdsScreen() {
         <Container>
           <Row className=" flex-md-row  " md={2}>
             <Col>
-              <UserDetails user={user}/>
+              <UserDetails user={user} />
             </Col>
           </Row>
 
@@ -143,7 +143,7 @@ export default function UserAdsScreen() {
                               className="productImage userAddImage"
                             />
                           ) : (
-                            <Card>
+                            <Card key={product._id}>
                               <Card.Img
                                 src={product.image}
                                 variant="top"
@@ -164,7 +164,7 @@ export default function UserAdsScreen() {
 
                           <Link
                             to={`/product/${product._id}`}
-                            class="text-decoration-none"
+                            className="text-decoration-none"
                           >
                             <Card.Title as="h5" className=" mb-3">
                               {product.name}
