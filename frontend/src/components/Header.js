@@ -140,7 +140,7 @@ const Header = () => {
                   <NavDropdown
                     className='user-dropdown'
                     title={
-                      user.image ? (
+                      user?.image ? (
                         <Image
                           className='userThumbnail'
                           src={user.image}

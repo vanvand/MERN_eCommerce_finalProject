@@ -1,47 +1,56 @@
-import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from "react-redux"
-import { Row, Col, Container } from "react-bootstrap"
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Row, Col, Container } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
-import Loader from "../components/Loader"
-import Message from "../components/Message"
-import {listProductDetailsByUserId} from "../actions/productActions"
-import { Link } from 'react-router-dom';
+import Loader from "../components/Loader";
+import Message from "../components/Message";
+import { listProductDetailsByUserId } from "../actions/productActions";
+import { Link } from "react-router-dom";
 
-const UserDetails = ({user}) => {
+const UserDetails = ({ user }) => {
+  const [numAdsUser, setNumAdsUser] = useState(0);
 
-    const [numAdsUser, setNumAdsUser] = useState(0)
+  const dispatch = useDispatch();
 
-    const dispatch = useDispatch()
+  const productDetails = useSelector((state) => state.productDetails);
+  const {
+    loading: loadingProductDetails,
+    error: errorProductDetails,
+    product,
+  } = productDetails;
 
-    const productDetails = useSelector(state => state.productDetails)
-    const { loading: loadingProductDetails, error: errorProductDetails, product } = productDetails
+  const productDetailsByUserId = useSelector(
+    (state) => state.productDetailsByUserId
+  );
+  const {
+    loading: loadingProductDetailsByUserId,
+    error: errorProductDetailsByUserId,
+    productsUser,
+  } = productDetailsByUserId;
 
-    const productDetailsByUserId = useSelector(state => state.productDetailsByUserId)
-    const { loading: loadingProductDetailsByUserId, error: errorProductDetailsByUserId, productsUser } = productDetailsByUserId
+  const userActiveSinceDate = String(user.createdAt).substring(0, 10);
 
-    const userActiveSinceDate = String(user.createdAt).substring(0, 10)
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
-      const userLogin = useSelector((state) => state.userLogin);
-      const { userInfo } = userLogin;
+  useEffect(() => {
+    if (product.user) {
+      dispatch(listProductDetailsByUserId(product.user));
+    }
+  }, [dispatch, product, product.user]);
 
-    useEffect( () => {
-        if(product.user) {
-        dispatch(listProductDetailsByUserId(product.user))
+  // calculate numAdsUser value
+  useEffect(() => {
+    if (productsUser) {
+      let tempNumAdsUser = 0;
+      productsUser.forEach((product) => {
+        if (product.availability === true) {
+          tempNumAdsUser++;
         }
-    }, [dispatch, product, product.user])
-
-    // calculate numAdsUser value
-    useEffect ( () => {
-        if(productsUser) {
-            let tempNumAdsUser = 0
-            productsUser.forEach((product) => {
-                if(product.availability === true) {
-                    tempNumAdsUser++
-                }
-            })
-            setNumAdsUser(tempNumAdsUser)
-        }
-    }, [productsUser])
+      });
+      setNumAdsUser(tempNumAdsUser);
+    }
+  }, [productsUser]);
 
   return (
     <>
@@ -80,8 +89,7 @@ const UserDetails = ({user}) => {
                 <div>{`Active since: ${userActiveSinceDate}`}</div>
                 <div>
                   {`${numAdsUser} ads online`}{" "}
-{     user._id !== userInfo._id &&             <i class="fa-solid fa-triangle-exclamation"></i>
-}                </div>
+                </div>
               </div>
             </Link>
           </Col>
@@ -89,6 +97,6 @@ const UserDetails = ({user}) => {
       </Container>
     </>
   );
-}
+};
 
-export default UserDetails
+export default UserDetails;
