@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Row, Card, Button } from 'react-bootstrap';
 
 import { updateChat } from '../../actions/chatActions';
+import { listProductDetails } from '../../actions/productActions';
 
 function ProductDetails({ socket }) {
   const dispatch = useDispatch();
@@ -47,6 +48,10 @@ function ProductDetails({ socket }) {
     }
   };
 
+  const goToProductHandler = () => {
+    dispatch(listProductDetails(currentProduct._id));
+  };
+
   return (
     <Row className='chat-productDetails'>
       <Card
@@ -58,6 +63,7 @@ function ProductDetails({ socket }) {
           <Link
             to={`/product/${currentProduct._id}`}
             style={{ textDecoration: 'none' }}
+            onClick={goToProductHandler}
           >
             <h4 className='pb-1'>{currentProduct.name}</h4>
             <h5 className='pb-1' style={{ color: 'grey' }}>

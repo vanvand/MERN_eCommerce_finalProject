@@ -41,6 +41,8 @@ const ChatBody = ({ socket }) => {
   const [confirmRequired, setConfirmRequired] = useState(
     currentChat.isRequired
   );
+  console.log(confirmRequired);
+  console.log(currentChat.isRequired);
 
   const [renterInfoState, setRenterInfo] = useState({});
   // const [isTyping, setIsTyping] = useState();
@@ -68,6 +70,7 @@ const ChatBody = ({ socket }) => {
     //   setIsTyping(data.text);
     // });
     socket.on('confirmation required', (renterInfo) => {
+      renterInfoRef.current = renterInfo;
       setRenterInfo(renterInfo);
       setConfirmRequired(true);
     });
@@ -96,7 +99,7 @@ const ChatBody = ({ socket }) => {
         numReviews: currentProduct.numReviews,
         timesRented: currentProduct.timesRented,
         availability: false,
-        rentedTo: renterInfoState,
+        rentedTo: renterInfoRef.current,
       })
     );
     dispatch(
