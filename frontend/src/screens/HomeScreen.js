@@ -21,7 +21,6 @@ const HomeScreen = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log('first render');
     // keyword from search functionality
     dispatch(listProducts(keyword, pageNumber));
   }, [dispatch, keyword, pageNumber]);
