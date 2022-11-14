@@ -99,7 +99,7 @@ export default function UserRentedScreen() {
             {rentedProducts?.map((product) => (
               <>
                 {user._id === product.user && user._id === userInfo._id && (
-                  <Card className='my-2 p-3 rounded ' key={product._id}>
+                  <Card className='my-2 p-3 rounded ' key={product._id} border="light">
                     <Row>
                       <Col sm={12} lg={3}>
                         {' '}
@@ -123,7 +123,8 @@ export default function UserRentedScreen() {
                         <Card.Body>
                           <Card.Text as='h6'>{product.category}</Card.Text>
 
-                          <Link to={`/product/${product._id}`}>
+                          <Link to={`/product/${product._id}`}
+                          className="text-decoration-none">
                             <Card.Title as='h5' className=' mb-3'>
                               {product.name}
                             </Card.Title>
@@ -140,7 +141,8 @@ export default function UserRentedScreen() {
                       <Col sm={12} lg={2}>
                         <Row>
                           <LinkContainer to={`/products/${product._id}/edit`}>
-                            <Button variant='dark' className='btn-sm mb-1'>
+                            <Button variant='dark' className="btn-sm mb-1 btn-custom-cta"
+                        >
                               <i className='fas fa-comment'></i> Chat
                             </Button>
                           </LinkContainer>
@@ -148,7 +150,8 @@ export default function UserRentedScreen() {
                           
                           <Button
                             variant='dark'
-                            className='btn-sm mb-1'
+                            className="btn-sm mb-1 btn-custom-cta"
+                        
                             onClick={() => deleteHandler(product._id)}
                           >
                             <i className='fas fa-rotate-left'></i> Is Returned
