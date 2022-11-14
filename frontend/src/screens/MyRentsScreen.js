@@ -6,18 +6,12 @@ import Message from '../components/Message';
 import { getUserDetails } from '../actions/userActions';
 import '../components/components_css/myAddScreen.css';
 import { Link } from 'react-router-dom';
-import {
-  deleteProduct,
-  updateProduct,
-  listProducts,
-} from '../actions/productActions';
+import { listProducts } from '../actions/productActions';
 import { LinkContainer } from 'react-router-bootstrap';
-import UserDetails from '../components/UserDetails';
 import { deleteRentedItem } from "../actions/userActions";
 
 export default function UserRentedScreen() {
   const [rentedProducts, setRentedProducts] = useState();
-  const [countRents, setCountRents] = useState(0);
 
   
   const userDetails = useSelector((state) => state.userDetails);
@@ -39,7 +33,7 @@ export default function UserRentedScreen() {
     //console.log(allProductsCategory);
     useEffect(() => {
       const filteredList = productList.allProductsCategory.filter((product) => {
-     return product.rentedTo == userDetails.user._id})
+     return product.rentedTo === userDetails.user._id})
       setRentedProducts(filteredList);
     },[productList, userDetails])
     console.log('user Details', userDetails.user._id);

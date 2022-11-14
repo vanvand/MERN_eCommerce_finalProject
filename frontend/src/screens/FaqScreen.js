@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Row, Col, Card, Image} from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import { listFaqs } from "../actions/faqActions";
 
 import Loader from "../components/Loader";

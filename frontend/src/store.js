@@ -23,7 +23,6 @@ import {
   productTopRatedReducer,
   productTopCategoryNameReducer,
 } from './reducers/productReducers';
-import { cartReducer } from './reducers/cartReducers';
 import {
   userLoginReducer,
   userRegisterReducer,
@@ -38,14 +37,6 @@ import {
   userDeleteWishItemReducer,
   userDeleteRentedItemReducer,
 } from './reducers/userReducers';
-import {
-  orderCreateReducer,
-  orderDetailsReducer,
-  orderPayReducer,
-  orderDeliverReducer,
-  orderListMyReducer,
-  orderListReducer,
-} from './reducers/orderReducer';
 import {
   faqListReducer,
   faqDetailsReducer,
@@ -78,7 +69,6 @@ const appReducer = combineReducers({
   productReviewCreate: productReviewCreateReducer,
   productTopRated: productTopRatedReducer,
   productTopCategoryName: productTopCategoryNameReducer,
-  cart: cartReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
@@ -91,12 +81,6 @@ const appReducer = combineReducers({
   userWishList: userWishListReducer,
   userDeleteWishItem: userDeleteWishItemReducer,
   userDeleteRentedItem: userDeleteRentedItemReducer,
-  orderCreate: orderCreateReducer,
-  orderDetails: orderDetailsReducer,
-  orderPay: orderPayReducer,
-  orderDeliver: orderDeliverReducer,
-  orderListMy: orderListMyReducer,
-  orderList: orderListReducer,
   faqList: faqListReducer,
   faqDetails: faqDetailsReducer,
   faqDelete: faqDeleteReducer,
