@@ -121,7 +121,6 @@ io.on('connection', (socket) => {
   });
 
   socket.on('marked as rented', (chat, renterInfo) => {
-    'sent';
     socket.to(chat._id).emit('confirmation required', renterInfo);
   });
 

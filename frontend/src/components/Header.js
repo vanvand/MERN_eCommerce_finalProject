@@ -165,7 +165,7 @@ const Header = () => {
                     </NavDropdown.Item>
 
                     <NavDropdown.Item href='/profile'>
-                      <GrUserSettings /> Setting
+                      <GrUserSettings /> Settings
                     </NavDropdown.Item>
 
                     <NavDropdown.Item href='/login' onClick={logoutHandler}>
