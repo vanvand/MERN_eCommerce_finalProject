@@ -157,7 +157,7 @@ const Header = () => {
                       <HiOutlineDocumentAdd /> My Ads
                     </NavDropdown.Item>
 
-                    <NavDropdown.Item href='#'>
+                    <NavDropdown.Item href='/myrents'>
                       <TbDoorEnter /> My Rents
                     </NavDropdown.Item>
 

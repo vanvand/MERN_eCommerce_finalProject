@@ -36,6 +36,7 @@ import {
   userAddWishItemReducer,
   userWishListReducer,
   userDeleteWishItemReducer,
+  userDeleteRentedItemReducer,
 } from './reducers/userReducers';
 import {
   orderCreateReducer,
@@ -89,6 +90,7 @@ const appReducer = combineReducers({
   userAddWishItem: userAddWishItemReducer,
   userWishList: userWishListReducer,
   userDeleteWishItem: userDeleteWishItemReducer,
+  userDeleteRentedItem: userDeleteRentedItemReducer,
   orderCreate: orderCreateReducer,
   orderDetails: orderDetailsReducer,
   orderPay: orderPayReducer,
