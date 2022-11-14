@@ -36,7 +36,7 @@ export default function UserRentedScreen() {
         return state.productList;
     });
     const { loading: productLoading, error, allProductsCategory } = productList;
-    console.log(allProductsCategory);
+    //console.log(allProductsCategory);
     useEffect(() => {
       const filteredList = productList.allProductsCategory.filter((product) => {
      return product.rentedTo == userDetails.user._id})
@@ -74,7 +74,7 @@ export default function UserRentedScreen() {
 
   const deleteHandler = (productId) => {
     if (window.confirm("Are you sure?")) {
-    //   dispatch(deleteRentedItem(productId))
+      dispatch(deleteRentedItem(productId))
     }
   };
 
@@ -91,7 +91,7 @@ export default function UserRentedScreen() {
         <Container>
           <Row className=' flex-md-row  ' md={2}>
             <Col>
-              <UserDetails />
+              {/* <UserDetails /> */}
             </Col>
           </Row>
 
@@ -149,7 +149,7 @@ export default function UserRentedScreen() {
                           <Button
                             variant='dark'
                             className='btn-sm mb-1'
-                            // onClick={() => deleteHandler(product._id)}
+                            onClick={() => deleteHandler(product._id)}
                           >
                             <i className='fas fa-rotate-left'></i> Is Returned
                           </Button>
