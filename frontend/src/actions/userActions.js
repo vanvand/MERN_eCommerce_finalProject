@@ -46,12 +46,6 @@ import {
   USER_DELETE_RENTED_FAIL,
 } from '../constants/userConstants';
 
-import {
-  ORDER_LIST_MY_RESET,
-  ORDER_DETAILS_RESET,
-} from '../constants/orderConstants';
-
-import { CART_ITEMS_RESET } from '../constants/cartConstants';
 
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -97,20 +91,13 @@ export const login = (email, password) => async (dispatch) => {
 
 export const logout = () => (dispatch) => {
   localStorage.removeItem('userInfo');
-  localStorage.removeItem('cartItems');
-  localStorage.removeItem('paymentMethod');
-  localStorage.removeItem('shippingAddress');
   storage.removeItem('persist:root');
 
   dispatch({ type: USER_LOGOUT });
   dispatch({ type: SIGNOUT_REQUEST });
-  // when we logout state of user details and order list is reset > so that different user who log in does not see other details/order items
+  // when we logout state of user details is reset > so that different user who log in does not see other details
   dispatch({ type: USER_DETAILS_RESET });
-  dispatch({ type: ORDER_LIST_MY_RESET });
   dispatch({ type: USER_LIST_RESET }); // obsolete?
-
-  dispatch({ type: ORDER_DETAILS_RESET }); // added by me
-  dispatch({ type: CART_ITEMS_RESET }); // added by me
 
   document.location.href = '/login';
 };

@@ -11,7 +11,6 @@ import connectDB from './config/db.js';
 
 import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';
-import orderRoutes from './routes/orderRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
 import faqRoutes from './routes/faqRoutes.js';
 import chatRoutes from './routes/chatRoutes.js';
@@ -29,12 +28,6 @@ const server = http.Server(app);
 
 const STATIC_CHANNELS = ['global_notifications', 'global_chat'];
 
-// bring in morgan - HTTP request logger middleware for node.js
-// usually only run in development mode, not production
-/*if(process.env.NODE_ENV === "development") {
-    app.use(morgan("dev"))
-}*/
-
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
@@ -47,7 +40,6 @@ app.use(cors());
 // ADD ROUTES
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
-app.use('/api/orders', orderRoutes);
 app.use('/api/upload', uploadRoutes);
 
 app.use('/api/chat', chatRoutes);
@@ -55,10 +47,6 @@ app.use('/api/message', messageRoutes);
 
 app.use('/api/faqs', faqRoutes);
 app.use('/api/search', mostSearchRoutes);
-// when we hit the paypal route we will fetch the client id stored in .env file
-app.get('/api/config/paypal', (req, res) =>
-  res.send(process.env.PAYPAL_CLIENT_ID)
-);
 
 // make image upload folder static
 // __dirname >> point to current directory
