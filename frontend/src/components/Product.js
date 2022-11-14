@@ -8,9 +8,9 @@ import { listProductDetails } from '../actions/productActions';
 const Product = ({ product }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  console.log(product);
 
   const goToProductHandler = () => {
-    console.log('HANDLER');
     dispatch(listProductDetails(product._id));
     // setTimeout(() => {
     navigate(`/product/${product._id}`);

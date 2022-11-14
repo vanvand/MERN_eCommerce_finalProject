@@ -69,7 +69,7 @@ function ProductDetails({ socket }) {
             <h5 className='pb-1' style={{ color: 'grey' }}>
               {currentProduct.category}
             </h5>
-            {rented && <p>Rented!</p>}
+            {/* {rented && <p>Rented!</p>} */}
           </Link>
           {currentProduct.user === userInfo._id && (
             <Button
