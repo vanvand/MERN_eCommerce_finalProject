@@ -120,8 +120,9 @@ io.on('connection', (socket) => {
       .emit('message received', receivedMessage);
   });
 
-  socket.on('marked as rented', (chat) => {
-    socket.to(chat._id).emit('confirmation required');
+  socket.on('marked as rented', (chat, renterInfo) => {
+    'sent';
+    socket.to(chat._id).emit('confirmation required', renterInfo);
   });
 
   socket.on('confirmation approved', (owner) => {

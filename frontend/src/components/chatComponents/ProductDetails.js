@@ -29,7 +29,7 @@ function ProductDetails({ socket }) {
 
   const handleMarkAsRented = () => {
     if (currentProduct.availability) {
-      socket.emit('marked as rented', currentUser, currentProduct, currentChat);
+      socket.emit('marked as rented', currentChat, currentUser);
       dispatch(
         updateChat({
           _id: currentChat._id,
