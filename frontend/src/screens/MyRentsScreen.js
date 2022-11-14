@@ -13,7 +13,7 @@ import {
 } from '../actions/productActions';
 import { LinkContainer } from 'react-router-bootstrap';
 import UserDetails from '../components/UserDetails';
-// import { deleteRentedItem } from "../actions/userActions";
+import { deleteRentedItem } from "../actions/userActions";
 
 export default function UserRentedScreen() {
   const [rentedProducts, setRentedProducts] = useState();
@@ -59,7 +59,7 @@ export default function UserRentedScreen() {
     console.log('state',state);
     return state.userDeleteRentedItem
   });
-//   const {rentedItems} = userDeleteRentedItem
+  const {rentedItems} = userDeleteRentedItem
 
   useEffect(() => {
     dispatch(listProducts());
@@ -130,7 +130,7 @@ export default function UserRentedScreen() {
                           </Link>
 
                           <Card.Text as='h6' className='productText'>
-                            Created on: {product.createdAt.substring(0, 10)}
+                            {/* Created on: {product.createdAt.substring(0, 10)} */}
                           </Card.Text>
                           <Card.Text as='h6'>
                             ({product.timesRented})Times rented

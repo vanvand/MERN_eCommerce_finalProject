@@ -41,6 +41,9 @@ import {
   USER_DELETE_WISHITEM_REQUEST,
   USER_DELETE_WISHITEM_SUCCESS,
   USER_DELETE_WISHITEM_FAIL,
+  USER_DELETE_RENTED_REQUEST,
+  USER_DELETE_RENTED_SUCCESS,
+  USER_DELETE_RENTED_FAIL,
 } from '../constants/userConstants';
 
 import {
@@ -486,6 +489,40 @@ export const deleteWishItem = (productId) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: USER_DELETE_WISHITEM_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+export const deleteRentedItem = (productId) => async (dispatch, getState) => {
+  //console.log("deleteWishItem: productId", productId);
+  try {
+    dispatch({
+      type: USER_DELETE_RENTED_REQUEST,
+    });
+
+    // access to logged in user object
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    await axios.delete(`/api/users/myrented/${productId}`, config);
+
+    dispatch({
+      USER_DELETE_RENTED_SUCCESS,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_DELETE_RENTED_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
