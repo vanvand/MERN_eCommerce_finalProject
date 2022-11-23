@@ -41,7 +41,7 @@ const UserInboxComponent = ({ selectedUser, socket, ...chat }) => {
           className='userChat-button'
         >
           <Col md={2} className='userChat-col1'>
-            <Image src={selectedUser.image} className='userChat-avatar' />
+            <Image src={selectedUser?.image} className='userChat-avatar' />
             {/* {required && (
               <i className='fa-solid fa-circle-exclamation'></i>
             )} */}

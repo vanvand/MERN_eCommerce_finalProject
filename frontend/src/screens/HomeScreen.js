@@ -32,8 +32,15 @@ const HomeScreen = () => {
           {/* Hero Banner */}
           <Row>
             <Col>
-              <Card className='mb-3' md={4} border='light'>
-                <Image src='../../../uploads/banner-hero.png' />
+              <Card className='mb-3 hero-banner' md={4} border='light'>
+                <Image
+                  src='../../../uploads/banner-hero.png'
+                  className='hero-banner-md'
+                />
+                <Image
+                  src='../../../uploads/banner-hero-xs.png'
+                  className='hero-banner-xs'
+                />
               </Card>
             </Col>
           </Row>

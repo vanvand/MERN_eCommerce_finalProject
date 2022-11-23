@@ -310,3 +310,22 @@ h2 {
   background-color: var(--txt-color);
   color: white;
 }
+
+/* #################################################### */
+/* Media Query */
+@media (max-width: 780px) {
+  .hero-banner-xs {
+    width: 100%
+  }
+  .hero-banner-md {
+    display: none
+  }
+  }
+  @media (min-width: 781px) {
+  .hero-banner-xs {
+    display: none
+  }
+  .hero-banner-md {
+    width: 100%
+  }
+  }

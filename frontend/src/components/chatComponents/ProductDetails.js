@@ -92,7 +92,7 @@ function ProductDetails({ socket }) {
               )}
 
               {currentProduct.availability && !required
-                ? 'Mark as rented to UserName'
+                ? `Mark as rented to ${currentUser.name}`
                 : 'Rented'}
             </Button>
           )}
